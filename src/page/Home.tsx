@@ -28,6 +28,10 @@ function Home() {
     event.preventDefault();
     axios
       .post(addArticleApi, { uid: user?.uid, url: newUrl })
+      .then((response) => {
+        console.log(response.data);
+        setArticles([...articles, response.data]);
+      })
       .catch(function (error: any) {
         console.error(error);
       });
@@ -46,8 +50,8 @@ function Home() {
       articles.docs.map((doc) => {
         articlesCollection.push(doc.data());
       });
-      console.log(articlesCollection);
       setArticles(articlesCollection);
+      console.log(articlesCollection);
       setName(data.name);
     } catch (err) {
       console.error(err);
@@ -75,8 +79,8 @@ function Home() {
         </form>
       </div>
       <div>
-        {articles.map((article: any) => (
-          <div key={article.id}>
+        {articles.map((article: any, index: number) => (
+          <div key={index}>
             <a href={article.url}>{article.title}</a>
           </div>
         ))}
