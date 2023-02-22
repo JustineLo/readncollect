@@ -4,20 +4,12 @@ import { useNavigate } from "react-router-dom";
 import "../App.css";
 import { useAuthState } from "react-firebase-hooks/auth";
 import { auth, db, logout } from "../firebase";
-import {
-  query,
-  collection,
-  getDocs,
-  where,
-  deleteDoc,
-  doc,
-} from "firebase/firestore";
-import "firebase/firestore";
 import { Article } from "../types/Article";
-import { User } from "../types/User";
 import AppState from "../state/AppState";
 import { useContainer } from "unstated-next";
 import HighlightFactory from "./HighlightFactory";
+import { fetchData } from "../utils/fetchData";
+import { deleteDoc, doc } from "firebase/firestore";
 
 function Home() {
   const addArticleApi: string = import.meta.env.VITE_API_ADD_ARTICLE;
@@ -36,40 +28,8 @@ function Home() {
   useEffect(() => {
     if (loading) return;
     if (!userAuth) return navigate("/login");
-    fetchUser();
+    fetchData(userAuth, setUser, setArticles);
   }, [userAuth, loading]);
-
-  const fetchUser = async () => {
-    try {
-      const q = query(
-        collection(db, "users"),
-        where("uid", "==", userAuth?.uid)
-      );
-      const doc = await getDocs(q);
-      const data = doc.docs[0].data();
-      setUser({ docID: doc.docs[0].id, email: data.email } as User);
-      fetchArticles(doc.docs[0].id);
-    } catch (err) {
-      console.error(err);
-    }
-  };
-
-  const fetchArticles = async (userDocID: string) => {
-    try {
-      const articlesDocs = await getDocs(
-        collection(db, `users/${userDocID}/articles`)
-      );
-      let articlesArray: Article[] = [];
-      articlesDocs.docs.map((doc) => {
-        const articleDocID: string = doc.id;
-        const article: Article = { articleDocID, ...doc.data() } as Article;
-        articlesArray.push(article);
-      });
-      setArticles(articlesArray);
-    } catch (err) {
-      console.error(err);
-    }
-  };
 
   const handleSubmitTest = (event: any) => {
     event.preventDefault();
