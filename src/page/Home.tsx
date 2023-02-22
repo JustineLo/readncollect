@@ -9,7 +9,8 @@ import {
   collection,
   getDocs,
   where,
-  DocumentData,
+  deleteDoc,
+  doc,
 } from "firebase/firestore";
 import "firebase/firestore";
 import { Article } from "../types/Article";
@@ -73,6 +74,21 @@ function Home() {
       });
   };
 
+  function onDeleteArticle(articleDocID: string): void {
+    // Delete article from firestore database
+    deleteDoc(doc(db, `users/${user?.docID}/articles/${articleDocID}`))
+      .then(() => {
+        // Update articles state by filtering out deleted article
+        const filteredArticles = articles.filter(
+          (article) => article.articleDocID !== articleDocID
+        );
+        setArticles(filteredArticles);
+      })
+      .catch((error) => {
+        console.error("Error deleting article: ", error);
+      });
+  }
+
   return (
     <>
       <div className="App">
@@ -87,9 +103,12 @@ function Home() {
         </form>
       </div>
       <div>
-        {articles.map((article: any, index: number) => (
-          <div key={index}>
+        {articles.map((article: Article) => (
+          <div key={article.articleDocID}>
             <a href={article.url}>{article.title}</a>
+            <button onClick={() => onDeleteArticle(article.articleDocID)}>
+              Delete
+            </button>
           </div>
         ))}
       </div>
