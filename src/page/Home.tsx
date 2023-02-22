@@ -17,13 +17,19 @@ import { Article } from "../types/Article";
 import { User } from "../types/User";
 import AppState from "../state/AppState";
 import { useContainer } from "unstated-next";
+import HighlightFactory from "./HighlightFactory";
 
 function Home() {
   const addArticleApi: string = import.meta.env.VITE_API_ADD_ARTICLE;
   const [userAuth, loading, error] = useAuthState(auth);
   const { user, setUser, articles, setArticles } = useContainer(AppState);
-
   const [newUrl, setNewUrl] = useState<string>("");
+  const [clickedArticle, setClickedArticle] = useState<Article>({
+    articleDocID: "",
+    url: "",
+  } as Article);
+  const [openHighlightFactory, setOpenHighlightFactory] =
+    useState<boolean>(false);
 
   const navigate = useNavigate();
 
@@ -77,6 +83,11 @@ function Home() {
       });
   };
 
+  function onClickArticle(article: Article): void {
+    setClickedArticle(article);
+    setOpenHighlightFactory(true);
+  }
+
   function onDeleteArticle(articleDocID: string): void {
     deleteDoc(doc(db, `users/${user?.docID}/articles/${articleDocID}`))
       .then(() => {
@@ -106,7 +117,9 @@ function Home() {
       <div>
         {articles.map((article: Article, index: number) => (
           <div key={index}>
-            <a href={article.url}>{article.title}</a>
+            <button onClick={() => onClickArticle(article)}>
+              {article.title}
+            </button>
             <button onClick={() => onDeleteArticle(article.articleDocID)}>
               Delete
             </button>
@@ -122,6 +135,12 @@ function Home() {
           </button>
         </div>
       </div>
+      {openHighlightFactory && (
+        <HighlightFactory
+          setOpen={setOpenHighlightFactory}
+          article={clickedArticle}
+        />
+      )}
     </>
   );
 }
