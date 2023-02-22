@@ -8,16 +8,11 @@ import { Routes, Route } from "react-router-dom";
 function App() {
   return (
     <Router>
-      <div>
-        <section>
-          <Routes>
-            {" "}
-            <Route path="/home" element={<Home />} />
-            <Route path="/signup" element={<Signup />} />
-            <Route path="/login" element={<Login />} />
-          </Routes>
-        </section>
-      </div>
+      <Routes>
+        <Route path="/home" element={<Home />} />
+        <Route path="/signup" element={<Signup />} />
+        <Route path="/login" element={<Login />} />
+      </Routes>
     </Router>
   );
 }

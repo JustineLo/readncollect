@@ -15,13 +15,16 @@ import {
 import "firebase/firestore";
 import { Article } from "../types/Article";
 import { User } from "../types/User";
+import AppState from "../state/AppState";
+import { useContainer } from "unstated-next";
 
 function Home() {
   const addArticleApi: string = import.meta.env.VITE_API_ADD_ARTICLE;
   const [userAuth, loading, error] = useAuthState(auth);
+  const { user, setUser, articles, setArticles } = useContainer(AppState);
+
   const [newUrl, setNewUrl] = useState<string>("");
-  const [user, setUser] = useState<User>();
-  const [articles, setArticles] = useState<Article[]>([]);
+
   const navigate = useNavigate();
 
   useEffect(() => {
@@ -75,10 +78,8 @@ function Home() {
   };
 
   function onDeleteArticle(articleDocID: string): void {
-    // Delete article from firestore database
     deleteDoc(doc(db, `users/${user?.docID}/articles/${articleDocID}`))
       .then(() => {
-        // Update articles state by filtering out deleted article
         const filteredArticles = articles.filter(
           (article) => article.articleDocID !== articleDocID
         );
@@ -103,8 +104,8 @@ function Home() {
         </form>
       </div>
       <div>
-        {articles.map((article: Article) => (
-          <div key={article.articleDocID}>
+        {articles.map((article: Article, index: number) => (
+          <div key={index}>
             <a href={article.url}>{article.title}</a>
             <button onClick={() => onDeleteArticle(article.articleDocID)}>
               Delete
