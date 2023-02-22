@@ -12,36 +12,33 @@ import {
   DocumentData,
 } from "firebase/firestore";
 import "firebase/firestore";
+import { Article } from "../types/Article";
+import { User } from "../types/User";
 
 function Home() {
-  const [user, loading, error] = useAuthState(auth);
-  const [userDocID, setUserDocID] = useState<string>("");
+  const [userAuth, loading, error] = useAuthState(auth);
   const navigate = useNavigate();
   const [newUrl, setNewUrl] = useState<string>("");
-  const [userEmail, setUserEmail] = useState("");
-  const [articles, setArticles] = useState<any>([]);
+  const [articles, setArticles] = useState<Article[]>([]);
+  const [user, setUser] = useState<User>();
 
   const addArticleApi: string = import.meta.env.VITE_API_ADD_ARTICLE;
 
-  const handleSubmitTest = (event: any) => {
-    event.preventDefault();
-    axios
-      .post(addArticleApi, { uid: user?.uid, url: newUrl })
-      .then((response) => {
-        setArticles([...articles, response.data]);
-      })
-      .catch(function (error: any) {
-        console.error(error);
-      });
-  };
+  useEffect(() => {
+    if (loading) return;
+    if (!userAuth) return navigate("/login");
+    fetchUser();
+  }, [userAuth, loading]);
 
   const fetchUser = async () => {
     try {
-      const q = query(collection(db, "users"), where("uid", "==", user?.uid));
+      const q = query(
+        collection(db, "users"),
+        where("uid", "==", userAuth?.uid)
+      );
       const doc = await getDocs(q);
       const data = doc.docs[0].data();
-      setUserDocID(doc.docs[0].id);
-      setUserEmail(data.email);
+      setUser({ docID: doc.docs[0].id, email: data.email } as User);
       fetchArticles(doc.docs[0].id);
     } catch (err) {
       console.error(err);
@@ -53,24 +50,29 @@ function Home() {
       const articlesDocs = await getDocs(
         collection(db, `users/${userDocID}/articles`)
       );
-      let articlesArray: DocumentData[] = [];
+      let articlesArray: Article[] = [];
       articlesDocs.docs.map((doc) => {
         const articleDocID: string = doc.id;
-        articlesArray.push({ ...doc.data(), articleDocID });
+        const article: Article = { articleDocID, ...doc.data() } as Article;
+        articlesArray.push(article);
       });
-
       setArticles(articlesArray);
-      console.log(articlesArray);
     } catch (err) {
       console.error(err);
     }
   };
 
-  useEffect(() => {
-    if (loading) return;
-    if (!user) return navigate("/login");
-    fetchUser();
-  }, [user, loading]);
+  const handleSubmitTest = (event: any) => {
+    event.preventDefault();
+    axios
+      .post(addArticleApi, { uid: userAuth?.uid, url: newUrl })
+      .then((response) => {
+        setArticles([...articles, response.data]);
+      })
+      .catch(function (error: any) {
+        console.error(error);
+      });
+  };
 
   return (
     <>
@@ -95,7 +97,7 @@ function Home() {
       <div className="dashboard">
         <div className="dashboard__container">
           Logged in as
-          <div>{userEmail}</div>
+          <div>{user?.email}</div>
           <button className="dashboard__btn" onClick={logout}>
             Logout
           </button>
