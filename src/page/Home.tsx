@@ -16,13 +16,12 @@ import { Article } from "../types/Article";
 import { User } from "../types/User";
 
 function Home() {
-  const [userAuth, loading, error] = useAuthState(auth);
-  const navigate = useNavigate();
-  const [newUrl, setNewUrl] = useState<string>("");
-  const [articles, setArticles] = useState<Article[]>([]);
-  const [user, setUser] = useState<User>();
-
   const addArticleApi: string = import.meta.env.VITE_API_ADD_ARTICLE;
+  const [userAuth, loading, error] = useAuthState(auth);
+  const [newUrl, setNewUrl] = useState<string>("");
+  const [user, setUser] = useState<User>();
+  const [articles, setArticles] = useState<Article[]>([]);
+  const navigate = useNavigate();
 
   useEffect(() => {
     if (loading) return;
@@ -65,7 +64,7 @@ function Home() {
   const handleSubmitTest = (event: any) => {
     event.preventDefault();
     axios
-      .post(addArticleApi, { uid: userAuth?.uid, url: newUrl })
+      .post(addArticleApi, { userDocID: user?.docID, url: newUrl })
       .then((response) => {
         setArticles([...articles, response.data]);
       })
