@@ -9,13 +9,25 @@ interface HighlightFactoryProps {
 }
 
 const Container = styled.div`
-  width: 500px;
-  height: 500px;
+  width: 100%;
+  height: fit-content;
   position: absolute;
+  top: 0;
+  left: 0;
+  background-color: white;
+  color: black;
 `;
 
 const Board = styled.div``;
-const ArticleContainer = styled.div``;
+const ArticleContainer = styled.div`
+  width: 40%;
+  padding: 5%;
+  text-align: left;
+  border-right: 1px solid black;
+  h1 {
+    font-size: 2rem;
+  }
+`;
 
 const HighlightsContainer = styled.div``;
 
