@@ -1,5 +1,4 @@
 import axios from "axios";
-import { onAuthStateChanged, signOut } from "firebase/auth";
 import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import "../App.css";
@@ -16,20 +15,19 @@ import "firebase/firestore";
 
 function Home() {
   const [user, loading, error] = useAuthState(auth);
-  const [name, setName] = useState("");
-  const [docID, setDocID] = useState<string>("");
+  const [userDocID, setUserDocID] = useState<string>("");
   const navigate = useNavigate();
+  const [newUrl, setNewUrl] = useState<string>("");
+  const [userEmail, setUserEmail] = useState("");
   const [articles, setArticles] = useState<any>([]);
 
   const addArticleApi: string = import.meta.env.VITE_API_ADD_ARTICLE;
-  const [newUrl, setNewUrl] = useState<string>("");
 
   const handleSubmitTest = (event: any) => {
     event.preventDefault();
     axios
       .post(addArticleApi, { uid: user?.uid, url: newUrl })
       .then((response) => {
-        console.log(response.data);
         setArticles([...articles, response.data]);
       })
       .catch(function (error: any) {
@@ -37,32 +35,41 @@ function Home() {
       });
   };
 
-  const fetchUserName = async () => {
+  const fetchUser = async () => {
     try {
       const q = query(collection(db, "users"), where("uid", "==", user?.uid));
       const doc = await getDocs(q);
       const data = doc.docs[0].data();
-      setDocID(doc.docs[0].id);
-      const articles = await getDocs(
-        collection(db, `users/${doc.docs[0].id}/articles`)
-      );
-      let articlesCollection: DocumentData[] = [];
-      articles.docs.map((doc) => {
-        articlesCollection.push(doc.data());
-      });
-      setArticles(articlesCollection);
-      console.log(articlesCollection);
-      setName(data.name);
+      setUserDocID(doc.docs[0].id);
+      setUserEmail(data.email);
+      fetchArticles(doc.docs[0].id);
     } catch (err) {
       console.error(err);
-      alert("An error occured while fetching user data");
+    }
+  };
+
+  const fetchArticles = async (userDocID: string) => {
+    try {
+      const articlesDocs = await getDocs(
+        collection(db, `users/${userDocID}/articles`)
+      );
+      let articlesArray: DocumentData[] = [];
+      articlesDocs.docs.map((doc) => {
+        const articleDocID: string = doc.id;
+        articlesArray.push({ ...doc.data(), articleDocID });
+      });
+
+      setArticles(articlesArray);
+      console.log(articlesArray);
+    } catch (err) {
+      console.error(err);
     }
   };
 
   useEffect(() => {
     if (loading) return;
     if (!user) return navigate("/login");
-    fetchUserName();
+    fetchUser();
   }, [user, loading]);
 
   return (
@@ -88,8 +95,7 @@ function Home() {
       <div className="dashboard">
         <div className="dashboard__container">
           Logged in as
-          <div>{name}</div>
-          <div>{user?.email}</div>
+          <div>{userEmail}</div>
           <button className="dashboard__btn" onClick={logout}>
             Logout
           </button>
