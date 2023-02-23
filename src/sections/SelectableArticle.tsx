@@ -5,6 +5,7 @@ import FloatingSaveButton from "../components/FloatingSaveButton";
 
 interface SelectableArticleProps {
   article: Article;
+  updateArticleHighlightsBuffer: (newHighlight: Highlight) => void;
 }
 
 interface SelectionStateProps {
@@ -28,11 +29,11 @@ const ArticleContainer = styled.div`
 
 const HighlightsContainer = styled.div``;
 
-function SelectableArticle({ article }: SelectableArticleProps): JSX.Element {
+function SelectableArticle({
+  article,
+  updateArticleHighlightsBuffer,
+}: SelectableArticleProps): JSX.Element {
   const [displayAddButton, setDisplayAddButton] = useState<boolean>(false);
-  const [articleHighlights, setArticleHighlights] = useState<Highlight[]>(
-    article.highlights
-  );
   const [mousePos, setMousePos] = useState<{ x: number; y: number }>({
     x: 0,
     y: 0,
@@ -76,6 +77,15 @@ function SelectableArticle({ article }: SelectableArticleProps): JSX.Element {
     }
   };
 
+  function handleSaveHighlight(): void {
+    const newHighlight: Highlight = {
+      text: selectionState.selection!,
+      tags: [],
+    };
+    updateArticleHighlightsBuffer(newHighlight);
+    setDisplayAddButton(false);
+  }
+
   return (
     <>
       <ArticleContainer>
@@ -84,14 +94,12 @@ function SelectableArticle({ article }: SelectableArticleProps): JSX.Element {
           dangerouslySetInnerHTML={{ __html: article.zContent }}
           onMouseUp={onMouseUpHandler}
         />
-        <FloatingSaveButton
-          mousePos={{ x: mousePos.x, y: mousePos.y }}
-          display={displayAddButton}
-          setDisplay={setDisplayAddButton}
-          selection={selectionState.selection!}
-          setArticleHighlights={setArticleHighlights}
-          articleHighlights={articleHighlights}
-        />
+        {displayAddButton && (
+          <FloatingSaveButton
+            mousePos={{ x: mousePos.x, y: mousePos.y }}
+            handleSave={handleSaveHighlight}
+          />
+        )}
       </ArticleContainer>
     </>
   );

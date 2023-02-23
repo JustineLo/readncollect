@@ -1,10 +1,7 @@
-import AppState from "../state/AppState";
-import { useContainer } from "unstated-next";
 import styled from "styled-components";
 import { Article, Highlight } from "../types/Article";
 import { useState } from "react";
-import FloatingSaveButton from "../components/FloatingSaveButton";
-import SelectableArticle from "../sections/selectableArticle";
+import SelectableArticle from "../sections/SelectableArticle";
 
 interface HighlightFactoryProps {
   article: Article;
@@ -31,7 +28,9 @@ const Container = styled.div`
   color: black;
 `;
 
-const Board = styled.div``;
+const Board = styled.div`
+  display: flex;
+`;
 const ArticleContainer = styled.div`
   width: 40%;
   padding: 5%;
@@ -42,20 +41,42 @@ const ArticleContainer = styled.div`
   }
 `;
 
-const HighlightsContainer = styled.div``;
+const HighlightsContainer = styled.div`
+  width: 60%;
+`;
 
 function HighlightFactory({
   article,
   setOpen,
 }: HighlightFactoryProps): JSX.Element {
+  const [articleHighlightsBuffer, setArticleHighlightsBuffer] = useState<
+    Highlight[]
+  >(article.highlights);
+
+  function updateArticleHighlightsBuffer(newHighlight: Highlight): void {
+    setArticleHighlightsBuffer([...articleHighlightsBuffer, newHighlight]);
+  }
+
   return (
     <>
       <Container>
         <Board>
           <ArticleContainer>
-            <SelectableArticle article={article} />
+            <SelectableArticle
+              article={article}
+              updateArticleHighlightsBuffer={updateArticleHighlightsBuffer}
+            />
           </ArticleContainer>
-          <HighlightsContainer></HighlightsContainer>
+          <HighlightsContainer>
+            <button onClick={() => setOpen(false)}>Close</button>
+            {articleHighlightsBuffer.map((highlight) => {
+              return (
+                <div>
+                  <p>{highlight.text}</p>
+                </div>
+              );
+            })}
+          </HighlightsContainer>
         </Board>
       </Container>
     </>
