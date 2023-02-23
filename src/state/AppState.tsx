@@ -10,7 +10,18 @@ const useAppState = () => {
   });
   const [articles, setArticles] = useState<Article[]>([]);
 
-  return { user, setUser, articles, setArticles };
+  function setArticleHighlights(articleDocID: string, highlights: Article) {
+    const newArticles = articles.map((article) => {
+      if (article.articleDocID === articleDocID) {
+        return highlights;
+      } else {
+        return article;
+      }
+    });
+    setArticles(newArticles);
+  }
+
+  return { user, setUser, articles, setArticles, setArticleHighlights };
 };
 
 const AppState = createContainer(useAppState);

@@ -4,4 +4,10 @@ export type Article = {
   url: string;
   createdAt: string;
   zContent: string;
+  highlights: Highlight[];
+};
+
+export type Highlight = {
+  text: string;
+  tags: string[];
 };

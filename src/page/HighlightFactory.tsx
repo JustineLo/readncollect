@@ -1,11 +1,24 @@
 import AppState from "../state/AppState";
 import { useContainer } from "unstated-next";
 import styled from "styled-components";
-import { Article } from "../types/Article";
+import { Article, Highlight } from "../types/Article";
+import { useState } from "react";
+import FloatingSaveButton from "../components/FloatingSaveButton";
+import SelectableArticle from "../sections/selectableArticle";
 
 interface HighlightFactoryProps {
   article: Article;
   setOpen: React.Dispatch<React.SetStateAction<boolean>>;
+}
+
+interface SelectionStateProps {
+  selection: string | null;
+  anchorNode: Node | null;
+  focusNode: Node | null;
+  anchorOffset: number | null;
+  focusOffset: number | null;
+  x: number | null;
+  y: number | null;
 }
 
 const Container = styled.div`
@@ -31,14 +44,16 @@ const ArticleContainer = styled.div`
 
 const HighlightsContainer = styled.div``;
 
-function HighlightFactory({ article }: HighlightFactoryProps): JSX.Element {
+function HighlightFactory({
+  article,
+  setOpen,
+}: HighlightFactoryProps): JSX.Element {
   return (
     <>
       <Container>
         <Board>
           <ArticleContainer>
-            <h1>{article.title}</h1>
-            <div dangerouslySetInnerHTML={{ __html: article.zContent }} />
+            <SelectableArticle article={article} />
           </ArticleContainer>
           <HighlightsContainer></HighlightsContainer>
         </Board>

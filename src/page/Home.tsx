@@ -49,7 +49,7 @@ function Home() {
   }
 
   function onDeleteArticle(articleDocID: string): void {
-    deleteDoc(doc(db, `users/${user?.docID}/articles/${articleDocID}`))
+    deleteDoc(doc(db, `users/${user?.docID}/articles/`, articleDocID))
       .then(() => {
         const filteredArticles = articles.filter(
           (article) => article.articleDocID !== articleDocID
