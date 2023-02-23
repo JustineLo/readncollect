@@ -34,7 +34,7 @@ function HighlightsBoard({
         </button>
         {highlightsBuffer.map((highlight) => {
           return (
-            <div>
+            <div key={highlight.id}>
               <p>{highlight.text}</p>
             </div>
           );
