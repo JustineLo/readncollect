@@ -6,6 +6,7 @@ import { useContainer } from "unstated-next";
 import HighlightThumbnail from "../components/HighlightThumbnail";
 import AppState from "../state/AppState";
 import { getUpdatedArticles } from "../utils/articleUtils";
+import { FaWindowClose } from "react-icons/fa";
 
 interface HighlightFactoryProps {
   article: Article;
@@ -37,6 +38,10 @@ const ArticleContainer = styled.div`
 
 const HighlightsContainer = styled.div`
   width: 60%;
+  display: flex;
+  flex-direction: column;
+  gap: 2%;
+  padding: 5%;
   text-align: left;
   background-color: white;
   color: black;
@@ -93,7 +98,12 @@ function HighlightFactory({
             />
           </ArticleContainer>
           <HighlightsContainer>
-            <button onClick={() => setOpen(false)}>Close</button>
+            <button
+              style={{ width: "fit-content" }}
+              onClick={() => setOpen(false)}
+            >
+              <FaWindowClose />
+            </button>
             {articleHighlightsBuffer.map((highlight) => {
               return (
                 <HighlightThumbnail
