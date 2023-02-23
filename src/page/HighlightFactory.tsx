@@ -2,8 +2,7 @@ import styled from "styled-components";
 import { Article, Highlight } from "../types/Article";
 import { useState } from "react";
 import SelectableArticle from "../sections/SelectableArticle";
-import HighlightsBoard from "../sections/HighlightsBoard";
-import { createContainer, useContainer } from "unstated-next";
+import { useContainer } from "unstated-next";
 import HighlightThumbnail from "../components/HighlightThumbnail";
 import AppState from "../state/AppState";
 import { getUpdatedArticles } from "../utils/articleUtils";
@@ -38,6 +37,12 @@ const ArticleContainer = styled.div`
 
 const HighlightsContainer = styled.div`
   width: 60%;
+  text-align: left;
+  background-color: white;
+  color: black;
+  h1 {
+    font-size: 2rem;
+  }
 `;
 
 function HighlightFactory({
@@ -89,20 +94,15 @@ function HighlightFactory({
           </ArticleContainer>
           <HighlightsContainer>
             <button onClick={() => setOpen(false)}>Close</button>
-            <HighlightsBoard
-              articleDocID={article.articleDocID}
-              highlightsBuffer={articleHighlightsBuffer}
-            >
-              {articleHighlightsBuffer.map((highlight) => {
-                return (
-                  <HighlightThumbnail
-                    key={highlight.id}
-                    highlight={highlight}
-                    onDeleteHighlight={() => onDeleteHighlight(highlight)}
-                  />
-                );
-              })}
-            </HighlightsBoard>
+            {articleHighlightsBuffer.map((highlight) => {
+              return (
+                <HighlightThumbnail
+                  key={highlight.id}
+                  highlight={highlight}
+                  onDeleteHighlight={() => onDeleteHighlight(highlight)}
+                />
+              );
+            })}
           </HighlightsContainer>
         </Board>
       </Container>
