@@ -1,7 +1,8 @@
 import styled from "styled-components";
-import { Highlight } from "../types/Article";
 import { useContainer } from "unstated-next";
 import AppState from "../state/AppState";
+import { Highlight } from "../types/Article";
+import { getUpdatedArticles } from "../utils/articleUtils";
 
 interface HighlightsBoardProps {
   articleDocID: string;
@@ -21,13 +22,15 @@ function HighlightsBoard({
   articleDocID,
   highlightsBuffer,
 }: HighlightsBoardProps): JSX.Element {
-  const { updateArticleHighlights } = useContainer(AppState);
+  const { user, articles, setArticles } = useContainer(AppState);
   return (
     <>
       <HighlightsContainer>
         <button
           onClick={() =>
-            updateArticleHighlights(articleDocID, highlightsBuffer)
+            setArticles(
+              getUpdatedArticles(user, articles, articleDocID, highlightsBuffer)
+            )
           }
         >
           SAVE HIGHLIGHTS
