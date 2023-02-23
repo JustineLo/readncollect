@@ -51,7 +51,11 @@ function HighlightFactory({
   const { user, articles, setArticles } = useContainer(AppState);
 
   function updateArticleHighlightsBuffer(newHighlight: Highlight): void {
-    setArticleHighlightsBuffer([...articleHighlightsBuffer, newHighlight]);
+    const newArray = [...articleHighlightsBuffer, newHighlight];
+    setArticleHighlightsBuffer(newArray);
+    setArticles(
+      getUpdatedArticles(user, articles, article.articleDocID, newArray)
+    );
   }
 
   function onDeleteHighlight(highlight: Highlight) {
@@ -60,7 +64,6 @@ function HighlightFactory({
         (checkedArticle) => checkedArticle.articleDocID === article.articleDocID
       )!
       .highlights.filter((h) => h.id !== highlight.id);
-    console.log(updatedHighlights);
 
     setArticleHighlightsBuffer(updatedHighlights);
 
