@@ -3,20 +3,14 @@ import { Article, Highlight } from "../types/Article";
 import { useState } from "react";
 import SelectableArticle from "../sections/SelectableArticle";
 import HighlightsBoard from "../sections/HighlightsBoard";
+import { createContainer, useContainer } from "unstated-next";
+import HighlightThumbnail from "../components/HighlightThumbnail";
+import AppState from "../state/AppState";
+import { getUpdatedArticles } from "../utils/articleUtils";
 
 interface HighlightFactoryProps {
   article: Article;
   setOpen: React.Dispatch<React.SetStateAction<boolean>>;
-}
-
-interface SelectionStateProps {
-  selection: string | null;
-  anchorNode: Node | null;
-  focusNode: Node | null;
-  anchorOffset: number | null;
-  focusOffset: number | null;
-  x: number | null;
-  y: number | null;
 }
 
 const Container = styled.div`
@@ -54,8 +48,30 @@ function HighlightFactory({
     Highlight[]
   >(article.highlights);
 
+  const { user, articles, setArticles } = useContainer(AppState);
+
   function updateArticleHighlightsBuffer(newHighlight: Highlight): void {
     setArticleHighlightsBuffer([...articleHighlightsBuffer, newHighlight]);
+  }
+
+  function onDeleteHighlight(highlight: Highlight) {
+    const updatedHighlights = articles
+      .find(
+        (checkedArticle) => checkedArticle.articleDocID === article.articleDocID
+      )!
+      .highlights.filter((h) => h.id !== highlight.id);
+    console.log(updatedHighlights);
+
+    setArticleHighlightsBuffer(updatedHighlights);
+
+    setArticles(
+      getUpdatedArticles(
+        user,
+        articles,
+        article.articleDocID,
+        updatedHighlights
+      )
+    );
   }
 
   return (
@@ -73,7 +89,17 @@ function HighlightFactory({
             <HighlightsBoard
               articleDocID={article.articleDocID}
               highlightsBuffer={articleHighlightsBuffer}
-            />
+            >
+              {articleHighlightsBuffer.map((highlight) => {
+                return (
+                  <HighlightThumbnail
+                    key={highlight.id}
+                    highlight={highlight}
+                    onDeleteHighlight={() => onDeleteHighlight(highlight)}
+                  />
+                );
+              })}
+            </HighlightsBoard>
           </HighlightsContainer>
         </Board>
       </Container>

@@ -1,6 +1,4 @@
-import React, { useEffect, useState } from "react";
 import styled from "styled-components";
-import { Highlight } from "../types/Article";
 
 interface FloatingSaveButtonProps {
   mousePos: { x: number; y: number };
