@@ -1,6 +1,6 @@
 import { createContainer } from "unstated-next";
 import { useState } from "react";
-import { Article } from "../types/Article";
+import { Article, Highlight } from "../types/Article";
 import { User } from "../types/User";
 
 const useAppState = () => {
@@ -10,15 +10,19 @@ const useAppState = () => {
   });
   const [articles, setArticles] = useState<Article[]>([]);
 
-  function updateArticleHighlights(articleDocID: string, highlights: Article) {
-    const newArticles = articles.map((article) => {
+  function updateArticleHighlights(
+    articleDocID: string,
+    highlights: Highlight[]
+  ) {
+    const updatedArticles = articles.map((article) => {
       if (article.articleDocID === articleDocID) {
-        return highlights;
+        return { ...article, highlights };
       } else {
         return article;
       }
     });
-    setArticles(newArticles);
+
+    setArticles(updatedArticles);
   }
 
   return { user, setUser, articles, setArticles, updateArticleHighlights };

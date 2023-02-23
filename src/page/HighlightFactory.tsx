@@ -2,6 +2,7 @@ import styled from "styled-components";
 import { Article, Highlight } from "../types/Article";
 import { useState } from "react";
 import SelectableArticle from "../sections/SelectableArticle";
+import HighlightsBoard from "../sections/HighlightsBoard";
 
 interface HighlightFactoryProps {
   article: Article;
@@ -69,13 +70,10 @@ function HighlightFactory({
           </ArticleContainer>
           <HighlightsContainer>
             <button onClick={() => setOpen(false)}>Close</button>
-            {articleHighlightsBuffer.map((highlight) => {
-              return (
-                <div>
-                  <p>{highlight.text}</p>
-                </div>
-              );
-            })}
+            <HighlightsBoard
+              articleDocID={article.articleDocID}
+              highlightsBuffer={articleHighlightsBuffer}
+            />
           </HighlightsContainer>
         </Board>
       </Container>

@@ -8,6 +8,7 @@ export type Article = {
 };
 
 export type Highlight = {
+  id: string;
   text: string;
   tags: string[];
 };

@@ -17,7 +17,8 @@
     "react-firebase-hooks": "^5.1.1",
     "react-router-dom": "^6.8.1",
     "styled-components": "^5.3.6",
-    "unstated-next": "^1.1.0"
+    "unstated-next": "^1.1.0",
+    "uuidv4": "^6.2.13"
   },
   "devDependencies": {
     "@types/react": "^18.0.27",

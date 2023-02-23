@@ -2,6 +2,7 @@ import styled from "styled-components";
 import { Article, Highlight } from "../types/Article";
 import { useState } from "react";
 import FloatingSaveButton from "../components/FloatingSaveButton";
+import { v4 as uuidv4 } from "uuid";
 
 interface SelectableArticleProps {
   article: Article;
@@ -26,8 +27,6 @@ const ArticleContainer = styled.div`
     font-size: 2rem;
   }
 `;
-
-const HighlightsContainer = styled.div``;
 
 function SelectableArticle({
   article,
@@ -79,6 +78,7 @@ function SelectableArticle({
 
   function handleSaveHighlight(): void {
     const newHighlight: Highlight = {
+      id: uuidv4(),
       text: selectionState.selection!,
       tags: [],
     };
