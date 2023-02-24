@@ -11,6 +11,7 @@ import { fetchData } from "../utils/fetchData";
 import { deleteDoc, doc } from "firebase/firestore";
 import Input from "../components/Input";
 import styled from "styled-components";
+import Button from "../components/Button";
 
 const DashboardContainer = styled.div`
   display: flex;
@@ -82,7 +83,7 @@ function Dashboard() {
       <Form onSubmit={handleSubmitTest}>
         <label htmlFor="url">URL</label>
         <Input type="text" value={newUrl} onChange={setNewUrl} />
-        <button type="submit">Submit ARTICLE</button>
+        <Button type="submit">Add article !</Button>
       </Form>
       <div>
         {articles.map((article: Article, index: number) => (
