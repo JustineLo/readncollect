@@ -6,7 +6,8 @@ import { useContainer } from "unstated-next";
 import HighlightThumbnail from "../components/HighlightThumbnail";
 import AppState from "../state/AppState";
 import { getUpdatedArticles } from "../utils/articleUtils";
-import { FaWindowClose } from "react-icons/fa";
+import { VscChromeClose } from "react-icons/vsc";
+import Icon from "../components/Icon";
 
 interface HighlightFactoryProps {
   article: Article;
@@ -34,13 +35,22 @@ const HighlightsContainer = styled.div`
   width: 40%;
   display: flex;
   flex-direction: column;
-  gap: 2%;
-  padding: 5%;
-  text-align: left;
-  color: black;
-  h1 {
-    font-size: 2rem;
-  }
+  padding: 2% 5%;
+`;
+
+const Topbar = styled.div`
+  display: flex;
+  justify-content: flex-end;
+`;
+
+const HighlightsList = styled.div`
+  width: 100%;
+  margin: 60px 0;
+  height: 80vh;
+  display: flex;
+  flex-direction: column;
+  gap: 25px;
+  overflow-y: scroll;
 `;
 
 function HighlightFactory({
@@ -91,21 +101,22 @@ function HighlightFactory({
             />
           </ArticleContainer>
           <HighlightsContainer>
-            <button
-              style={{ width: "fit-content" }}
-              onClick={() => setOpen(false)}
-            >
-              <FaWindowClose />
-            </button>
-            {articleHighlightsBuffer.map((highlight) => {
-              return (
-                <HighlightThumbnail
-                  key={highlight.id}
-                  highlight={highlight}
-                  onDeleteHighlight={() => onDeleteHighlight(highlight)}
-                />
-              );
-            })}
+            <Topbar>
+              <Icon onClick={() => setOpen(false)}>
+                <VscChromeClose size="2rem" />
+              </Icon>
+            </Topbar>
+            <HighlightsList>
+              {articleHighlightsBuffer.map((highlight) => {
+                return (
+                  <HighlightThumbnail
+                    key={highlight.id}
+                    highlight={highlight}
+                    onDeleteHighlight={() => onDeleteHighlight(highlight)}
+                  />
+                );
+              })}
+            </HighlightsList>
           </HighlightsContainer>
         </Board>
       </Container>
