@@ -1,7 +1,6 @@
 import axios from "axios";
 import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
-import "../App.css";
 import { useAuthState } from "react-firebase-hooks/auth";
 import { auth, db, logout } from "../firebase";
 import { Article } from "../types/Article";
@@ -10,6 +9,23 @@ import { useContainer } from "unstated-next";
 import HighlightFactory from "./HighlightFactory";
 import { fetchData } from "../utils/fetchData";
 import { deleteDoc, doc } from "firebase/firestore";
+import Input from "../components/Input";
+import styled from "styled-components";
+
+const DashboardContainer = styled.div`
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 5vh;
+  margin-top: 20vh;
+`;
+
+const Form = styled.form`
+  display: flex;
+  gap: 1rem;
+  align-items: center;
+`;
 
 function Dashboard() {
   const addArticleApi: string = import.meta.env.VITE_API_ADD_ARTICLE;
@@ -62,18 +78,12 @@ function Dashboard() {
   }
 
   return (
-    <>
-      <div className="App">
-        <form onSubmit={handleSubmitTest}>
-          <label htmlFor="url">URL</label>
-          <input
-            type="text"
-            value={newUrl}
-            onChange={(e) => setNewUrl(e.target.value)}
-          />
-          <button type="submit">Submit ARTICLE</button>
-        </form>
-      </div>
+    <DashboardContainer>
+      <Form onSubmit={handleSubmitTest}>
+        <label htmlFor="url">URL</label>
+        <Input type="text" value={newUrl} onChange={setNewUrl} />
+        <button type="submit">Submit ARTICLE</button>
+      </Form>
       <div>
         {articles.map((article: Article, index: number) => (
           <div key={index}>
@@ -86,22 +96,13 @@ function Dashboard() {
           </div>
         ))}
       </div>
-      <div className="dashboard">
-        <div className="dashboard__container">
-          Logged in as
-          <div>{user?.email}</div>
-          <button className="dashboard__btn" onClick={logout}>
-            Logout
-          </button>
-        </div>
-      </div>
       {openHighlightFactory && (
         <HighlightFactory
           setOpen={setOpenHighlightFactory}
           article={clickedArticle}
         />
       )}
-    </>
+    </DashboardContainer>
   );
 }
 

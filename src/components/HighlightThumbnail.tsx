@@ -1,10 +1,6 @@
-import React, { useEffect, useState } from "react";
 import styled from "styled-components";
 import { Highlight } from "../types/Article";
 import { FaRegTrashAlt } from "react-icons/fa";
-import { useContainer } from "unstated-next";
-import AppState from "../state/AppState";
-import { getUpdatedArticles } from "../utils/articleUtils";
 
 interface HighlightProps {
   highlight: Highlight;
@@ -22,6 +18,7 @@ const Container = styled.div`
     display: flex;
     align-items: center;
     justify-content: space-between;
+    cursor: pointer;
   }
 `;
 const Text = styled.div`
