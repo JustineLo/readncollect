@@ -40,12 +40,6 @@ function Dashboard() {
   const [userAuth, loading, error] = useAuthState(auth);
   const { user, setUser, articles, setArticles } = useContainer(AppState);
   const [newUrl, setNewUrl] = useState<string>("");
-  const [clickedArticle, setClickedArticle] = useState<Article>({
-    articleDocID: "",
-    url: "",
-  } as Article);
-  const [openHighlightFactory, setOpenHighlightFactory] =
-    useState<boolean>(false);
 
   const navigate = useNavigate();
 
@@ -66,11 +60,6 @@ function Dashboard() {
         console.error(error);
       });
   };
-
-  function onClickArticle(article: Article): void {
-    setClickedArticle(article);
-    setOpenHighlightFactory(true);
-  }
 
   function onDeleteArticle(articleDocID: string): void {
     deleteDoc(doc(db, `users/${user?.docID}/articles/`, articleDocID))
@@ -101,12 +90,6 @@ function Dashboard() {
           />
         ))}
       </ArticlesContainer>
-      {openHighlightFactory && (
-        <HighlightFactory
-          setOpen={setOpenHighlightFactory}
-          article={clickedArticle}
-        />
-      )}
     </DashboardContainer>
   );
 }

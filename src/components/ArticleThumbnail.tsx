@@ -2,6 +2,8 @@ import styled from "styled-components";
 import { Article, Highlight } from "../types/Article";
 import { FaRegTrashAlt } from "react-icons/fa";
 import Icon from "./Icon";
+import HighlightFactory from "../page/HighlightFactory";
+import { useState } from "react";
 
 interface ArticleThumbnailProps {
   article: Article;
@@ -37,17 +39,24 @@ const ArticleThumbnail = ({
   article,
   onDeleteArticle,
 }: ArticleThumbnailProps) => {
+  const [openHighlightFactory, setOpenHighlightFactory] =
+    useState<boolean>(false);
   return (
-    <Container>
-      <Text>
-        <p>{article.title}</p>
-      </Text>
-      <Buttons>
-        <Icon onClick={onDeleteArticle}>
-          <FaRegTrashAlt />
-        </Icon>
-      </Buttons>
-    </Container>
+    <>
+      <Container onClick={() => setOpenHighlightFactory(true)}>
+        <Text>
+          <p>{article.title}</p>
+        </Text>
+        <Buttons>
+          <Icon onClick={onDeleteArticle}>
+            <FaRegTrashAlt />
+          </Icon>
+        </Buttons>
+      </Container>
+      {openHighlightFactory && (
+        <HighlightFactory setOpen={setOpenHighlightFactory} article={article} />
+      )}
+    </>
   );
 };
 
