@@ -11,6 +11,7 @@
   --black: #0e0a2f;
   --purple-dark: #1f0249;
   --purple-medium: #50169c;
+  --purple-medium-transparent: rgb(80, 22, 156, 0.3);
   --purple-light: #7d23d1;
   --pink: #d03c90;
 }

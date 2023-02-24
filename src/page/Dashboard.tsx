@@ -12,6 +12,7 @@ import { deleteDoc, doc } from "firebase/firestore";
 import Input from "../components/Input";
 import styled from "styled-components";
 import Button from "../components/Button";
+import ArticleThumbnail from "../components/ArticleThumbnail";
 
 const DashboardContainer = styled.div`
   display: flex;
@@ -26,6 +27,12 @@ const Form = styled.form`
   display: flex;
   gap: 1rem;
   align-items: center;
+`;
+
+const ArticlesContainer = styled.div`
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
 `;
 
 function Dashboard() {
@@ -85,18 +92,15 @@ function Dashboard() {
         <Input type="text" value={newUrl} onChange={setNewUrl} />
         <Button type="submit">Add article !</Button>
       </Form>
-      <div>
+      <ArticlesContainer>
         {articles.map((article: Article, index: number) => (
-          <div key={index}>
-            <button onClick={() => onClickArticle(article)}>
-              {article.title}
-            </button>
-            <button onClick={() => onDeleteArticle(article.articleDocID)}>
-              Delete
-            </button>
-          </div>
+          <ArticleThumbnail
+            key={index}
+            article={article}
+            onDeleteArticle={() => onDeleteArticle(article.articleDocID)}
+          />
         ))}
-      </div>
+      </ArticlesContainer>
       {openHighlightFactory && (
         <HighlightFactory
           setOpen={setOpenHighlightFactory}
