@@ -1,6 +1,7 @@
 import styled from "styled-components";
 import { Highlight } from "../types/Article";
 import { FaRegTrashAlt } from "react-icons/fa";
+import Icon from "./Icon";
 
 interface HighlightProps {
   highlight: Highlight;
@@ -10,15 +11,15 @@ interface HighlightProps {
 const Container = styled.div`
    {
     width: 300px;
-    max-height: 150px;
     border-radius: 10px;
     padding: 5px 30px;
-    background-color: pink;
-    overflow: scroll;
+    background-color: var(--purple-medium-transparent);
+    color: white;
     display: flex;
     align-items: center;
     justify-content: space-between;
     cursor: pointer;
+    gap: 20px;
   }
 `;
 const Text = styled.div`
@@ -41,9 +42,9 @@ const HighlightThumbnail = ({
         <p>{highlight.text}</p>
       </Text>
       <Buttons>
-        <button onClick={onDeleteHighlight}>
+        <Icon onClick={onDeleteHighlight}>
           <FaRegTrashAlt />
-        </button>
+        </Icon>
       </Buttons>
     </Container>
   );
