@@ -21,11 +21,15 @@ interface SelectionStateProps {
 
 const ArticleContainer = styled.div`
   text-align: left;
-  background-color: white;
+  background-color: rgba(255, 255, 255, 0.9);
   color: black;
+  padding: 1% 3%;
+  border-radius: 20px;
   h1 {
     font-size: 2rem;
   }
+  height: 90vh;
+  overflow-y: scroll;
 `;
 
 function SelectableArticle({

@@ -1,5 +1,5 @@
 import styled from "styled-components";
-import { Article, Highlight } from "../types/Article";
+import { Article } from "../types/Article";
 import { FaRegTrashAlt } from "react-icons/fa";
 import Icon from "./Icon";
 import HighlightFactory from "../page/HighlightFactory";

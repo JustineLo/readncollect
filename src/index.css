@@ -9,6 +9,7 @@
   -webkit-text-size-adjust: 100%;
 
   --black: #0e0a2f;
+  --black-transparent: rgba(00, 00, 00, 0.8);
   --purple-dark: #1f0249;
   --purple-medium: #50169c;
   --purple-medium-transparent: rgb(80, 22, 156, 0.3);

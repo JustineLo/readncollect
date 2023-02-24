@@ -14,36 +14,29 @@ interface HighlightFactoryProps {
 }
 
 const Container = styled.div`
-  width: 100%;
-  height: fit-content;
+  margin: 20px;
   position: absolute;
   top: 0;
   left: 0;
-  background-color: white;
-  color: black;
+  background-color: var(--black-transparent);
+  border-radius: 30px;
 `;
 
 const Board = styled.div`
   display: flex;
 `;
 const ArticleContainer = styled.div`
-  width: 40%;
-  padding: 5%;
-  text-align: left;
-  border-right: 1px solid black;
-  h1 {
-    font-size: 2rem;
-  }
+  width: 60%;
+  padding: 30px;
 `;
 
 const HighlightsContainer = styled.div`
-  width: 60%;
+  width: 40%;
   display: flex;
   flex-direction: column;
   gap: 2%;
   padding: 5%;
   text-align: left;
-  background-color: white;
   color: black;
   h1 {
     font-size: 2rem;
