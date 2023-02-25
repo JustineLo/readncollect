@@ -2,7 +2,8 @@ import styled from "styled-components";
 
 interface ButtonProps {
   children: React.ReactNode;
-  type: "button" | "submit" | "reset" | undefined;
+  type?: "button" | "submit" | "reset" | undefined;
+  onClick?: () => void;
 }
 
 const ButtonContainer = styled.button`
@@ -17,8 +18,12 @@ const ButtonContainer = styled.button`
   );
 `;
 
-const Button = ({ children, type }: ButtonProps) => {
-  return <ButtonContainer type={type}>{children}</ButtonContainer>;
+const Button = ({ children, type, onClick }: ButtonProps) => {
+  return (
+    <ButtonContainer type={type} onClick={onClick}>
+      {children}
+    </ButtonContainer>
+  );
 };
 
 export default Button;

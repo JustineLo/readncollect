@@ -3,6 +3,8 @@ import styled from "styled-components";
 interface IconButtonProps {
   children: React.ReactNode;
   onClick?: () => void;
+  tooltipId?: string;
+  tooltipContent?: string;
 }
 
 const IconButtonContainer = styled.button`
@@ -14,9 +16,21 @@ const IconButtonContainer = styled.button`
   cursor: ${(props) => (props.onClick ? "pointer" : "default")};
 `;
 
-const Icon = ({ children, onClick }: IconButtonProps) => {
+const Icon = ({
+  children,
+  onClick,
+  tooltipId,
+  tooltipContent,
+}: IconButtonProps) => {
   return (
-    <IconButtonContainer onClick={onClick}>{children}</IconButtonContainer>
+    <IconButtonContainer
+      onClick={onClick}
+      data-tooltip-id={tooltipId}
+      data-tooltip-content={tooltipContent}
+      data-tooltip-place="right"
+    >
+      {children}
+    </IconButtonContainer>
   );
 };
 
