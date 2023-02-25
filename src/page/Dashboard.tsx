@@ -1,17 +1,26 @@
 import axios from "axios";
-import { useEffect, useState } from "react";
-import { useNavigate } from "react-router-dom";
-import { useAuthState } from "react-firebase-hooks/auth";
-import { auth, db } from "../firebase";
-import { Article } from "../types/Article";
-import AppState from "../state/AppState";
-import { useContainer } from "unstated-next";
-import { fetchData } from "../utils/fetchData";
 import { deleteDoc, doc } from "firebase/firestore";
-import Input from "../components/Input";
+import { useEffect, useState } from "react";
+import { useAuthState } from "react-firebase-hooks/auth";
+import { useNavigate } from "react-router-dom";
 import styled from "styled-components";
-import Button from "../components/Button";
+import { useContainer } from "unstated-next";
 import ArticleThumbnail from "../components/ArticleThumbnail";
+import Button from "../components/Button";
+import Input from "../components/Input";
+import { auth, db } from "../firebase";
+import Sidebar from "../sections/Sidebar";
+import AppState from "../state/AppState";
+import { Article } from "../types/Article";
+import { fetchData } from "../utils/fetchData";
+
+const GlobalContainer = styled.div`
+  width: 100%;
+  display: flex;
+`;
+const MainContainer = styled.div`
+  width: 100%;
+`;
 
 const DashboardContainer = styled.div`
   display: flex;
@@ -74,22 +83,27 @@ function Dashboard() {
   }
 
   return (
-    <DashboardContainer>
-      <Form onSubmit={handleSubmitTest}>
-        <label htmlFor="url">URL</label>
-        <Input type="text" value={newUrl} onChange={setNewUrl} />
-        <Button type="submit">Add article !</Button>
-      </Form>
-      <ArticlesContainer>
-        {articles.map((article: Article, index: number) => (
-          <ArticleThumbnail
-            key={index}
-            article={article}
-            onDeleteArticle={() => onDeleteArticle(article.articleDocID)}
-          />
-        ))}
-      </ArticlesContainer>
-    </DashboardContainer>
+    <GlobalContainer>
+      <Sidebar />
+      <MainContainer>
+        <DashboardContainer>
+          <Form onSubmit={handleSubmitTest}>
+            <label htmlFor="url">URL</label>
+            <Input type="text" value={newUrl} onChange={setNewUrl} />
+            <Button type="submit">Add article !</Button>
+          </Form>
+          <ArticlesContainer>
+            {articles.map((article: Article, index: number) => (
+              <ArticleThumbnail
+                key={index}
+                article={article}
+                onDeleteArticle={() => onDeleteArticle(article.articleDocID)}
+              />
+            ))}
+          </ArticlesContainer>
+        </DashboardContainer>
+      </MainContainer>
+    </GlobalContainer>
   );
 }
 

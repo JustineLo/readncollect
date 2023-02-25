@@ -1,13 +1,13 @@
-import styled from "styled-components";
-import { Article, Highlight } from "../types/Article";
 import { useState } from "react";
-import SelectableArticle from "../sections/SelectableArticle";
+import { VscChromeClose } from "react-icons/vsc";
+import styled from "styled-components";
 import { useContainer } from "unstated-next";
 import HighlightThumbnail from "../components/HighlightThumbnail";
-import AppState from "../state/AppState";
-import { getUpdatedArticles } from "../utils/articleUtils";
-import { VscChromeClose } from "react-icons/vsc";
 import Icon from "../components/Icon";
+import SelectableArticle from "../sections/SelectableArticle";
+import AppState from "../state/AppState";
+import { Article, Highlight } from "../types/Article";
+import { getUpdatedArticles } from "../utils/articleUtils";
 
 interface HighlightFactoryProps {
   article: Article;
@@ -21,6 +21,7 @@ const Container = styled.div`
   left: 0;
   background-color: var(--black-transparent);
   border-radius: 30px;
+  width: 100%;
 `;
 
 const Board = styled.div`

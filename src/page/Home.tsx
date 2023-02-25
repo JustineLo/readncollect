@@ -1,8 +1,7 @@
-import React, { useEffect, useState } from "react";
-import { auth, signInWithGoogle } from "../firebase";
-import { Link, NavLink, useNavigate } from "react-router-dom";
+import { useEffect } from "react";
 import { useAuthState } from "react-firebase-hooks/auth";
-import { signInWithEmailAndPassword } from "firebase/auth";
+import { useNavigate } from "react-router-dom";
+import { auth } from "../firebase";
 import Login from "./Login";
 
 const Home = () => {

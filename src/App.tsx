@@ -12,14 +12,18 @@ const AppContainer = styled.main`
   display: flex;
 `;
 
+const MainContainer = styled.div`
+  width: 100%;
+`;
+
 function App() {
   return (
     <AppContainer>
-      <Sidebar />
       <Router>
         <Routes>
-          <Route path="/" element={<Home />} />
-          <Route path="/dashboard" element={<Dashboard />} />
+          <Route path="/" element={<Home />}>
+            <Route path="/dashboard" element={<Dashboard />} />
+          </Route>
           <Route path="/signup" element={<Signup />} />
           <Route path="/login" element={<Login />} />
         </Routes>

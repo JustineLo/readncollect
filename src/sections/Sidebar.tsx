@@ -1,17 +1,16 @@
-import styled from "styled-components";
-import Button from "../components/Button";
-import Icon from "../components/Icon";
-import { logout } from "../firebase";
+import { CgCollage } from "react-icons/cg";
 import { MdAccountCircle, MdLogout } from "react-icons/md";
 import { RiScissors2Fill } from "react-icons/ri";
-import { CgCollage } from "react-icons/cg";
 import { Tooltip } from "react-tooltip";
-import AppState from "../state/AppState";
+import styled from "styled-components";
 import { useContainer } from "unstated-next";
+import Icon from "../components/Icon";
+import { logout } from "../firebase";
+import AppState from "../state/AppState";
 
 interface SidebarProps {}
 
-const SidebarContainer = styled.section`
+const SidebarContainer = styled.nav`
   height: 100vh;
   width: 6vw;
   background: var(--purple-medium-transparent);
