@@ -1,10 +1,11 @@
-import { FaRegClipboard } from "react-icons/fa";
+import { BiNotepad } from "react-icons/bi";
 import { MdAccountCircle, MdLogout, MdSpaceDashboard } from "react-icons/md";
 import { RiScissors2Fill } from "react-icons/ri";
 import { Tooltip } from "react-tooltip";
 import styled from "styled-components";
 import { useContainer } from "unstated-next";
 import Icon from "../components/Icon";
+import SidebarIcon from "../components/SidebarIcon";
 import { logout } from "../firebase";
 import AppState from "../state/AppState";
 
@@ -17,6 +18,7 @@ const SidebarContainer = styled.nav`
   display: flex;
   flex-direction: column;
   justify-content: space-between;
+  align-items: center;
   gap: 5rem;
   padding: 5rem 0;
   box-sizing: border-box;
@@ -33,22 +35,22 @@ const Sidebar = ({}: SidebarProps) => {
   return (
     <>
       <SidebarContainer>
-        <Icon
+        <SidebarIcon
+          toEndpoint="/"
           tooltipContent={`Connected as ${user?.email}`}
-          tooltipId="sidebar-tooltip"
         >
           <MdAccountCircle size="2rem" />
-        </Icon>
+        </SidebarIcon>
         <PageIcons>
-          <Icon tooltipContent="Dashboard" tooltipId="sidebar-tooltip">
+          <SidebarIcon toEndpoint="/dashboard" tooltipContent="Dashboard">
             <MdSpaceDashboard size="2rem" />
-          </Icon>
-          <Icon tooltipContent="Articles" tooltipId="sidebar-tooltip">
+          </SidebarIcon>
+          <SidebarIcon toEndpoint="/" tooltipContent="Articles">
             <RiScissors2Fill size="2rem" />
-          </Icon>
-          <Icon tooltipContent="Collage Builder" tooltipId="sidebar-tooltip">
-            <FaRegClipboard size="2rem" />
-          </Icon>
+          </SidebarIcon>
+          <SidebarIcon toEndpoint="/" tooltipContent="Collage Builder">
+            <BiNotepad size="2rem" />
+          </SidebarIcon>
         </PageIcons>
         <Icon
           onClick={logout}
