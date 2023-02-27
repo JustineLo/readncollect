@@ -1,12 +1,9 @@
-import Home from "./page/Dashboard";
-import Signup from "./page/Signup";
-import Login from "./page/Login";
-import { BrowserRouter as Router } from "react-router-dom";
-import { Routes, Route } from "react-router-dom";
-import Dashboard from "./page/Dashboard";
-import styled from "styled-components";
-import Sidebar from "./sections/Sidebar";
+import { BrowserRouter as Router, Route, Routes } from "react-router-dom";
 import "react-tooltip/dist/react-tooltip.css";
+import styled from "styled-components";
+import { default as Dashboard, default as Home } from "./page/Dashboard";
+import Login from "./page/Login";
+import Signup from "./page/Signup";
 
 const AppContainer = styled.main`
   display: flex;

@@ -2,7 +2,43 @@ import { createUserWithEmailAndPassword } from "firebase/auth";
 import { doc, updateDoc } from "firebase/firestore";
 import { useState } from "react";
 import { NavLink, useNavigate } from "react-router-dom";
+import styled from "styled-components";
+import Input from "../components/Input";
 import { auth, db } from "../firebase";
+
+const Container = styled.div`
+  width: 100%;
+  height: 100vh;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 40px;
+`;
+
+const Form = styled.div`
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 20px;
+`;
+
+const Buttons = styled.div`
+  display: flex;
+  gap: 10px;
+`;
+
+const Links = styled.div`
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 10px;
+
+  a,
+  a:visited {
+    color: var(--pink);
+  }
+`;
 
 const Signup = () => {
   const navigate = useNavigate();
@@ -29,46 +65,33 @@ const Signup = () => {
   };
 
   return (
-    <main>
-      <section>
-        <div>
-          <div>
-            <h1> FocusApp </h1>
-            <form>
-              <div>
-                <label htmlFor="email-address">Email address</label>
-                <input
-                  type="email"
-                  value={email}
-                  onChange={(e) => setEmail(e.target.value)}
-                  required
-                  placeholder="Email address"
-                />
-              </div>
+    <Container>
+      <h1> Sign up </h1>
+      <Form>
+        <Input
+          type="email"
+          value={email}
+          onChange={(e) => setEmail(e.target.value)}
+          placeholder="Email address"
+        />
 
-              <div>
-                <label htmlFor="password">Password</label>
-                <input
-                  type="password"
-                  value={password}
-                  onChange={(e) => setPassword(e.target.value)}
-                  required
-                  placeholder="Password"
-                />
-              </div>
+        <Input
+          type="password"
+          value={password}
+          onChange={(e) => setPassword(e.target.value)}
+          placeholder="Password"
+        />
+        <Buttons>
+          <button type="submit" onClick={onSubmit}>
+            Sign up
+          </button>
+        </Buttons>
+      </Form>
 
-              <button type="submit" onClick={onSubmit}>
-                Sign up
-              </button>
-            </form>
-
-            <p>
-              Already have an account? <NavLink to="/login">Sign in</NavLink>
-            </p>
-          </div>
-        </div>
-      </section>
-    </main>
+      <Links>
+        Already have an account? <NavLink to="/login">Sign in</NavLink>
+      </Links>
+    </Container>
   );
 };
 
