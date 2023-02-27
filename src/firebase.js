@@ -1,22 +1,22 @@
 import { initializeApp } from "firebase/app";
 
 import {
-  GoogleAuthProvider,
-  getAuth,
-  signInWithPopup,
-  signInWithEmailAndPassword,
   createUserWithEmailAndPassword,
+  getAuth,
+  GoogleAuthProvider,
   sendPasswordResetEmail,
+  signInWithEmailAndPassword,
+  signInWithPopup,
   signOut,
 } from "firebase/auth";
 
 import {
+  addDoc,
+  collection,
+  getDocs,
   getFirestore,
   query,
-  getDocs,
-  collection,
   where,
-  addDoc,
 } from "firebase/firestore";
 
 const firebaseConfig = {
@@ -45,6 +45,7 @@ export const signInWithGoogle = async () => {
         name: user.displayName,
         authProvider: "google",
         email: user.email,
+        soloHighlights: [],
       });
     }
   } catch (err) {

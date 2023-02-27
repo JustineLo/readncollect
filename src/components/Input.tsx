@@ -3,7 +3,7 @@ import styled from "styled-components";
 interface InputProps {
   type: string;
   value: string;
-  onChange: (value: string) => void;
+  onChange: (e: any) => void;
   placeholder?: string;
 }
 
@@ -21,7 +21,7 @@ const Input = ({ type, value, onChange, placeholder }: InputProps) => {
       type={type}
       value={value}
       placeholder={placeholder}
-      onChange={(e) => onChange(e.target.value)}
+      onChange={onChange}
     ></InputContainer>
   );
 };

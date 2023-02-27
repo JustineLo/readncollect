@@ -1,8 +1,45 @@
-import React, { useEffect, useState } from "react";
-import { auth, signInWithGoogle } from "../firebase";
-import { Link, NavLink, useNavigate } from "react-router-dom";
-import { useAuthState } from "react-firebase-hooks/auth";
 import { signInWithEmailAndPassword } from "firebase/auth";
+import { useEffect, useState } from "react";
+import { useAuthState } from "react-firebase-hooks/auth";
+import { Link, useNavigate } from "react-router-dom";
+import styled from "styled-components";
+import Button from "../components/Button";
+import Input from "../components/Input";
+import { auth, signInWithGoogle } from "../firebase";
+
+const Container = styled.div`
+  width: 100%;
+  height: 100vh;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 40px;
+`;
+
+const Form = styled.div`
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 20px;
+`;
+
+const Buttons = styled.div`
+  display: flex;
+  gap: 10px;
+`;
+
+const Links = styled.div`
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 10px;
+
+  a,
+  a:visited {
+    color: var(--pink);
+  }
+`;
 
 const Login = () => {
   const navigate = useNavigate();
@@ -20,42 +57,37 @@ const Login = () => {
 
   return (
     <>
-      <div className="login">
-        <div className="login__container">
-          <input
+      <Container>
+        <h1>Login</h1>
+        <Form>
+          <Input
             type="text"
-            className="login__textBox"
             value={email}
             onChange={(e) => setEmail(e.target.value)}
             placeholder="E-mail Address"
           />
-          <input
+          <Input
             type="password"
-            className="login__textBox"
             value={password}
             onChange={(e) => setPassword(e.target.value)}
             placeholder="Password"
           />
-          <button
-            className="login__btn"
-            onClick={() => signInWithEmailAndPassword(auth, email, password)}
-          >
-            Login
-          </button>
-          <button
-            className="login__btn login__google"
-            onClick={signInWithGoogle}
-          >
-            Login with Google
-          </button>
-          <div>
-            <Link to="/reset">Forgot Password</Link>
-          </div>
-          <div>
-            Don't have an account? <Link to="/register">Register</Link> now.
-          </div>
-        </div>
-      </div>
+          <Buttons>
+            <Button
+              onClick={() => signInWithEmailAndPassword(auth, email, password)}
+            >
+              Login
+            </Button>
+            <Button onClick={signInWithGoogle}>Login with Google</Button>
+          </Buttons>
+        </Form>
+        <Links>
+          <Link to="/reset">Forgot Password</Link>
+          <span>
+            Don't have an account? <Link to="/signup">Register</Link> now.
+          </span>
+        </Links>
+      </Container>
     </>
   );
 };

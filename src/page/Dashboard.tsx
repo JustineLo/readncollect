@@ -89,7 +89,11 @@ function Dashboard() {
         <DashboardContainer>
           <Form onSubmit={handleSubmitTest}>
             <label htmlFor="url">URL</label>
-            <Input type="text" value={newUrl} onChange={setNewUrl} />
+            <Input
+              type="text"
+              value={newUrl}
+              onChange={(e) => setNewUrl(e.target.value)}
+            />
             <Button type="submit">Add article !</Button>
           </Form>
           <ArticlesContainer>

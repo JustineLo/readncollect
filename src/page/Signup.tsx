@@ -1,7 +1,8 @@
-import React, { useState } from "react";
-import { NavLink, useNavigate } from "react-router-dom";
 import { createUserWithEmailAndPassword } from "firebase/auth";
-import { auth } from "../firebase";
+import { doc, updateDoc } from "firebase/firestore";
+import { useState } from "react";
+import { NavLink, useNavigate } from "react-router-dom";
+import { auth, db } from "../firebase";
 
 const Signup = () => {
   const navigate = useNavigate();
@@ -16,8 +17,9 @@ const Signup = () => {
       .then((userCredential) => {
         // Signed in
         const user = userCredential.user;
-        console.log(user);
-        navigate("/login");
+        // Get the reference to the user's document in Firestore
+        updateDoc(doc(db, "users", user.uid), { soloHighlights: [] });
+        navigate("/dashboard");
       })
       .catch((error) => {
         const errorCode = error.code;
