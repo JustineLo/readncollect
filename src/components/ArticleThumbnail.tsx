@@ -1,9 +1,9 @@
-import styled from "styled-components";
-import { Article } from "../types/Article";
-import { FaRegTrashAlt } from "react-icons/fa";
-import Icon from "./Icon";
-import HighlightFactory from "../page/HighlightFactory";
 import { useState } from "react";
+import { FaRegTrashAlt } from "react-icons/fa";
+import styled from "styled-components";
+import HighlightFactory from "../page/HighlightFactory";
+import { Article } from "../types/Article";
+import Icon from "./Icon";
 
 interface ArticleThumbnailProps {
   article: Article;
@@ -22,6 +22,11 @@ const Container = styled.div`
     align-items: center;
     justify-content: space-between;
     cursor: pointer;
+
+    &:hover {
+      background: var(--purple-medium);
+      transition: 0.3s;
+    }
   }
 `;
 const Text = styled.div`
@@ -32,6 +37,8 @@ const Text = styled.div`
 const Buttons = styled.div`
    {
     cursor: pointer;
+    box-sizing: border-box;
+    padding: 5px;
   }
 `;
 
