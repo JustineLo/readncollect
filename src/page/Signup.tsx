@@ -1,5 +1,5 @@
 import { createUserWithEmailAndPassword } from "firebase/auth";
-import { doc, updateDoc } from "firebase/firestore";
+import { addDoc, collection, getDocs, query, where } from "firebase/firestore";
 import { useState } from "react";
 import { NavLink, useNavigate } from "react-router-dom";
 import styled from "styled-components";
@@ -50,11 +50,19 @@ const Signup = () => {
     e.preventDefault();
 
     await createUserWithEmailAndPassword(auth, email, password)
-      .then((userCredential) => {
-        // Signed in
+      .then(async (userCredential) => {
         const user = userCredential.user;
-        // Get the reference to the user's document in Firestore
-        updateDoc(doc(db, "users", user.uid), { soloHighlights: [] });
+        const q = query(collection(db, "users"), where("uid", "==", user.uid));
+        const docs = await getDocs(q);
+        if (docs.docs.length === 0) {
+          addDoc(collection(db, "users"), {
+            uid: user.uid,
+            name: user.displayName,
+            authProvider: "google",
+            email: user.email,
+            soloHighlights: [],
+          });
+        }
         navigate("/dashboard");
       })
       .catch((error) => {

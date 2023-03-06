@@ -1,7 +1,7 @@
 import { collection, getDocs, query, where } from "firebase/firestore";
+import { db } from "../firebase";
 import { Article } from "../types/Article";
 import { User } from "../types/User";
-import { db } from "../firebase";
 
 export const fetchData = async (
   userAuth: any,
