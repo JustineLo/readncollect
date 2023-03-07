@@ -34,6 +34,14 @@ const Text = styled.div`
   }
 `;
 
+const Image = styled.img`
+   {
+    width: 100px;
+    height: 100px;
+    object-fit: cover;
+  }
+`;
+
 const Buttons = styled.div`
    {
     cursor: pointer;
@@ -51,6 +59,7 @@ const ArticleThumbnail = ({
   return (
     <>
       <Container onClick={() => setOpenHighlightFactory(true)}>
+        <Image src={article.image} />
         <Text>
           <p>{article.title}</p>
         </Text>

@@ -12,6 +12,7 @@ import { auth, db } from "../firebase";
 import Sidebar from "../sections/Sidebar";
 import AppState from "../state/AppState";
 import { Article } from "../types/Article";
+import { getRandomPicture } from "../utils/articleUtils";
 import { fetchData } from "../utils/fetchData";
 
 const GlobalContainer = styled.div`
@@ -62,7 +63,8 @@ function Dashboard() {
     axios
       .post(addArticleApi, { userDocID: user?.docID, url: newUrl })
       .then((response) => {
-        setArticles([...articles, response.data]);
+        const image = getRandomPicture();
+        setArticles([...articles, { ...response.data, image: image }]);
       })
       .catch(function (error: any) {
         console.error(error);
