@@ -28,7 +28,7 @@ const DashboardContainer = styled.div`
   flex-direction: column;
   align-items: center;
   justify-content: center;
-  gap: 5vh;
+  gap: 20vh;
   margin-top: 20vh;
 `;
 
@@ -39,9 +39,9 @@ const Form = styled.form`
 `;
 
 const ArticlesContainer = styled.div`
-  display: flex;
-  flex-direction: column;
-  gap: 1rem;
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 4rem;
 `;
 
 function Dashboard() {
