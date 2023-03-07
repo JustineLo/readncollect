@@ -7,6 +7,7 @@ import styled from "styled-components";
 import { useContainer } from "unstated-next";
 import ArticleThumbnail from "../components/ArticleThumbnail";
 import Button from "../components/Button";
+import EllipsisLoader from "../components/EllipsisLoader";
 import Input from "../components/Input";
 import { auth, db } from "../firebase";
 import Sidebar from "../sections/Sidebar";
@@ -28,7 +29,7 @@ const DashboardContainer = styled.div`
   flex-direction: column;
   align-items: center;
   justify-content: center;
-  gap: 20vh;
+  gap: 10vh;
   margin-top: 20vh;
 `;
 
@@ -49,6 +50,7 @@ function Dashboard() {
   const [userAuth, loading, error] = useAuthState(auth);
   const { user, setUser, articles, setArticles } = useContainer(AppState);
   const [newUrl, setNewUrl] = useState<string>("");
+  const [loadingSpinner, setLoadingSpinner] = useState(false);
 
   const navigate = useNavigate();
 
@@ -58,8 +60,12 @@ function Dashboard() {
     fetchData(userAuth, setUser, setArticles);
   }, [userAuth, loading]);
 
-  const handleSubmitTest = (event: any) => {
+  const handleSubmitTest = (
+    event: any,
+    setLoadingSpinner: (loading: boolean) => void
+  ) => {
     event.preventDefault();
+    setLoadingSpinner(true);
     axios
       .post(addArticleApi, {
         userDocID: user?.docID,
@@ -71,7 +77,12 @@ function Dashboard() {
       })
       .catch(function (error: any) {
         console.error(error);
+      })
+      .finally(() => {
+        setLoadingSpinner(false); // set loading state to false after request is complete
+        setNewUrl("");
       });
+    setNewUrl("");
   };
 
   function onDeleteArticle(articleDocID: string): void {
@@ -92,14 +103,18 @@ function Dashboard() {
       <Sidebar />
       <MainContainer>
         <DashboardContainer>
-          <Form onSubmit={handleSubmitTest}>
+          <Form
+            onSubmit={(event) => handleSubmitTest(event, setLoadingSpinner)}
+          >
             <label htmlFor="url">URL</label>
             <Input
               type="text"
               value={newUrl}
               onChange={(e) => setNewUrl(e.target.value)}
             />
-            <Button type="submit">Add article !</Button>
+            <Button type="submit">
+              {loadingSpinner ? <EllipsisLoader /> : "Add article"}
+            </Button>
           </Form>
           <ArticlesContainer>
             {articles.map((article: Article, index: number) => (
