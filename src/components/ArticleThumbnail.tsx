@@ -12,10 +12,12 @@ interface ArticleThumbnailProps {
 
 const Image = styled.img`
    {
-    width: 100px;
+    width: 25%;
     height: 100px;
     object-fit: cover;
     cursor: pointer;
+    filter: brightness(0.5);
+    transition: filter 0.3s ease-in-out;
   }
 `;
 
@@ -36,12 +38,12 @@ const Container = styled.div`
     }
 
     &:hover ${Image} {
-      transform: scale(1.1);
+      filter: brightness(1);
       transition: 0.3s;
     }
 
     &:not(:hover) ${Image} {
-      transform: none;
+      filter: brightness(0.5);
       transition: 0.3s;
     }
   }
@@ -50,6 +52,7 @@ const Title = styled.p`
    {
     cursor: pointer;
     padding-left: 20px;
+    width: 60%;
   }
 `;
 
@@ -58,6 +61,7 @@ const Buttons = styled.div`
     cursor: pointer;
     box-sizing: border-box;
     padding-right: 20px;
+    width: 15%;
   }
 `;
 
