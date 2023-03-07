@@ -21,16 +21,16 @@ const Container = styled.div`
     display: flex;
     align-items: center;
     justify-content: space-between;
-    cursor: pointer;
 
     &:hover {
-      background: var(--purple-medium);
+      background-color: var(--purple-medium);
       transition: 0.3s;
     }
   }
 `;
-const Text = styled.div`
+const Title = styled.p`
    {
+    cursor: pointer;
   }
 `;
 
@@ -39,6 +39,7 @@ const Image = styled.img`
     width: 100px;
     height: 100px;
     object-fit: cover;
+    cursor: pointer;
   }
 `;
 
@@ -58,11 +59,14 @@ const ArticleThumbnail = ({
     useState<boolean>(false);
   return (
     <>
-      <Container onClick={() => setOpenHighlightFactory(true)}>
-        <Image src={article.image} />
-        <Text>
-          <p>{article.title}</p>
-        </Text>
+      <Container>
+        <Image
+          src={article.image}
+          onClick={() => setOpenHighlightFactory(true)}
+        />
+        <Title onClick={() => setOpenHighlightFactory(true)}>
+          {article.title}
+        </Title>
         <Buttons>
           <Icon onClick={onDeleteArticle}>
             <FaRegTrashAlt />
