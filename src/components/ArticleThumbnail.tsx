@@ -10,12 +10,20 @@ interface ArticleThumbnailProps {
   onDeleteArticle: () => void;
 }
 
+const Image = styled.img`
+   {
+    width: 100px;
+    height: 100px;
+    object-fit: cover;
+    cursor: pointer;
+  }
+`;
+
 const Container = styled.div`
    {
     width: 300px;
     max-height: 150px;
     border-radius: 10px;
-    padding: 5px 30px;
     background: var(--purple-medium-transparent);
     overflow: hidden;
     display: flex;
@@ -26,20 +34,22 @@ const Container = styled.div`
       background-color: var(--purple-medium);
       transition: 0.3s;
     }
+
+    &:hover ${Image} {
+      transform: scale(1.1);
+      transition: 0.3s;
+    }
+
+    &:not(:hover) ${Image} {
+      transform: none;
+      transition: 0.3s;
+    }
   }
 `;
 const Title = styled.p`
    {
     cursor: pointer;
-  }
-`;
-
-const Image = styled.img`
-   {
-    width: 100px;
-    height: 100px;
-    object-fit: cover;
-    cursor: pointer;
+    padding-left: 20px;
   }
 `;
 
@@ -47,7 +57,7 @@ const Buttons = styled.div`
    {
     cursor: pointer;
     box-sizing: border-box;
-    padding: 5px;
+    padding-right: 20px;
   }
 `;
 
