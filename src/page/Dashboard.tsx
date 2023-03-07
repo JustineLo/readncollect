@@ -61,10 +61,13 @@ function Dashboard() {
   const handleSubmitTest = (event: any) => {
     event.preventDefault();
     axios
-      .post(addArticleApi, { userDocID: user?.docID, url: newUrl })
+      .post(addArticleApi, {
+        userDocID: user?.docID,
+        url: newUrl,
+        image: getRandomPicture(),
+      })
       .then((response) => {
-        const image = getRandomPicture();
-        setArticles([...articles, { ...response.data, image: image }]);
+        setArticles([...articles, response.data]);
       })
       .catch(function (error: any) {
         console.error(error);
