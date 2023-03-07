@@ -27,7 +27,7 @@ const Container = styled.div`
     transform: translate(-50%, -50%);
     z-index: 100;
     width: 30vw;
-    height: 20vh;
+    height: 25vh;
     background-color: var(--purple-dark);
     color: white;
     border-radius: 20px;
@@ -51,10 +51,21 @@ const Topbar = styled.div`
 const Body = styled.div`
    {
     height: 90%;
-    padding: 10px;
+    padding: 30px;
     display: flex;
     flex-direction: column;
     gap: 10%;
+    align-items: center;
+  }
+
+  p {
+    margin: 0;
+  }
+
+  span {
+    font-style: italic;
+    font-size: 0.8rem;
+    padding-bottom: 10px;
   }
 `;
 

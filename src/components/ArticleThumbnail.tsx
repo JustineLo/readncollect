@@ -1,7 +1,11 @@
+import { doc, updateDoc } from "@firebase/firestore";
 import { useState } from "react";
 import { FaRegTrashAlt } from "react-icons/fa";
 import styled from "styled-components";
+import { useContainer } from "unstated-next";
+import { db } from "../firebase";
 import HighlightFactory from "../page/HighlightFactory";
+import AppState from "../state/AppState";
 import { Article } from "../types/Article";
 import Button from "./Button";
 import ConfirmationModal from "./ConfirmationModal";
@@ -82,9 +86,26 @@ const ArticleThumbnail = ({
   const [openHighlightFactory, setOpenHighlightFactory] =
     useState<boolean>(false);
   const [openDeleteModal, setOpenDeleteModal] = useState<boolean>(false);
+  const { user, setUser } = useContainer(AppState);
 
   const onClickDelete = () => {
     setOpenDeleteModal(false);
+    if (article.highlights.length > 0) {
+      const userRef = doc(db, `users/${user.docID}`);
+      setUser({
+        ...user,
+        soloHighlights: [...user.soloHighlights, ...article.highlights],
+      });
+      updateDoc(userRef, {
+        soloHighlights: [...user.soloHighlights, ...article.highlights],
+      })
+        .then(() => {
+          console.log("soloHighlights updated successfully");
+        })
+        .catch((error) => {
+          console.error("Error updating soloHighlights:", error);
+        });
+    }
     onDeleteArticle();
   };
 
@@ -110,6 +131,7 @@ const ArticleThumbnail = ({
       {openDeleteModal && (
         <ConfirmationModal setOpen={setOpenDeleteModal}>
           <p>Are you sure you want to delete this article?</p>
+          <span>Don't worry, this won't delete your highlights !</span>
           <ModalButtons>
             <Button onClick={onClickDelete}>Delete</Button>
             <Button onClick={() => setOpenDeleteModal(false)}>Cancel</Button>

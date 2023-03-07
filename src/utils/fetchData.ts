@@ -12,7 +12,11 @@ export const fetchData = async (
     const q = query(collection(db, "users"), where("uid", "==", userAuth?.uid));
     const doc = await getDocs(q);
     const data = doc.docs[0].data();
-    setUser({ docID: doc.docs[0].id, email: data.email } as User);
+    setUser({
+      docID: doc.docs[0].id,
+      email: data.email,
+      soloHighlights: data.soloHighlights,
+    } as User);
     fetchArticles(doc.docs[0].id, setArticles);
   } catch (err) {
     console.error(err);
