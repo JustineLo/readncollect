@@ -22,6 +22,7 @@ const Container = styled.div`
   background-color: var(--black-transparent);
   border-radius: 30px;
   width: 100%;
+  z-index: 100;
 `;
 
 const Board = styled.div`

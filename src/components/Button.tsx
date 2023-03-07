@@ -16,6 +16,7 @@ const ButtonContainer = styled.button`
     var(--purple-light) 50%,
     var(--pink) 100%
   );
+  cursor: pointer;
 `;
 
 const Button = ({ children, type, onClick }: ButtonProps) => {

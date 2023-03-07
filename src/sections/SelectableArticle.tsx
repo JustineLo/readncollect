@@ -1,8 +1,8 @@
-import styled from "styled-components";
-import { Article, Highlight } from "../types/Article";
 import { useState } from "react";
-import FloatingSaveButton from "../components/FloatingSaveButton";
+import styled from "styled-components";
 import { v4 as uuidv4 } from "uuid";
+import FloatingSaveButton from "../components/FloatingSaveButton";
+import { Article, Highlight } from "../types/Article";
 
 interface SelectableArticleProps {
   article: Article;
@@ -93,7 +93,6 @@ function SelectableArticle({
   return (
     <>
       <ArticleContainer>
-        <h1>{article.title}</h1>
         <div
           dangerouslySetInnerHTML={{ __html: article.zContent }}
           onMouseUp={onMouseUpHandler}

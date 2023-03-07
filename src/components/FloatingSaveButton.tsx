@@ -11,8 +11,8 @@ const FloatingSaveButtonContainer = styled.div<{
    {
     display: block;
     position: absolute;
-    top: ${(props) => props.mousePos.y - 10}px;
-    left: ${(props) => props.mousePos.x - 25}px;
+    top: ${(props) => props.mousePos.y - 35}px;
+    left: ${(props) => props.mousePos.x - 65}px;
     width: 80px;
     height: 40px;
 
