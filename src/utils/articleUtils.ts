@@ -35,7 +35,7 @@ export function getUpdatedArticles(
   });
 }
 
-export function getRandomPicture() {
+export function getPicture(index: number) {
   const pictures = [
     img0,
     img1,
@@ -50,6 +50,5 @@ export function getRandomPicture() {
     img10,
     img11,
   ];
-  const randomIndex = Math.floor(Math.random() * pictures.length);
-  return pictures[randomIndex];
+  return pictures[index];
 }

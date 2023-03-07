@@ -1,11 +1,11 @@
+import { FaRegTrashAlt } from "react-icons/fa";
 import styled from "styled-components";
 import { Highlight } from "../types/Article";
-import { FaRegTrashAlt } from "react-icons/fa";
 import Icon from "./Icon";
 
 interface HighlightProps {
   highlight: Highlight;
-  onDeleteHighlight: () => void;
+  onDeleteHighlight?: () => void;
 }
 
 const Container = styled.div`
@@ -41,11 +41,13 @@ const HighlightThumbnail = ({
       <Text>
         <p>{highlight.text}</p>
       </Text>
-      <Buttons>
-        <Icon onClick={onDeleteHighlight}>
-          <FaRegTrashAlt />
-        </Icon>
-      </Buttons>
+      {onDeleteHighlight && (
+        <Buttons>
+          <Icon onClick={onDeleteHighlight}>
+            <FaRegTrashAlt />
+          </Icon>
+        </Buttons>
+      )}
     </Container>
   );
 };

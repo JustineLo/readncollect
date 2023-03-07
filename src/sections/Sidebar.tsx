@@ -48,7 +48,10 @@ const Sidebar = ({}: SidebarProps) => {
           <SidebarIcon toEndpoint="/" tooltipContent="Articles">
             <RiScissors2Fill size="2rem" />
           </SidebarIcon>
-          <SidebarIcon toEndpoint="/" tooltipContent="Collage Builder">
+          <SidebarIcon
+            toEndpoint="/collagebuilder"
+            tooltipContent="Collage Builder"
+          >
             <BiNotepad size="2rem" />
           </SidebarIcon>
         </PageIcons>

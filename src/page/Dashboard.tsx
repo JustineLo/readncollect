@@ -13,7 +13,7 @@ import { auth, db } from "../firebase";
 import Sidebar from "../sections/Sidebar";
 import AppState from "../state/AppState";
 import { Article } from "../types/Article";
-import { getRandomPicture } from "../utils/articleUtils";
+import { getPicture } from "../utils/articleUtils";
 import { fetchData } from "../utils/fetchData";
 
 const GlobalContainer = styled.div`
@@ -70,7 +70,7 @@ function Dashboard() {
       .post(addArticleApi, {
         userDocID: user?.docID,
         url: newUrl,
-        image: getRandomPicture(),
+        image: getPicture(articles.length % 12),
       })
       .then((response) => {
         setArticles([...articles, response.data]);
