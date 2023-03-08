@@ -12,13 +12,22 @@ const useAppState = () => {
   const [articles, setArticles] = useState<Article[]>([]);
   const [processedArticles, setProcessedArticles] = useState<Article[]>([]);
   const [unProcessedArticles, setUnprocessedArticles] = useState<Article[]>([]);
-
   useEffect(() => {
     setUnprocessedArticles(
-      articles.filter((article) => article.highlights.length === 0)
+      articles
+        .filter((article) => article.highlights.length === 0)
+        .sort(
+          (a, b) =>
+            new Date(b.createdAt).getTime() - new Date(a.createdAt).getTime()
+        )
     );
     setProcessedArticles(
-      articles.filter((article) => article.highlights.length > 0)
+      articles
+        .filter((article) => article.highlights.length > 0)
+        .sort(
+          (a, b) =>
+            new Date(b.createdAt).getTime() - new Date(a.createdAt).getTime()
+        )
     );
   }, [articles]);
 
