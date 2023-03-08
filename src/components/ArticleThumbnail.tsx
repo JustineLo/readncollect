@@ -1,5 +1,5 @@
 import { doc, updateDoc } from "@firebase/firestore";
-import { useState } from "react";
+import { Dispatch, SetStateAction, useState } from "react";
 import { FaRegTrashAlt } from "react-icons/fa";
 import styled from "styled-components";
 import { useContainer } from "unstated-next";
@@ -129,16 +129,31 @@ const ArticleThumbnail = ({
         <HighlightFactory setOpen={setOpenHighlightFactory} article={article} />
       )}
       {openDeleteModal && (
-        <ConfirmationModal setOpen={setOpenDeleteModal}>
-          <p>Are you sure you want to delete this article?</p>
-          <span>Don't worry, this won't delete your highlights !</span>
-          <ModalButtons>
-            <Button onClick={onClickDelete}>Delete</Button>
-            <Button onClick={() => setOpenDeleteModal(false)}>Cancel</Button>
-          </ModalButtons>
-        </ConfirmationModal>
+        <DeleteModal
+          setOpenDeleteModal={setOpenDeleteModal}
+          onClickDelete={onClickDelete}
+        />
       )}
     </>
+  );
+};
+
+const DeleteModal = ({
+  setOpenDeleteModal,
+  onClickDelete,
+}: {
+  setOpenDeleteModal: Dispatch<SetStateAction<boolean>>;
+  onClickDelete: () => void;
+}) => {
+  return (
+    <ConfirmationModal setOpen={setOpenDeleteModal}>
+      <p>Are you sure you want to delete this article?</p>
+      <span>Don't worry, this won't delete your highlights !</span>
+      <ModalButtons>
+        <Button onClick={onClickDelete}>Delete</Button>
+        <Button onClick={() => setOpenDeleteModal(false)}>Cancel</Button>
+      </ModalButtons>
+    </ConfirmationModal>
   );
 };
 
