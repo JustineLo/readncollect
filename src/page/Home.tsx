@@ -1,25 +1,53 @@
-import { useEffect } from "react";
 import { useAuthState } from "react-firebase-hooks/auth";
-import { useNavigate } from "react-router-dom";
+import { Link } from "react-router-dom";
+import styled from "styled-components";
 import { auth } from "../firebase";
-import Login from "./Login";
+
+const HomeContainer = styled.div`
+   {
+    display: flex;
+    flex-direction: column;
+    width: 100%;
+  }
+`;
+
+const Header = styled.div`
+   {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    height: 60vh;
+    width: 100%;
+    background: var(--purple-medium-transparent);
+  }
+`;
+
+function Navbar() {
+  return (
+    <nav>
+      <ul>
+        <li>
+          <Link to="/">Home</Link>
+        </li>
+        <li>
+          <Link to="/signup">Sign Up</Link>
+        </li>
+        <li>
+          <Link to="/login">Log In</Link>
+        </li>
+      </ul>
+    </nav>
+  );
+}
 
 const Home = () => {
-  const navigate = useNavigate();
   const [user, loading, error] = useAuthState(auth);
 
-  useEffect(() => {
-    if (loading) {
-      // maybe trigger a loading screen
-      return;
-    }
-    if (user) navigate("/dashboard");
-  }, [user, loading]);
-
   return (
-    <>
-      <Login />
-    </>
+    <HomeContainer>
+      <Navbar />
+      <Header>ReadNCollect</Header>
+    </HomeContainer>
   );
 };
 

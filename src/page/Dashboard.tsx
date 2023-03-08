@@ -86,7 +86,7 @@ function Dashboard() {
         console.error(error);
       })
       .finally(() => {
-        setLoadingSpinner(false); // set loading state to false after request is complete
+        setLoadingSpinner(false);
         setNewUrl("");
       });
   };

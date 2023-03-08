@@ -37,7 +37,6 @@ const useAppState = () => {
     articles,
     setArticles,
     unProcessedArticles,
-    setUnprocessedArticles,
     processedArticles,
   };
 };
