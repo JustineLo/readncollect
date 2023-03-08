@@ -7,6 +7,7 @@ import { db } from "../firebase";
 import HighlightFactory from "../page/HighlightFactory";
 import AppState from "../state/AppState";
 import { Article } from "../types/Article";
+import { textEllipsis } from "../utils/articleUtils";
 import Button from "./Button";
 import ConfirmationModal from "./ConfirmationModal";
 import Icon from "./Icon";
@@ -66,8 +67,10 @@ const Buttons = styled.div`
    {
     cursor: pointer;
     box-sizing: border-box;
-    padding-right: 20px;
+    padding-right: 10px;
     width: 15%;
+    display: flex;
+    justify-content: center;
   }
 `;
 
@@ -117,7 +120,7 @@ const ArticleThumbnail = ({
           onClick={() => setOpenHighlightFactory(true)}
         />
         <Title onClick={() => setOpenHighlightFactory(true)}>
-          {article.title}
+          {textEllipsis(article.title, 57)}
         </Title>
         <Buttons>
           <Icon onClick={() => setOpenDeleteModal(true)}>

@@ -35,6 +35,13 @@ export function getUpdatedArticles(
   });
 }
 
+export function textEllipsis(text: string, length: number) {
+  if (text.length > length) {
+    return text.substring(0, length) + "...";
+  }
+  return text;
+}
+
 export function getPicture(index: number) {
   const pictures = [
     img0,
