@@ -1,5 +1,9 @@
+import { useEffect } from "react";
+import { useAuthState } from "react-firebase-hooks/auth";
+import { useNavigate } from "react-router-dom";
 import styled from "styled-components";
 import { useContainer } from "unstated-next";
+import { auth } from "../firebase";
 import Sidebar from "../sections/Sidebar";
 import AppState from "../state/AppState";
 
@@ -37,6 +41,13 @@ const HighlightsList = styled.div`
 
 function CollageBuilder({}: CollageBuilderProps): JSX.Element {
   const { user, articles, setArticles } = useContainer(AppState);
+  const [userAuth, loading, error] = useAuthState(auth);
+  const navigate = useNavigate();
+
+  useEffect(() => {
+    if (loading) return;
+    if (!userAuth) return navigate("/login");
+  }, [userAuth, loading]);
 
   return (
     <>
