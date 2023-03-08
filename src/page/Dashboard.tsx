@@ -48,7 +48,14 @@ const ArticlesContainer = styled.div`
 function Dashboard() {
   const addArticleApi: string = import.meta.env.VITE_API_ADD_ARTICLE;
   const [userAuth, loading, error] = useAuthState(auth);
-  const { user, setUser, articles, setArticles } = useContainer(AppState);
+  const {
+    user,
+    setUser,
+    articles,
+    setArticles,
+    processedArticles,
+    unProcessedArticles,
+  } = useContainer(AppState);
   const [newUrl, setNewUrl] = useState<string>("");
   const [loadingSpinner, setLoadingSpinner] = useState(false);
 
@@ -87,10 +94,9 @@ function Dashboard() {
   function onDeleteArticle(articleDocID: string): void {
     deleteDoc(doc(db, `users/${user?.docID}/articles/`, articleDocID))
       .then(() => {
-        const filteredArticles = articles.filter(
-          (article) => article.articleDocID !== articleDocID
+        setArticles(
+          articles.filter((article) => article.articleDocID !== articleDocID)
         );
-        setArticles(filteredArticles);
       })
       .catch((error) => {
         console.error("Error deleting article: ", error);
@@ -115,8 +121,19 @@ function Dashboard() {
               {loadingSpinner ? <EllipsisLoader /> : "Add article"}
             </Button>
           </Form>
+          <h3>Unprocessed articles</h3>
           <ArticlesContainer>
-            {articles.map((article: Article, index: number) => (
+            {unProcessedArticles.map((article: Article, index: number) => (
+              <ArticleThumbnail
+                key={index}
+                article={article}
+                onDeleteArticle={() => onDeleteArticle(article.articleDocID)}
+              />
+            ))}
+          </ArticlesContainer>
+          <h3>Processed articles</h3>
+          <ArticlesContainer>
+            {processedArticles.map((article: Article, index: number) => (
               <ArticleThumbnail
                 key={index}
                 article={article}
