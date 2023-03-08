@@ -82,7 +82,6 @@ function Dashboard() {
         setLoadingSpinner(false); // set loading state to false after request is complete
         setNewUrl("");
       });
-    setNewUrl("");
   };
 
   function onDeleteArticle(articleDocID: string): void {

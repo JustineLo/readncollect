@@ -1,13 +1,13 @@
 import styled from "styled-components";
 import { useContainer } from "unstated-next";
+import Sidebar from "../sections/Sidebar";
 import AppState from "../state/AppState";
 
 interface CollageBuilderProps {}
 
-const Container = styled.div`
-width: 100vw
-height: 100vh
-background: white;
+const GlobalContainer = styled.div`
+  width: 100%;
+  display: flex;
 `;
 
 const Board = styled.div`
@@ -40,7 +40,9 @@ function CollageBuilder({}: CollageBuilderProps): JSX.Element {
 
   return (
     <>
-      <Container>BONJOUR</Container>
+      <GlobalContainer>
+        <Sidebar />
+      </GlobalContainer>
     </>
   );
 }
