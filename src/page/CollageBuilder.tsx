@@ -3,19 +3,23 @@ import { useAuthState } from "react-firebase-hooks/auth";
 import { useNavigate } from "react-router-dom";
 import styled from "styled-components";
 import { useContainer } from "unstated-next";
+import HighlightsList from "../components/HighlightsList";
 import { auth } from "../firebase";
 import Sidebar from "../sections/Sidebar";
 import AppState from "../state/AppState";
+import { Article } from "../types/Article";
 
 interface CollageBuilderProps {}
 
 const GlobalContainer = styled.div`
-  width: 100%;
+  width: 100vw;
   display: flex;
 `;
 
 const Board = styled.div`
   display: flex;
+  flex-direction: column;
+  width: 50%;
 `;
 const ArticleContainer = styled.div`
   width: 60%;
@@ -23,24 +27,16 @@ const ArticleContainer = styled.div`
 `;
 
 const HighlightsContainer = styled.div`
-  width: 40%;
+  width: 50%;
   display: flex;
   flex-direction: column;
   padding: 2% 5%;
-`;
-
-const HighlightsList = styled.div`
-  width: 100%;
-  margin: 60px 0;
-  height: 80vh;
-  display: flex;
-  flex-direction: column;
-  gap: 25px;
-  overflow-y: scroll;
+  background-color: var(--purple-medium-transparent);
 `;
 
 function CollageBuilder({}: CollageBuilderProps): JSX.Element {
-  const { user, articles, setArticles } = useContainer(AppState);
+  const { user, articles, setArticles, processedArticles } =
+    useContainer(AppState);
   const [userAuth, loading, error] = useAuthState(auth);
   const navigate = useNavigate();
 
@@ -53,6 +49,20 @@ function CollageBuilder({}: CollageBuilderProps): JSX.Element {
     <>
       <GlobalContainer>
         <Sidebar />
+        <Board></Board>
+        <HighlightsContainer>
+          <HighlightsList
+            title="General highlights"
+            highlights={user.soloHighlights}
+          />
+          {processedArticles.length > 0 &&
+            processedArticles.map((article: Article) => (
+              <HighlightsList
+                title={article.title}
+                highlights={article.highlights}
+              />
+            ))}
+        </HighlightsContainer>
       </GlobalContainer>
     </>
   );
