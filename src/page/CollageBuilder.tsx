@@ -45,11 +45,19 @@ function CollageBuilder({}: CollageBuilderProps): JSX.Element {
     if (!userAuth) return navigate("/login");
   }, [userAuth, loading]);
 
+  function onDragStart(e: any): void {
+    e.preventDefault();
+  }
+
+  function onDragOver(e: any): void {
+    e.preventDefault();
+  }
+
   return (
     <>
       <GlobalContainer>
         <Sidebar />
-        <Board></Board>
+        <Board onDragOver={(e) => onDragOver(e)}></Board>
         <HighlightsContainer>
           <HighlightsList
             title="General highlights"
