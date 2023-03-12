@@ -109,12 +109,13 @@ function HighlightFactory({
               </Icon>
             </Topbar>
             <HighlightsList>
-              {articleHighlightsBuffer.map((highlight) => {
+              {articleHighlightsBuffer.map((highlight, index) => {
                 return (
                   <HighlightThumbnail
                     key={highlight.id}
                     highlight={highlight}
                     onDeleteHighlight={() => onDeleteHighlight(highlight)}
+                    index={index}
                   />
                 );
               })}

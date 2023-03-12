@@ -25,8 +25,12 @@ const HighlightsList = ({ title, highlights }: HighlightsListProps) => {
     <HighlightsListContainer>
       <h3>{title}</h3>
       <List>
-        {highlights.map((highlight) => (
-          <HighlightThumbnail key={highlight.id} highlight={highlight} />
+        {highlights.map((highlight, index) => (
+          <HighlightThumbnail
+            key={highlight.id}
+            highlight={highlight}
+            index={index}
+          />
         ))}
       </List>
     </HighlightsListContainer>

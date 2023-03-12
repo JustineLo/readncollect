@@ -1,13 +1,16 @@
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
+import { DragDropContext, Draggable } from "react-beautiful-dnd";
 import { useAuthState } from "react-firebase-hooks/auth";
 import { useNavigate } from "react-router-dom";
 import styled from "styled-components";
 import { useContainer } from "unstated-next";
 import HighlightsList from "../components/HighlightsList";
+import HighlightThumbnail from "../components/HighlightThumbnail";
 import { auth } from "../firebase";
 import Sidebar from "../sections/Sidebar";
 import AppState from "../state/AppState";
-import { Article } from "../types/Article";
+import { Article, Highlight } from "../types/Article";
+import { StrictModeDroppable as Droppable } from "../utils/StrictModeDroppable";
 
 interface CollageBuilderProps {}
 
@@ -39,17 +42,58 @@ function CollageBuilder({}: CollageBuilderProps): JSX.Element {
     useContainer(AppState);
   const [userAuth, loading, error] = useAuthState(auth);
   const navigate = useNavigate();
+  const [selectedHighlights, setSelectedHighlights] = useState<Highlight[]>(
+    user.soloHighlights
+  );
 
   useEffect(() => {
     if (loading) return;
     if (!userAuth) return navigate("/login");
   }, [userAuth, loading]);
 
+  const handleOnDragEnd = (result: any) => {
+    if (!result) return;
+    const content = [...selectedHighlights];
+    const [reorderedItem] = content.splice(result.source.index, 1);
+    content.splice(result.destination.index, 0, reorderedItem);
+    setSelectedHighlights(content);
+  };
+
   return (
-    <>
+    <DragDropContext onDragEnd={handleOnDragEnd}>
       <GlobalContainer>
         <Sidebar />
-        <Board></Board>
+        <Droppable droppableId="highlights">
+          {(provided) => {
+            return (
+              <Board {...provided.droppableProps} ref={provided.innerRef}>
+                <>
+                  {selectedHighlights.map((highlight, index) => (
+                    <Draggable
+                      key={highlight.id}
+                      draggableId={highlight.id}
+                      index={index}
+                    >
+                      {(provided) => {
+                        return (
+                          <div
+                            {...provided.draggableProps}
+                            {...provided.dragHandleProps}
+                            ref={provided.innerRef}
+                          >
+                            <HighlightThumbnail highlight={highlight} />
+                          </div>
+                        );
+                      }}
+                    </Draggable>
+                  ))}
+                  {provided.placeholder}
+                </>
+              </Board>
+            );
+          }}
+        </Droppable>
+
         <HighlightsContainer>
           <HighlightsList
             title="General highlights"
@@ -64,7 +108,7 @@ function CollageBuilder({}: CollageBuilderProps): JSX.Element {
             ))}
         </HighlightsContainer>
       </GlobalContainer>
-    </>
+    </DragDropContext>
   );
 }
 
