@@ -22,7 +22,7 @@ function App() {
   const { setUser, setArticles } = useContainer(AppState);
 
   useEffect(() => {
-    fetchData(userAuth, setUser, setArticles);
+    if (userAuth) fetchData(userAuth, setUser, setArticles);
   });
 
   return (

@@ -66,7 +66,6 @@ function CollageBuilder({}: CollageBuilderProps): JSX.Element {
       { ...highlight, id: highlight.id + prev.length },
     ]);
   };
-  console.log(processedArticles);
 
   return (
     <DragDropContext onDragEnd={handleOnDragEnd}>
