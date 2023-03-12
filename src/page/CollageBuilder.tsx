@@ -45,9 +45,7 @@ function CollageBuilder({}: CollageBuilderProps): JSX.Element {
     useContainer(AppState);
   const [userAuth, loading, error] = useAuthState(auth);
   const navigate = useNavigate();
-  const [selectedHighlights, setSelectedHighlights] = useState<Highlight[]>(
-    user.soloHighlights
-  );
+  const [selectedHighlights, setSelectedHighlights] = useState<Highlight[]>([]);
 
   useEffect(() => {
     if (loading) return;
@@ -68,6 +66,7 @@ function CollageBuilder({}: CollageBuilderProps): JSX.Element {
       { ...highlight, id: highlight.id + prev.length },
     ]);
   };
+  console.log(processedArticles);
 
   return (
     <DragDropContext onDragEnd={handleOnDragEnd}>

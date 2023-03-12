@@ -39,20 +39,20 @@ const Sidebar = ({}: SidebarProps) => {
           toEndpoint="/"
           tooltipContent={`Connected as ${user?.email}`}
         >
-          <MdAccountCircle size="2rem" />
+          <MdAccountCircle size="32px" />
         </SidebarIcon>
         <PageIcons>
           <SidebarIcon toEndpoint="/dashboard" tooltipContent="Dashboard">
-            <MdSpaceDashboard size="2rem" />
+            <MdSpaceDashboard size="32px" />
           </SidebarIcon>
           <SidebarIcon toEndpoint="/" tooltipContent="Articles">
-            <RiScissors2Fill size="2rem" />
+            <RiScissors2Fill size="32px" />
           </SidebarIcon>
           <SidebarIcon
             toEndpoint="/collagebuilder"
             tooltipContent="Collage Builder"
           >
-            <BiNotepad size="2rem" />
+            <BiNotepad size="32px" />
           </SidebarIcon>
         </PageIcons>
         <Icon
@@ -60,7 +60,7 @@ const Sidebar = ({}: SidebarProps) => {
           tooltipContent="Logout"
           tooltipId="sidebar-tooltip"
         >
-          <MdLogout size="1.5rem" />
+          <MdLogout size="24px" />
         </Icon>
       </SidebarContainer>
       <Tooltip id="sidebar-tooltip" />

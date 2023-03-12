@@ -14,7 +14,6 @@ import Sidebar from "../sections/Sidebar";
 import AppState from "../state/AppState";
 import { Article } from "../types/Article";
 import { getPicture } from "../utils/articleUtils";
-import { fetchData } from "../utils/fetchData";
 
 const GlobalContainer = styled.div`
   width: 100%;
@@ -50,7 +49,6 @@ function Dashboard() {
   const [userAuth, loading, error] = useAuthState(auth);
   const {
     user,
-    setUser,
     articles,
     setArticles,
     processedArticles,
@@ -64,7 +62,6 @@ function Dashboard() {
   useEffect(() => {
     if (loading) return;
     if (!userAuth) return navigate("/login");
-    fetchData(userAuth, setUser, setArticles);
   }, [userAuth, loading]);
 
   const handleSubmitTest = (
