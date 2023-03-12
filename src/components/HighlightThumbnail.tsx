@@ -6,10 +6,9 @@ import Icon from "./Icon";
 interface HighlightProps {
   highlight: Highlight;
   onDeleteHighlight?: () => void;
-  draggable: boolean;
 }
 
-const Container = styled.div<{ draggable: boolean }>`
+const Container = styled.div`
    {
     width: 300px;
     border-radius: 10px;
@@ -21,7 +20,6 @@ const Container = styled.div<{ draggable: boolean }>`
     justify-content: space-between;
     cursor: pointer;
     gap: 20px;
-    ${({ draggable }) => draggable && `user-drag: element;`}
   }
 `;
 const Text = styled.div`
@@ -37,17 +35,9 @@ const Buttons = styled.div`
 const HighlightThumbnail = ({
   highlight,
   onDeleteHighlight,
-  draggable,
 }: HighlightProps) => {
-  function onDragStart(e: any, text: string): void {
-    e.preventDefau;
-    lt();
-  }
   return (
-    <Container
-      draggable={draggable}
-      onDragStart={(e) => onDragStart(e, highlight.text)}
-    >
+    <Container>
       <Text>
         <p>{highlight.text}</p>
       </Text>
