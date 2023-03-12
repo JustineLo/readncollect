@@ -23,6 +23,9 @@ const Board = styled.div`
   display: flex;
   flex-direction: column;
   width: 50%;
+  padding: 2% 5%;
+  box-sizing: border-box;
+  gap: 1rem;
 `;
 const ArticleContainer = styled.div`
   width: 60%;
@@ -60,7 +63,10 @@ function CollageBuilder({}: CollageBuilderProps): JSX.Element {
   };
 
   const handleHighlightClick = (highlight: Highlight) => {
-    setSelectedHighlights((prev) => [...prev, highlight]);
+    setSelectedHighlights((prev) => [
+      ...prev,
+      { ...highlight, id: highlight.id + prev.length },
+    ]);
   };
 
   return (
@@ -74,7 +80,7 @@ function CollageBuilder({}: CollageBuilderProps): JSX.Element {
                 <>
                   {selectedHighlights.map((highlight, index) => (
                     <Draggable
-                      key={highlight.id + index}
+                      key={highlight.id}
                       draggableId={highlight.id}
                       index={index}
                     >
@@ -85,7 +91,10 @@ function CollageBuilder({}: CollageBuilderProps): JSX.Element {
                             {...provided.dragHandleProps}
                             ref={provided.innerRef}
                           >
-                            <HighlightThumbnail highlight={highlight} />
+                            <HighlightThumbnail
+                              highlight={highlight}
+                              fullWidth={true}
+                            />
                           </div>
                         );
                       }}
@@ -107,6 +116,7 @@ function CollageBuilder({}: CollageBuilderProps): JSX.Element {
           {processedArticles.length > 0 &&
             processedArticles.map((article: Article) => (
               <HighlightsList
+                key={article.articleDocID}
                 title={article.title}
                 highlights={article.highlights}
                 handleClick={handleHighlightClick}

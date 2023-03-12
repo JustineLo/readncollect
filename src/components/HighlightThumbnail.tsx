@@ -7,11 +7,16 @@ interface HighlightProps {
   highlight: Highlight;
   onDeleteHighlight?: () => void;
   onClick?: () => void;
+  fullWidth?: boolean;
 }
 
-const Container = styled.div`
+interface ContainerProps {
+  fullWidth?: boolean;
+}
+
+const Container = styled.div<ContainerProps>`
    {
-    width: 300px;
+    width: ${(props) => (props.fullWidth ? "auto" : "300px")};
     border-radius: 10px;
     padding: 5px 30px;
     background-color: var(--purple-medium-transparent);
@@ -32,9 +37,10 @@ const HighlightThumbnail = ({
   highlight,
   onDeleteHighlight,
   onClick,
+  fullWidth,
 }: HighlightProps) => {
   return (
-    <Container onClick={onClick}>
+    <Container onClick={onClick} fullWidth={fullWidth}>
       <Text>{highlight.text}</Text>
       {onDeleteHighlight && (
         <Icon onClick={onDeleteHighlight}>
