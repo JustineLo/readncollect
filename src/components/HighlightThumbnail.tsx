@@ -6,6 +6,7 @@ import Icon from "./Icon";
 interface HighlightProps {
   highlight: Highlight;
   onDeleteHighlight?: () => void;
+  onClick?: () => void;
 }
 
 const Container = styled.div`
@@ -22,12 +23,7 @@ const Container = styled.div`
     gap: 20px;
   }
 `;
-const Text = styled.div`
-   {
-  }
-`;
-
-const Buttons = styled.div`
+const Text = styled.p`
    {
   }
 `;
@@ -35,18 +31,15 @@ const Buttons = styled.div`
 const HighlightThumbnail = ({
   highlight,
   onDeleteHighlight,
+  onClick,
 }: HighlightProps) => {
   return (
-    <Container>
-      <Text>
-        <p>{highlight.text}</p>
-      </Text>
+    <Container onClick={onClick}>
+      <Text>{highlight.text}</Text>
       {onDeleteHighlight && (
-        <Buttons>
-          <Icon onClick={onDeleteHighlight}>
-            <FaRegTrashAlt />
-          </Icon>
-        </Buttons>
+        <Icon onClick={onDeleteHighlight}>
+          <FaRegTrashAlt />
+        </Icon>
       )}
     </Container>
   );

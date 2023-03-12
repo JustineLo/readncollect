@@ -5,6 +5,7 @@ import HighlightThumbnail from "./HighlightThumbnail";
 interface HighlightsListProps {
   title: string;
   highlights: Highlight[];
+  handleClick: (highlight: Highlight) => void;
 }
 
 const HighlightsListContainer = styled.div`
@@ -20,16 +21,20 @@ const List = styled.div`
   }
 `;
 
-const HighlightsList = ({ title, highlights }: HighlightsListProps) => {
+const HighlightsList = ({
+  title,
+  highlights,
+  handleClick,
+}: HighlightsListProps) => {
   return (
     <HighlightsListContainer>
       <h3>{title}</h3>
       <List>
-        {highlights.map((highlight, index) => (
+        {highlights.map((highlight) => (
           <HighlightThumbnail
             key={highlight.id}
             highlight={highlight}
-            index={index}
+            onClick={() => handleClick(highlight)}
           />
         ))}
       </List>

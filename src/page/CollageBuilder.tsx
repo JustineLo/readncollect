@@ -59,6 +59,10 @@ function CollageBuilder({}: CollageBuilderProps): JSX.Element {
     setSelectedHighlights(content);
   };
 
+  const handleHighlightClick = (highlight: Highlight) => {
+    setSelectedHighlights((prev) => [...prev, highlight]);
+  };
+
   return (
     <DragDropContext onDragEnd={handleOnDragEnd}>
       <GlobalContainer>
@@ -70,7 +74,7 @@ function CollageBuilder({}: CollageBuilderProps): JSX.Element {
                 <>
                   {selectedHighlights.map((highlight, index) => (
                     <Draggable
-                      key={highlight.id}
+                      key={highlight.id + index}
                       draggableId={highlight.id}
                       index={index}
                     >
@@ -98,12 +102,14 @@ function CollageBuilder({}: CollageBuilderProps): JSX.Element {
           <HighlightsList
             title="General highlights"
             highlights={user.soloHighlights}
+            handleClick={handleHighlightClick}
           />
           {processedArticles.length > 0 &&
             processedArticles.map((article: Article) => (
               <HighlightsList
                 title={article.title}
                 highlights={article.highlights}
+                handleClick={handleHighlightClick}
               />
             ))}
         </HighlightsContainer>
