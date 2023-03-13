@@ -1,16 +1,18 @@
+import { doc, updateDoc } from "firebase/firestore";
 import { useEffect, useState } from "react";
 import { DragDropContext, Draggable } from "react-beautiful-dnd";
 import { useAuthState } from "react-firebase-hooks/auth";
 import { useNavigate } from "react-router-dom";
 import styled from "styled-components";
 import { useContainer } from "unstated-next";
+import { v4 as uuidv4 } from "uuid";
 import Button from "../components/Button";
 import HighlightsList from "../components/HighlightsList";
 import HighlightThumbnail from "../components/HighlightThumbnail";
-import { auth } from "../firebase";
+import { auth, db } from "../firebase";
 import Sidebar from "../sections/Sidebar";
 import AppState from "../state/AppState";
-import { Article, Highlight } from "../types/Article";
+import { Article, Collage, Highlight } from "../types/Article";
 import { StrictModeDroppable as Droppable } from "../utils/StrictModeDroppable";
 
 interface CollageBuilderProps {}
@@ -47,9 +49,15 @@ const HighlightsContainer = styled.div`
 `;
 
 function CollageBuilder({}: CollageBuilderProps): JSX.Element {
-  const { user, processedArticles } = useContainer(AppState);
+  const { user, setUser, processedArticles } = useContainer(AppState);
   const [userAuth, loading, error] = useAuthState(auth);
   const navigate = useNavigate();
+  const [currentCollage, setCurrentCollage] = useState<Collage>({
+    id: uuidv4(),
+    title: "",
+    highlights: [],
+    createdAt: new Date().toISOString(),
+  });
   const [selectedHighlights, setSelectedHighlights] = useState<Highlight[]>([]);
   const [displayAllCollages, setDisplayAllCollages] = useState(false);
 
@@ -58,20 +66,44 @@ function CollageBuilder({}: CollageBuilderProps): JSX.Element {
     if (!userAuth) return navigate("/login");
   }, [userAuth, loading]);
 
-  const handleOnDragEnd = (result: any) => {
+  useEffect(() => {
+    setCurrentCollage((prev) => ({
+      ...prev,
+      highlights: selectedHighlights,
+    }));
+  }, [selectedHighlights]);
+
+  function handleOnDragEnd(result: any): void {
     if (!result) return;
     const content = [...selectedHighlights];
     const [reorderedItem] = content.splice(result.source.index, 1);
     content.splice(result.destination.index, 0, reorderedItem);
     setSelectedHighlights(content);
-  };
+  }
 
-  const handleHighlightClick = (highlight: Highlight) => {
+  function handleHighlightClick(highlight: Highlight): void {
     setSelectedHighlights((prev) => [
       ...prev,
       { ...highlight, id: highlight.id + prev.length },
     ]);
-  };
+  }
+
+  function handleSave(): void {
+    const userRef = doc(db, `users/${user.docID}`);
+    setUser({
+      ...user,
+      collages: [...user.collages, currentCollage],
+    });
+    updateDoc(userRef, {
+      collages: [...user.collages, currentCollage],
+    })
+      .then(() => {
+        console.log("soloHighlights updated successfully");
+      })
+      .catch((error) => {
+        console.error("Error updating soloHighlights:", error);
+      });
+  }
 
   return (
     <DragDropContext onDragEnd={handleOnDragEnd}>
@@ -82,6 +114,7 @@ function CollageBuilder({}: CollageBuilderProps): JSX.Element {
             return (
               <Board {...provided.droppableProps} ref={provided.innerRef}>
                 <>
+                  <Button onClick={handleSave}>SAVE COLLAGE</Button>
                   {selectedHighlights.map((highlight, index) => (
                     <Draggable
                       key={highlight.id}
