@@ -60,6 +60,7 @@ function CollageBuilder({}: CollageBuilderProps): JSX.Element {
   });
   const [selectedHighlights, setSelectedHighlights] = useState<Highlight[]>([]);
   const [displayAllCollages, setDisplayAllCollages] = useState(false);
+  const [blocView, setBlocView] = useState(true);
 
   useEffect(() => {
     if (loading) return;
@@ -115,28 +116,36 @@ function CollageBuilder({}: CollageBuilderProps): JSX.Element {
               <Board {...provided.droppableProps} ref={provided.innerRef}>
                 <>
                   <Button onClick={handleSave}>SAVE COLLAGE</Button>
-                  {selectedHighlights.map((highlight, index) => (
-                    <Draggable
-                      key={highlight.id}
-                      draggableId={highlight.id}
-                      index={index}
-                    >
-                      {(provided) => {
-                        return (
-                          <div
-                            {...provided.draggableProps}
-                            {...provided.dragHandleProps}
-                            ref={provided.innerRef}
-                          >
-                            <HighlightThumbnail
-                              highlight={highlight}
-                              fullWidth={true}
-                            />
-                          </div>
-                        );
-                      }}
-                    </Draggable>
-                  ))}
+                  <Button onClick={() => setBlocView(!blocView)}>
+                    Switch view
+                  </Button>
+                  {selectedHighlights.map((highlight, index) =>
+                    blocView ? (
+                      <Draggable
+                        key={highlight.id}
+                        draggableId={highlight.id}
+                        index={index}
+                      >
+                        {(provided) => {
+                          return (
+                            <div
+                              {...provided.draggableProps}
+                              {...provided.dragHandleProps}
+                              ref={provided.innerRef}
+                            >
+                              <HighlightThumbnail
+                                highlight={highlight}
+                                fullWidth={true}
+                              />
+                            </div>
+                          );
+                        }}
+                      </Draggable>
+                    ) : (
+                      <p>{highlight.text}</p>
+                    )
+                  )}
+
                   {provided.placeholder}
                 </>
               </Board>
@@ -155,7 +164,19 @@ function CollageBuilder({}: CollageBuilderProps): JSX.Element {
           </Tabs>
 
           {displayAllCollages ? (
-            <div>COLLAGES</div>
+            <div>
+              {user.collages.map((collage) => (
+                <>
+                  <h2>{collage.title}</h2>
+                  {collage.highlights.map((highlight) => (
+                    <HighlightThumbnail
+                      highlight={highlight}
+                      fullWidth={true}
+                    />
+                  ))}
+                </>
+              ))}
+            </div>
           ) : (
             <>
               <HighlightsList
