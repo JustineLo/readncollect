@@ -61,6 +61,7 @@ const Signup = () => {
             authProvider: "google",
             email: user.email,
             soloHighlights: [],
+            collages: [],
           });
         }
         navigate("/dashboard");

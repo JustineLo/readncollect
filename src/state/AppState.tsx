@@ -8,6 +8,7 @@ const useAppState = () => {
     docID: "",
     email: "",
     soloHighlights: [],
+    collages: [],
   });
   const [articles, setArticles] = useState<Article[]>([]);
   const [processedArticles, setProcessedArticles] = useState<Article[]>([]);

@@ -13,3 +13,10 @@ export type Highlight = {
   text: string;
   tags: string[];
 };
+
+export type Collage = {
+  id: string;
+  title: string;
+  highlights: Highlight[];
+  createdAt: string;
+};

@@ -16,6 +16,7 @@ export const fetchData = async (
       docID: doc.docs[0].id,
       email: data.email,
       soloHighlights: data.soloHighlights,
+      collages: data.collages,
     } as User);
     fetchArticles(doc.docs[0].id, setArticles);
   } catch (err) {
