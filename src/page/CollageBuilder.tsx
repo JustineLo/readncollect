@@ -136,6 +136,13 @@ function CollageBuilder({}: CollageBuilderProps): JSX.Element {
                               <HighlightThumbnail
                                 highlight={highlight}
                                 fullWidth={true}
+                                onDeleteHighlight={() =>
+                                  setSelectedHighlights(
+                                    selectedHighlights.filter(
+                                      (h) => h.id !== highlight.id
+                                    )
+                                  )
+                                }
                               />
                             </div>
                           );
