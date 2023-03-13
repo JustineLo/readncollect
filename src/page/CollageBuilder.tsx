@@ -4,6 +4,7 @@ import { useAuthState } from "react-firebase-hooks/auth";
 import { useNavigate } from "react-router-dom";
 import styled from "styled-components";
 import { useContainer } from "unstated-next";
+import Button from "../components/Button";
 import HighlightsList from "../components/HighlightsList";
 import HighlightThumbnail from "../components/HighlightThumbnail";
 import { auth } from "../firebase";
@@ -32,6 +33,11 @@ const ArticleContainer = styled.div`
   padding: 30px;
 `;
 
+const Tabs = styled.div`
+  display: flex;
+  gap: 1rem;
+`;
+
 const HighlightsContainer = styled.div`
   width: 50%;
   display: flex;
@@ -41,11 +47,11 @@ const HighlightsContainer = styled.div`
 `;
 
 function CollageBuilder({}: CollageBuilderProps): JSX.Element {
-  const { user, articles, setArticles, processedArticles } =
-    useContainer(AppState);
+  const { user, processedArticles } = useContainer(AppState);
   const [userAuth, loading, error] = useAuthState(auth);
   const navigate = useNavigate();
   const [selectedHighlights, setSelectedHighlights] = useState<Highlight[]>([]);
+  const [displayAllCollages, setDisplayAllCollages] = useState(false);
 
   useEffect(() => {
     if (loading) return;
@@ -106,20 +112,35 @@ function CollageBuilder({}: CollageBuilderProps): JSX.Element {
         </Droppable>
 
         <HighlightsContainer>
-          <HighlightsList
-            title="General highlights"
-            highlights={user.soloHighlights}
-            handleClick={handleHighlightClick}
-          />
-          {processedArticles.length > 0 &&
-            processedArticles.map((article: Article) => (
+          <Tabs>
+            <Button onClick={() => setDisplayAllCollages(false)}>
+              All highlights
+            </Button>
+            <Button onClick={() => setDisplayAllCollages(true)}>
+              All collages
+            </Button>
+          </Tabs>
+
+          {displayAllCollages ? (
+            <div>COLLAGES</div>
+          ) : (
+            <>
               <HighlightsList
-                key={article.articleDocID}
-                title={article.title}
-                highlights={article.highlights}
+                title="General highlights"
+                highlights={user.soloHighlights}
                 handleClick={handleHighlightClick}
               />
-            ))}
+              {processedArticles.length > 0 &&
+                processedArticles.map((article: Article) => (
+                  <HighlightsList
+                    key={article.articleDocID}
+                    title={article.title}
+                    highlights={article.highlights}
+                    handleClick={handleHighlightClick}
+                  />
+                ))}
+            </>
+          )}
         </HighlightsContainer>
       </GlobalContainer>
     </DragDropContext>
