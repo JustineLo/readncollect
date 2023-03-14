@@ -16,11 +16,14 @@ const ThumbnailButton = styled.button`
     color: white;
     display: flex;
     flex-direction: column;
-    align-items: center;
-    justify-content: space-between;
+    align-items: start;
     cursor: pointer;
     gap: 20px;
     border: none;
+  }
+
+  p {
+    text-align: left;
   }
 `;
 

@@ -45,8 +45,8 @@ const CollageBoard = ({
     let excerpt = "";
     for (let i = 0; i < selectedHighlights.length; i++) {
       const highlight = selectedHighlights[i];
-      excerpt += highlight.text + "...<br> ";
-      if (i === 2) {
+      excerpt += "<p>" + highlight.text.substring(0, 200) + "...</p>";
+      if (i === 1) {
         break;
       }
     }
