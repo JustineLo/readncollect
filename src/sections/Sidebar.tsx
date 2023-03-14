@@ -9,8 +9,6 @@ import SidebarIcon from "../components/SidebarIcon";
 import { logout } from "../firebase";
 import AppState from "../state/AppState";
 
-interface SidebarProps {}
-
 const SidebarContainer = styled.nav`
   height: 100vh;
   width: 6vw;
@@ -30,7 +28,7 @@ const PageIcons = styled.div`
   gap: 5rem;
 `;
 
-const Sidebar = ({}: SidebarProps) => {
+const Sidebar = () => {
   const { user } = useContainer(AppState);
   return (
     <>
