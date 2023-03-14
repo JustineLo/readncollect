@@ -5,6 +5,7 @@ import { Draggable } from "react-beautiful-dnd";
 import styled from "styled-components";
 import { useContainer } from "unstated-next";
 import Button from "../components/Button";
+import CollageTitle from "../components/CollageTitle";
 import HighlightThumbnail from "../components/HighlightThumbnail";
 import Input from "../components/Input";
 import { db } from "../firebase";
@@ -112,7 +113,7 @@ const CollageBoard = ({
               <Button onClick={() => setDisplayNewCollageModal(true)}>
                 New collage
               </Button>
-              <h2>{currentCollage.title}</h2>
+              <CollageTitle title={currentCollage.title} />
               {selectedHighlights.map((highlight, index) =>
                 blocView ? (
                   <Draggable

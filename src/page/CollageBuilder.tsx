@@ -5,14 +5,14 @@ import { useAuthState } from "react-firebase-hooks/auth";
 import { useNavigate } from "react-router-dom";
 import styled from "styled-components";
 import { useContainer } from "unstated-next";
-import ArticleHighlights from "../components/ArticleHighlights";
 import Button from "../components/Button";
 import { auth } from "../firebase";
 import AllCollagesList from "../sections/AllCollagesList";
+import AllHighlightsList from "../sections/AllHighlightsLists";
 import CollageBoard from "../sections/CollageBoard";
 import Sidebar from "../sections/Sidebar";
 import AppState from "../state/AppState";
-import { Article, Collage, Highlight } from "../types/Article";
+import { Collage, Highlight } from "../types/Article";
 
 interface CollageBuilderProps {}
 
@@ -69,7 +69,7 @@ function CollageBuilder({}: CollageBuilderProps): JSX.Element {
     setSelectedHighlights(content);
   }
 
-  function handleHighlightClick(highlight: Highlight): void {
+  function selectHighlight(highlight: Highlight): void {
     setSelectedHighlights((prev) => [...prev, { ...highlight, id: uuidv4() }]);
   }
 
@@ -99,22 +99,7 @@ function CollageBuilder({}: CollageBuilderProps): JSX.Element {
               setSelectedHighlights={setSelectedHighlights}
             />
           ) : (
-            <>
-              <ArticleHighlights
-                title="Unlinked highlights"
-                highlights={user.soloHighlights}
-                selectHighlight={handleHighlightClick}
-              />
-              {processedArticles.length > 0 &&
-                processedArticles.map((article: Article) => (
-                  <ArticleHighlights
-                    key={article.articleDocID}
-                    title={article.title}
-                    highlights={article.highlights}
-                    selectHighlight={handleHighlightClick}
-                  />
-                ))}
-            </>
+            <AllHighlightsList selectHighlight={selectHighlight} />
           )}
         </HighlightsContainer>
       </GlobalContainer>

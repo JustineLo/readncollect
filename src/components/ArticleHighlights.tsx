@@ -36,7 +36,7 @@ const ArticleHighlights = ({
   highlights,
   selectHighlight,
 }: ArticleHighlightsProps) => {
-  const [isOpen, setIsOpen] = useState(false);
+  const [isOpen, setIsOpen] = useState(true);
   return (
     <Container onClick={() => setIsOpen(!isOpen)}>
       <h3>{title}</h3>
