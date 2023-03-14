@@ -5,14 +5,14 @@ import { useAuthState } from "react-firebase-hooks/auth";
 import { useNavigate } from "react-router-dom";
 import styled from "styled-components";
 import { useContainer } from "unstated-next";
+import ArticleHighlights from "../components/ArticleHighlights";
 import Button from "../components/Button";
-import HighlightsList from "../components/HighlightsList";
-import HighlightThumbnail from "../components/HighlightThumbnail";
+import CollageThumbnail from "../components/CollageThumbnail";
 import { auth } from "../firebase";
 import CollageBoard from "../sections/CollageBoard";
 import Sidebar from "../sections/Sidebar";
 import AppState from "../state/AppState";
-import { Article, Highlight } from "../types/Article";
+import { Article, Collage, Highlight } from "../types/Article";
 
 interface CollageBuilderProps {}
 
@@ -40,11 +40,32 @@ function CollageBuilder({}: CollageBuilderProps): JSX.Element {
   const navigate = useNavigate();
   const [displayAllCollages, setDisplayAllCollages] = useState(false);
   const [selectedHighlights, setSelectedHighlights] = useState<Highlight[]>([]);
+  const [currentCollage, setCurrentCollage] = useState<Collage>({
+    id: "",
+    title: "",
+    highlights: [],
+    createdAt: "",
+  });
 
   useEffect(() => {
     if (loading) return;
     if (!userAuth) return navigate("/login");
   }, [userAuth, loading]);
+
+  useEffect(() => {
+    if (user && user.collages.length > 0) {
+      const lastCollage = user.collages[user.collages.length - 1];
+      setCurrentCollage(lastCollage);
+      setSelectedHighlights(lastCollage.highlights);
+    }
+  }, [user]);
+
+  useEffect(() => {
+    setCurrentCollage((prev: Collage) => ({
+      ...prev,
+      highlights: selectedHighlights,
+    }));
+  }, [selectedHighlights]);
 
   function handleOnDragEnd(result: any): void {
     if (!result) return;
@@ -58,11 +79,20 @@ function CollageBuilder({}: CollageBuilderProps): JSX.Element {
     setSelectedHighlights((prev) => [...prev, { ...highlight, id: uuidv4() }]);
   }
 
+  function selectCollage(collageID: string): void {
+    const collage = user.collages.find((collage) => collage.id === collageID);
+    if (!collage) return;
+    setCurrentCollage(collage);
+    setSelectedHighlights(collage.highlights);
+  }
+
   return (
     <DragDropContext onDragEnd={handleOnDragEnd}>
       <GlobalContainer>
         <Sidebar />
         <CollageBoard
+          currentCollage={currentCollage}
+          setCurrentCollage={setCurrentCollage}
           selectedHighlights={selectedHighlights}
           setSelectedHighlights={setSelectedHighlights}
         />
@@ -79,31 +109,28 @@ function CollageBuilder({}: CollageBuilderProps): JSX.Element {
           {displayAllCollages ? (
             <div>
               {user.collages.map((collage) => (
-                <>
-                  <h2>{collage.title}</h2>
-                  {collage.highlights.map((highlight) => (
-                    <HighlightThumbnail
-                      highlight={highlight}
-                      fullWidth={true}
-                    />
-                  ))}
-                </>
+                <CollageThumbnail
+                  key={collage.id}
+                  title={collage.title}
+                  excerpt={collage.highlights[0].text}
+                  selectCollage={() => selectCollage(collage.id)}
+                />
               ))}
             </div>
           ) : (
             <>
-              <HighlightsList
-                title="General highlights"
+              <ArticleHighlights
+                title="Unlinked highlights"
                 highlights={user.soloHighlights}
-                handleClick={handleHighlightClick}
+                selectHighlight={handleHighlightClick}
               />
               {processedArticles.length > 0 &&
                 processedArticles.map((article: Article) => (
-                  <HighlightsList
+                  <ArticleHighlights
                     key={article.articleDocID}
                     title={article.title}
                     highlights={article.highlights}
-                    handleClick={handleHighlightClick}
+                    selectHighlight={handleHighlightClick}
                   />
                 ))}
             </>

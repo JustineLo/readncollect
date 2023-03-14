@@ -1,6 +1,6 @@
 import { uuidv4 } from "@firebase/util";
 import { doc, updateDoc } from "firebase/firestore";
-import { Dispatch, SetStateAction, useEffect, useState } from "react";
+import { Dispatch, SetStateAction, useState } from "react";
 import { Draggable, Droppable } from "react-beautiful-dnd";
 import styled from "styled-components";
 import { useContainer } from "unstated-next";
@@ -13,6 +13,8 @@ import { Collage, Highlight } from "../types/Article";
 import ConfirmationModal from "./../components/ConfirmationModal";
 
 interface CollageBoardProps {
+  currentCollage: Collage;
+  setCurrentCollage: Dispatch<SetStateAction<Collage>>;
   selectedHighlights: Highlight[];
   setSelectedHighlights: Dispatch<SetStateAction<Highlight[]>>;
 }
@@ -27,34 +29,16 @@ const Board = styled.div`
 `;
 
 const CollageBoard = ({
+  currentCollage,
+  setCurrentCollage,
   selectedHighlights,
   setSelectedHighlights,
 }: CollageBoardProps) => {
   const { user, setUser } = useContainer(AppState);
-  const [currentCollage, setCurrentCollage] = useState<Collage>({
-    id: "",
-    title: "",
-    highlights: [],
-    createdAt: "",
-  });
+
   const [blocView, setBlocView] = useState(true);
   const [displayNewCollageModal, setDisplayNewCollageModal] = useState(false);
   const [currentTitle, setCurrentTitle] = useState("");
-
-  useEffect(() => {
-    if (user && user.collages.length > 0) {
-      const lastCollage = user.collages[user.collages.length - 1];
-      setCurrentCollage(lastCollage);
-      setSelectedHighlights(lastCollage.highlights);
-    }
-  }, [user]);
-
-  useEffect(() => {
-    setCurrentCollage((prev) => ({
-      ...prev,
-      highlights: selectedHighlights,
-    }));
-  }, [selectedHighlights]);
 
   function createCollage(): void {
     const newCollage: Collage = {
