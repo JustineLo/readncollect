@@ -106,7 +106,7 @@ function CollageBuilder({}: CollageBuilderProps): JSX.Element {
                 <CollageThumbnail
                   key={collage.id}
                   title={collage.title}
-                  excerpt={collage.highlights[0].text}
+                  excerpt={collage.excerpt}
                   selectCollage={() => selectCollage(collage.id)}
                 />
               ))}

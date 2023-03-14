@@ -32,7 +32,7 @@ const CollageThumbnail = ({
   return (
     <ThumbnailButton onClick={selectCollage}>
       <h3>{title}</h3>
-      <p>{excerpt.substring(0, 500) + "..."}</p>
+      <div dangerouslySetInnerHTML={{ __html: excerpt }} />
     </ThumbnailButton>
   );
 };
