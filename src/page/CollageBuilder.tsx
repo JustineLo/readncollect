@@ -59,7 +59,7 @@ function CollageBuilder({}: CollageBuilderProps): JSX.Element {
       setCurrentCollage(lastCollage);
       setSelectedHighlights(lastCollage.highlights);
     }
-  }, [user]);
+  }, []);
 
   function handleOnDragEnd(result: any): void {
     if (!result) return;
