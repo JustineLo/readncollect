@@ -7,8 +7,8 @@ import styled from "styled-components";
 import { useContainer } from "unstated-next";
 import ArticleHighlights from "../components/ArticleHighlights";
 import Button from "../components/Button";
-import CollageThumbnail from "../components/CollageThumbnail";
 import { auth } from "../firebase";
+import AllCollagesList from "../sections/AllCollagesList";
 import CollageBoard from "../sections/CollageBoard";
 import Sidebar from "../sections/Sidebar";
 import AppState from "../state/AppState";
@@ -35,7 +35,7 @@ const HighlightsContainer = styled.div`
 `;
 
 function CollageBuilder({}: CollageBuilderProps): JSX.Element {
-  const { user, setUser, processedArticles } = useContainer(AppState);
+  const { user, processedArticles } = useContainer(AppState);
   const [userAuth, loading, error] = useAuthState(auth);
   const navigate = useNavigate();
   const [displayAllCollages, setDisplayAllCollages] = useState(false);
@@ -73,13 +73,6 @@ function CollageBuilder({}: CollageBuilderProps): JSX.Element {
     setSelectedHighlights((prev) => [...prev, { ...highlight, id: uuidv4() }]);
   }
 
-  function selectCollage(collageID: string): void {
-    const collage = user.collages.find((collage) => collage.id === collageID);
-    if (!collage) return;
-    setCurrentCollage(collage);
-    setSelectedHighlights(collage.highlights);
-  }
-
   return (
     <DragDropContext onDragEnd={handleOnDragEnd}>
       <GlobalContainer>
@@ -101,16 +94,10 @@ function CollageBuilder({}: CollageBuilderProps): JSX.Element {
           </Tabs>
 
           {displayAllCollages ? (
-            <div>
-              {user.collages.map((collage) => (
-                <CollageThumbnail
-                  key={collage.id}
-                  title={collage.title}
-                  excerpt={collage.excerpt}
-                  selectCollage={() => selectCollage(collage.id)}
-                />
-              ))}
-            </div>
+            <AllCollagesList
+              setCurrentCollage={setCurrentCollage}
+              setSelectedHighlights={setSelectedHighlights}
+            />
           ) : (
             <>
               <ArticleHighlights

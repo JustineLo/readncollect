@@ -4,6 +4,7 @@ interface ButtonProps {
   children: React.ReactNode;
   type?: "button" | "submit" | "reset" | undefined;
   onClick?: () => void;
+  disabled?: boolean;
 }
 
 const ButtonContainer = styled.button`
@@ -19,9 +20,9 @@ const ButtonContainer = styled.button`
   cursor: pointer;
 `;
 
-const Button = ({ children, type, onClick }: ButtonProps) => {
+const Button = ({ children, type, onClick, disabled }: ButtonProps) => {
   return (
-    <ButtonContainer type={type} onClick={onClick}>
+    <ButtonContainer disabled={disabled} type={type} onClick={onClick}>
       {children}
     </ButtonContainer>
   );

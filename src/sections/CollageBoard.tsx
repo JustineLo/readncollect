@@ -36,25 +36,13 @@ const CollageBoard = ({
   setSelectedHighlights,
 }: CollageBoardProps) => {
   const { user, setUser } = useContainer(AppState);
-
   const [blocView, setBlocView] = useState(true);
   const [displayNewCollageModal, setDisplayNewCollageModal] = useState(false);
   const [currentTitle, setCurrentTitle] = useState("");
+  const [disableSave, setDisableSave] = useState(true);
 
   useEffect(() => {
-    let excerpt = "";
-    for (let i = 0; i < selectedHighlights.length; i++) {
-      const highlight = selectedHighlights[i];
-      excerpt += "<p>" + highlight.text.substring(0, 200) + "...</p>";
-      if (i === 1) {
-        break;
-      }
-    }
-    setCurrentCollage((prev: Collage) => ({
-      ...prev,
-      highlights: selectedHighlights,
-      excerpt: excerpt,
-    }));
+    setDisableSave(selectedHighlights === currentCollage.highlights);
   }, [selectedHighlights]);
 
   function createCollage(): void {
@@ -71,20 +59,32 @@ const CollageBoard = ({
   }
 
   function handleSave(): void {
-    const collageIndex = user.collages.findIndex(
-      (c) => c.id === currentCollage.id
-    );
+    let excerpt = "";
+    for (let i = 0; i < selectedHighlights.length; i++) {
+      const highlight = selectedHighlights[i];
+      excerpt += "<p>" + highlight.text.substring(0, 200) + "...</p>";
+      if (i === 1) {
+        break;
+      }
+    }
+    const collage = {
+      ...currentCollage,
+      highlights: selectedHighlights,
+      excerpt: excerpt,
+    };
+    const collageIndex = user.collages.findIndex((c) => c.id === collage.id);
     const updatedCollages: Collage[] =
       collageIndex === -1
-        ? [...user.collages, currentCollage]
+        ? [...user.collages, collage]
         : user.collages.map((c, index) =>
-            index === collageIndex ? currentCollage : c
+            index === collageIndex ? collage : c
           );
     const userRef = doc(db, `users/${user.docID}`);
     setUser({
       ...user,
       collages: updatedCollages,
     });
+    setDisableSave(true);
 
     updateDoc(userRef, {
       collages: updatedCollages,
@@ -103,7 +103,9 @@ const CollageBoard = ({
         {(provided) => {
           return (
             <Board {...provided.droppableProps} ref={provided.innerRef}>
-              <Button onClick={handleSave}>SAVE COLLAGE</Button>
+              <Button onClick={handleSave} disabled={disableSave}>
+                SAVE COLLAGE
+              </Button>
               <Button onClick={() => setBlocView(!blocView)}>
                 Switch view
               </Button>
