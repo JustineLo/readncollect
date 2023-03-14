@@ -5,7 +5,6 @@ import { useAuthState } from "react-firebase-hooks/auth";
 import { useNavigate } from "react-router-dom";
 import styled from "styled-components";
 import { useContainer } from "unstated-next";
-import { v4 as uuidv4 } from "uuid";
 import Button from "../components/Button";
 import HighlightsList from "../components/HighlightsList";
 import HighlightThumbnail from "../components/HighlightThumbnail";
@@ -30,10 +29,6 @@ const Board = styled.div`
   box-sizing: border-box;
   gap: 1rem;
 `;
-const ArticleContainer = styled.div`
-  width: 60%;
-  padding: 30px;
-`;
 
 const Tabs = styled.div`
   display: flex;
@@ -52,12 +47,9 @@ function CollageBuilder({}: CollageBuilderProps): JSX.Element {
   const { user, setUser, processedArticles } = useContainer(AppState);
   const [userAuth, loading, error] = useAuthState(auth);
   const navigate = useNavigate();
-  const [currentCollage, setCurrentCollage] = useState<Collage>({
-    id: uuidv4(),
-    title: "",
-    highlights: [],
-    createdAt: new Date().toISOString(),
-  });
+  const [currentCollage, setCurrentCollage] = useState<Collage>(
+    user.collages[0]
+  );
   const [selectedHighlights, setSelectedHighlights] = useState<Highlight[]>([]);
   const [displayAllCollages, setDisplayAllCollages] = useState(false);
   const [blocView, setBlocView] = useState(true);
@@ -66,13 +58,6 @@ function CollageBuilder({}: CollageBuilderProps): JSX.Element {
     if (loading) return;
     if (!userAuth) return navigate("/login");
   }, [userAuth, loading]);
-
-  useEffect(() => {
-    setCurrentCollage((prev) => ({
-      ...prev,
-      highlights: selectedHighlights,
-    }));
-  }, [selectedHighlights]);
 
   function handleOnDragEnd(result: any): void {
     if (!result) return;
@@ -114,47 +99,44 @@ function CollageBuilder({}: CollageBuilderProps): JSX.Element {
           {(provided) => {
             return (
               <Board {...provided.droppableProps} ref={provided.innerRef}>
-                <>
-                  <Button onClick={handleSave}>SAVE COLLAGE</Button>
-                  <Button onClick={() => setBlocView(!blocView)}>
-                    Switch view
-                  </Button>
-                  {selectedHighlights.map((highlight, index) =>
-                    blocView ? (
-                      <Draggable
-                        key={highlight.id}
-                        draggableId={highlight.id}
-                        index={index}
-                      >
-                        {(provided) => {
-                          return (
-                            <div
-                              {...provided.draggableProps}
-                              {...provided.dragHandleProps}
-                              ref={provided.innerRef}
-                            >
-                              <HighlightThumbnail
-                                highlight={highlight}
-                                fullWidth={true}
-                                onDeleteHighlight={() =>
-                                  setSelectedHighlights(
-                                    selectedHighlights.filter(
-                                      (h) => h.id !== highlight.id
-                                    )
+                <Button onClick={handleSave}>SAVE COLLAGE</Button>
+                <Button onClick={() => setBlocView(!blocView)}>
+                  Switch view
+                </Button>
+                {selectedHighlights.map((highlight, index) =>
+                  blocView ? (
+                    <Draggable
+                      key={highlight.id}
+                      draggableId={highlight.id}
+                      index={index}
+                    >
+                      {(provided) => {
+                        return (
+                          <div
+                            {...provided.draggableProps}
+                            {...provided.dragHandleProps}
+                            ref={provided.innerRef}
+                          >
+                            <HighlightThumbnail
+                              highlight={highlight}
+                              fullWidth={true}
+                              onDeleteHighlight={() =>
+                                setSelectedHighlights(
+                                  selectedHighlights.filter(
+                                    (h) => h.id !== highlight.id
                                   )
-                                }
-                              />
-                            </div>
-                          );
-                        }}
-                      </Draggable>
-                    ) : (
-                      <p>{highlight.text}</p>
-                    )
-                  )}
-
-                  {provided.placeholder}
-                </>
+                                )
+                              }
+                            />
+                          </div>
+                        );
+                      }}
+                    </Draggable>
+                  ) : (
+                    <p>{highlight.text}</p>
+                  )
+                )}
+                {provided.placeholder}
               </Board>
             );
           }}

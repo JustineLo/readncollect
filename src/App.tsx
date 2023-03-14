@@ -23,7 +23,7 @@ function App() {
 
   useEffect(() => {
     if (userAuth) fetchData(userAuth, setUser, setArticles);
-  });
+  }, [userAuth]);
 
   return (
     <AppContainer>
