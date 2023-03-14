@@ -1,7 +1,7 @@
 import { uuidv4 } from "@firebase/util";
 import { doc, updateDoc } from "firebase/firestore";
-import { Dispatch, SetStateAction, useState } from "react";
-import { Draggable, Droppable } from "react-beautiful-dnd";
+import { Dispatch, SetStateAction, useEffect, useState } from "react";
+import { Draggable } from "react-beautiful-dnd";
 import styled from "styled-components";
 import { useContainer } from "unstated-next";
 import Button from "../components/Button";
@@ -10,6 +10,7 @@ import Input from "../components/Input";
 import { db } from "../firebase";
 import AppState from "../state/AppState";
 import { Collage, Highlight } from "../types/Article";
+import { StrictModeDroppable } from "../utils/StrictModeDroppable";
 import ConfirmationModal from "./../components/ConfirmationModal";
 
 interface CollageBoardProps {
@@ -40,11 +41,32 @@ const CollageBoard = ({
   const [displayNewCollageModal, setDisplayNewCollageModal] = useState(false);
   const [currentTitle, setCurrentTitle] = useState("");
 
+  useEffect(() => {
+    let excerpt = "";
+    for (let i = 0; i < selectedHighlights.length; i++) {
+      const highlight = selectedHighlights[i];
+      excerpt += highlight.text;
+      if (i < selectedHighlights.length - 1) {
+        excerpt += " ";
+      }
+      if (i === 3) {
+        excerpt += "...";
+        break;
+      }
+    }
+    setCurrentCollage((prev: Collage) => ({
+      ...prev,
+      highlights: selectedHighlights,
+      excerpt: excerpt,
+    }));
+  }, [selectedHighlights]);
+
   function createCollage(): void {
     const newCollage: Collage = {
       id: uuidv4(),
       title: currentTitle,
       highlights: [],
+      excerpt: "",
       createdAt: new Date().toISOString().substring(0, 10),
     };
     setCurrentCollage(newCollage);
@@ -81,7 +103,7 @@ const CollageBoard = ({
 
   return (
     <>
-      <Droppable droppableId="highlights">
+      <StrictModeDroppable droppableId="highlights">
         {(provided) => {
           return (
             <Board {...provided.droppableProps} ref={provided.innerRef}>
@@ -123,14 +145,14 @@ const CollageBoard = ({
                     }}
                   </Draggable>
                 ) : (
-                  <p>{highlight.text}</p>
+                  <p key={highlight.id}>{highlight.text}</p>
                 )
               )}
               {provided.placeholder}
             </Board>
           );
         }}
-      </Droppable>
+      </StrictModeDroppable>
       {displayNewCollageModal && (
         <ConfirmationModal setOpen={setDisplayNewCollageModal}>
           <p>Title :</p>

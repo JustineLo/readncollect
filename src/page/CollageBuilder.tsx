@@ -44,6 +44,7 @@ function CollageBuilder({}: CollageBuilderProps): JSX.Element {
     id: "",
     title: "",
     highlights: [],
+    excerpt: "",
     createdAt: "",
   });
 
@@ -59,13 +60,6 @@ function CollageBuilder({}: CollageBuilderProps): JSX.Element {
       setSelectedHighlights(lastCollage.highlights);
     }
   }, [user]);
-
-  useEffect(() => {
-    setCurrentCollage((prev: Collage) => ({
-      ...prev,
-      highlights: selectedHighlights,
-    }));
-  }, [selectedHighlights]);
 
   function handleOnDragEnd(result: any): void {
     if (!result) return;

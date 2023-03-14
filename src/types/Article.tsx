@@ -18,5 +18,6 @@ export type Collage = {
   id: string;
   title: string;
   highlights: Highlight[];
+  excerpt: string;
   createdAt: string;
 };
