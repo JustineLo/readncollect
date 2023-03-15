@@ -14,6 +14,7 @@ import Sidebar from "../sections/Sidebar";
 import AppState from "../state/AppState";
 import { Article } from "../types/Article";
 import { getPicture } from "../utils/articleUtils";
+import { getSearchedArticles } from "../utils/searchUtils";
 
 const GlobalContainer = styled.div`
   width: 100%;
@@ -56,6 +57,9 @@ function Dashboard() {
   } = useContainer(AppState);
   const [newUrl, setNewUrl] = useState<string>("");
   const [loadingSpinner, setLoadingSpinner] = useState(false);
+  const [searchedArticles, setSearchedArticles] =
+    useState<Article[]>(processedArticles);
+  const [searchQuery, setSearchQuery] = useState<string>("");
 
   const navigate = useNavigate();
 
@@ -63,6 +67,11 @@ function Dashboard() {
     if (loading) return;
     if (!userAuth) return navigate("/login");
   }, [userAuth, loading]);
+
+  useEffect(() => {
+    setSearchedArticles(processedArticles);
+    setSearchQuery("");
+  }, [processedArticles]);
 
   const handleSubmitTest = (
     event: any,
@@ -100,6 +109,11 @@ function Dashboard() {
       });
   }
 
+  function onInputChange(e: any): void {
+    const input = e.target.value;
+    setSearchQuery(input);
+    setSearchedArticles(getSearchedArticles(processedArticles, input, true));
+  }
   return (
     <GlobalContainer>
       <Sidebar />
@@ -129,8 +143,9 @@ function Dashboard() {
             ))}
           </ArticlesContainer>
           <h3>Processed articles</h3>
+          <Input type="text" value={searchQuery} onChange={onInputChange} />
           <ArticlesContainer>
-            {processedArticles.map((article: Article, index: number) => (
+            {searchedArticles.map((article: Article, index: number) => (
               <ArticleThumbnail
                 key={index}
                 article={article}

@@ -2,15 +2,21 @@ import { Article, Collage } from "../types/Article";
 
 export function getSearchedArticles(
   articles: Article[],
-  searchQuery: string
+  searchQuery: string,
+  onlyTitle?: boolean
 ): Article[] {
   const results = articles.filter((article) => {
     const searchInTitle = article.title
       .toLowerCase()
       .includes(searchQuery.toLowerCase());
-    const searchInHighlights = article.highlights.some((highlight) =>
-      highlight.text.toLowerCase().includes(searchQuery)
-    );
+    let searchInHighlights = true;
+    if (!onlyTitle) {
+      searchInHighlights = article.highlights.some((highlight) =>
+        highlight.text.toLowerCase().includes(searchQuery)
+      );
+    } else {
+      searchInHighlights = searchInTitle;
+    }
     return searchInTitle || searchInHighlights;
   });
 
@@ -30,6 +36,5 @@ export function getSearchedCollages(
     );
     return searchInTitle || searchInHighlights;
   });
-
   return results;
 }
