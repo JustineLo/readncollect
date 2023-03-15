@@ -79,9 +79,7 @@ function HighlightFactory({
         (checkedArticle) => checkedArticle.articleDocID === article.articleDocID
       )!
       .highlights.filter((h) => h.id !== highlight.id);
-
     setArticleHighlightsBuffer(updatedHighlights);
-
     setArticles(
       getUpdatedArticles(
         user,
@@ -109,13 +107,12 @@ function HighlightFactory({
               </Icon>
             </Topbar>
             <HighlightsList>
-              {articleHighlightsBuffer.map((highlight, index) => {
+              {articleHighlightsBuffer.map((highlight) => {
                 return (
                   <HighlightThumbnail
                     key={highlight.id}
                     highlight={highlight}
                     onDeleteHighlight={() => onDeleteHighlight(highlight)}
-                    index={index}
                   />
                 );
               })}
