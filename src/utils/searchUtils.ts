@@ -1,4 +1,4 @@
-import { Article } from "../types/Article";
+import { Article, Collage } from "../types/Article";
 
 export function getSearchedArticles(
   articles: Article[],
@@ -9,6 +9,23 @@ export function getSearchedArticles(
       .toLowerCase()
       .includes(searchQuery.toLowerCase());
     const searchInHighlights = article.highlights.some((highlight) =>
+      highlight.text.toLowerCase().includes(searchQuery)
+    );
+    return searchInTitle || searchInHighlights;
+  });
+
+  return results;
+}
+
+export function getSearchedCollages(
+  collages: Collage[],
+  searchQuery: string
+): Collage[] {
+  const results = collages.filter((collage) => {
+    const searchInTitle = collage.title
+      .toLowerCase()
+      .includes(searchQuery.toLowerCase());
+    const searchInHighlights = collage.highlights.some((highlight) =>
       highlight.text.toLowerCase().includes(searchQuery)
     );
     return searchInTitle || searchInHighlights;
