@@ -130,6 +130,7 @@ const CollageBoard = ({
                           <HighlightThumbnail
                             highlight={highlight}
                             fullWidth={true}
+                            backgroundColor="var(--secondary-light)"
                             onDeleteHighlight={() =>
                               setSelectedHighlights(
                                 selectedHighlights.filter(

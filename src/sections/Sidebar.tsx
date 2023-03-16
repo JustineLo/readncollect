@@ -12,7 +12,7 @@ import AppState from "../state/AppState";
 const SidebarContainer = styled.nav`
   height: 100vh;
   width: 6vw;
-  background: var(--purple-medium-transparent);
+  background: var(--primary);
   display: flex;
   flex-direction: column;
   justify-content: space-between;

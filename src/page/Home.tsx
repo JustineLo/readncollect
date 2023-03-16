@@ -18,7 +18,7 @@ const Header = styled.div`
     justify-content: center;
     height: 60vh;
     width: 100%;
-    background: var(--purple-medium-transparent);
+    background: var(--secondary);
   }
 `;
 

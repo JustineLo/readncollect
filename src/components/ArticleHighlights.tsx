@@ -14,8 +14,7 @@ const Container = styled.div`
     width: auto;
     border-radius: 10px;
     padding: 5px 30px;
-    background-color: var(--purple-medium-transparent);
-    color: white;
+    color: var(--black);
     display: flex;
     flex-direction: column;
     align-items: center;

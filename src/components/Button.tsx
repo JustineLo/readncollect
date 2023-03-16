@@ -10,13 +10,9 @@ interface ButtonProps {
 const ButtonContainer = styled.button`
   padding: 10px 20px;
   border-radius: 40px;
-  border: 1px solid var(--purple-medium);
-  background: linear-gradient(
-    133deg,
-    var(--purple-medium) 0%,
-    var(--purple-light) 50%,
-    var(--pink) 100%
-  );
+  border: 1px solid var(--primary-dark);
+  background: var(--primary);
+  color: var(--black);
   cursor: pointer;
 `;
 

@@ -10,8 +10,8 @@ interface InputProps {
 const InputContainer = styled.input`
   padding: 10px 20px;
   border-radius: 5px;
-  border: 1px solid var(--purple-medium);
-  background: rgba(25, 4, 64, 0.8);
+  border: 2px solid var(--secondary);
+  background: var(--secondary-light);
   min-width: 300px;
 `;
 

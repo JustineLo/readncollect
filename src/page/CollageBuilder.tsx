@@ -31,7 +31,7 @@ const HighlightsContainer = styled.div`
   display: flex;
   flex-direction: column;
   padding: 2% 5%;
-  background-color: var(--purple-medium-transparent);
+  background-color: var(--primary-light);
 `;
 
 function CollageBuilder({}: CollageBuilderProps): JSX.Element {

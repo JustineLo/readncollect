@@ -12,8 +12,8 @@ const ThumbnailButton = styled.button`
     width: auto;
     border-radius: 10px;
     padding: 5px 30px;
-    background-color: var(--purple-medium-transparent);
-    color: white;
+    background-color: var(--secondary);
+    color: var(--black);
     display: flex;
     flex-direction: column;
     align-items: start;

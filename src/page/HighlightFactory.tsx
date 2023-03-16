@@ -19,10 +19,12 @@ const Container = styled.div`
   position: absolute;
   top: 0;
   left: 0;
-  background-color: var(--black-transparent);
+  background-color: var(--primary);
+  border: 3px solid var(--black);
   border-radius: 30px;
   width: 100%;
   z-index: 100;
+  box-sizing: border-box;
 `;
 
 const Board = styled.div`

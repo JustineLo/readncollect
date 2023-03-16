@@ -20,10 +20,10 @@ const FloatingSaveButtonContainer = styled.div<{
       width: 100%;
       height: 100%;
       border-radius: 10px;
-      background: var(--pink);
-      color: white;
+      background: var(--accent);
+      color: var(--black);
+      border: 2px solid var(--black);
       font-size: 1rem;
-      border: none;
     }
   }
 `;

@@ -21,9 +21,9 @@ interface SelectionStateProps {
 
 const ArticleContainer = styled.div`
   text-align: left;
-  background-color: rgba(255, 255, 255, 0.9);
+  background-color: var(--white);
   color: black;
-  padding: 1% 3%;
+  padding: 6% 12%;
   border-radius: 20px;
   h1 {
     font-size: 2rem;

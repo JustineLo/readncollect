@@ -33,14 +33,14 @@ const Container = styled.div`
     width: 300px;
     max-height: 150px;
     border-radius: 10px;
-    background: var(--purple-medium-transparent);
+    background-color: var(--secondary);
     overflow: hidden;
     display: flex;
     align-items: center;
     justify-content: space-between;
 
     &:hover {
-      background-color: var(--purple-medium);
+      background-color: var(--secondary-light);
       transition: 0.3s;
     }
 
