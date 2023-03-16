@@ -8,12 +8,16 @@ interface IconButtonProps {
   backgroundColor?: string;
   opacity?: number;
   disabled?: boolean;
+  color?: string;
+  hoverColor?: string;
 }
 
 const IconButtonContainer = styled.button<{
   backgroundColor: string | undefined;
   opacity: number | undefined;
   disabled: boolean | undefined;
+  color: string | undefined;
+  hoverColor: string | undefined;
 }>`
   padding: 0;
   margin: 0;
@@ -27,13 +31,12 @@ const IconButtonContainer = styled.button<{
   opacity: ${(props) => props.opacity || 1};
 
   svg {
-    color: ${(props) => (props.disabled ? "var(--grey)" : "var(--black)")};
+    color: ${(props) => (props.disabled ? "var(--grey)" : props.color)};
   }
 
   &:hover {
     svg {
-      color: ${(props) =>
-        props.disabled ? "var(--grey)" : "var(--secondary-light)"};
+      color: ${(props) => (props.disabled ? "var(--grey)" : props.hoverColor)};
     }
   }
 `;
@@ -46,6 +49,8 @@ const Icon = ({
   backgroundColor,
   opacity,
   disabled,
+  hoverColor,
+  color = "var(--background)",
 }: IconButtonProps) => {
   return (
     <IconButtonContainer
@@ -53,6 +58,8 @@ const Icon = ({
       backgroundColor={backgroundColor}
       opacity={opacity}
       disabled={disabled}
+      color={color}
+      hoverColor={hoverColor}
       data-tooltip-id={tooltipId}
       data-tooltip-content={tooltipContent}
       data-tooltip-place="right"

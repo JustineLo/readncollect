@@ -17,7 +17,7 @@ const ButtonContainer = styled.button<{
   font-weight: 300;
   border-radius: ${(props) => (props.square ? "8px" : "40px")};
   border: 1px solid var(--primary-dark);
-  background: var(--primary);
+  background: ${(props) => props.backgroundColor || "var(--primary)"};
   color: var(--primary-text);
   cursor: pointer;
   height: fit-content;

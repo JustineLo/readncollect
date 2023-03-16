@@ -2,7 +2,11 @@ import { uuidv4 } from "@firebase/util";
 import { doc, updateDoc } from "firebase/firestore";
 import { Dispatch, SetStateAction, useEffect, useState } from "react";
 import { Draggable } from "react-beautiful-dnd";
+import { AiOutlineBlock } from "react-icons/ai";
 import { FiSave } from "react-icons/fi";
+import { GrTextAlignLeft } from "react-icons/gr";
+import { IoMdAddCircle } from "react-icons/io";
+import { TiExport } from "react-icons/ti";
 import styled from "styled-components";
 import { useContainer } from "unstated-next";
 import Button from "../components/Button";
@@ -14,7 +18,6 @@ import AppState from "../state/AppState";
 import { Collage, Highlight } from "../types/Article";
 import { StrictModeDroppable } from "../utils/StrictModeDroppable";
 import ConfirmationModal from "./../components/ConfirmationModal";
-
 interface CollageBoardProps {
   currentCollage: Collage;
   setCurrentCollage: Dispatch<SetStateAction<Collage>>;
@@ -34,6 +37,7 @@ const Board = styled.div`
 const TopButtons = styled.div`
   display: flex;
   gap: 1rem;
+  align-items: center;
 `;
 
 const Header = styled.div`
@@ -112,24 +116,55 @@ const CollageBoard = ({
           return (
             <Board {...provided.droppableProps} ref={provided.innerRef}>
               <TopButtons>
-                <Button onClick={() => setBlocView(!blocView)}>
-                  Switch view
+                <Button
+                  onClick={() => setBlocView(!blocView)}
+                  square={true}
+                  backgroundColor="var(--secondary)"
+                >
+                  <div
+                    style={{
+                      display: "flex",
+                      gap: "10px",
+                      alignItems: "center",
+                    }}
+                  >
+                    {blocView ? "Switch to text" : "Switch to blocs"}
+                    {blocView ? (
+                      <GrTextAlignLeft />
+                    ) : (
+                      <AiOutlineBlock size="16px" />
+                    )}
+                  </div>
                 </Button>
-                <Button onClick={() => setDisplayNewCollageModal(true)}>
-                  New collage
-                </Button>
+                <Icon
+                  color="var(--primary-dark)"
+                  hoverColor="var(--secondary-dark)"
+                  onClick={() => setDisplayNewCollageModal(true)}
+                >
+                  <IoMdAddCircle size="30px" />
+                </Icon>
               </TopButtons>
 
               <Header>
                 <h3>{currentCollage.title}</h3>
-                <Icon
-                  onClick={handleSave}
-                  opacity={disableSave ? 0.5 : 1}
-                  backgroundColor="var(--secondary)"
-                  disabled={disableSave}
-                >
-                  <FiSave size="20px" />
-                </Icon>
+                <div style={{ display: "flex", gap: "10px" }}>
+                  <Icon
+                    onClick={handleSave}
+                    opacity={disableSave ? 0.5 : 1}
+                    backgroundColor="var(--secondary)"
+                    hoverColor="var(--secondary-light)"
+                    disabled={disableSave}
+                  >
+                    <FiSave size="20px" />
+                  </Icon>
+                  <Icon
+                    color="var(--black)"
+                    hoverColor="var(--secondary-dark)"
+                    onClick={() => {}}
+                  >
+                    <TiExport size="20px" />
+                  </Icon>
+                </div>
               </Header>
 
               {selectedHighlights.map((highlight, index) =>
