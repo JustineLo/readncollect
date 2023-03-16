@@ -119,10 +119,10 @@ function Dashboard() {
       <Sidebar />
       <MainContainer>
         <DashboardContainer>
+          <h3>Article's URL :</h3>
           <Form
             onSubmit={(event) => handleSubmitTest(event, setLoadingSpinner)}
           >
-            <label htmlFor="url">URL</label>
             <Input
               type="text"
               value={newUrl}
