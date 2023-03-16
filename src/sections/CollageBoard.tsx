@@ -2,10 +2,12 @@ import { uuidv4 } from "@firebase/util";
 import { doc, updateDoc } from "firebase/firestore";
 import { Dispatch, SetStateAction, useEffect, useState } from "react";
 import { Draggable } from "react-beautiful-dnd";
+import { FiSave } from "react-icons/fi";
 import styled from "styled-components";
 import { useContainer } from "unstated-next";
 import Button from "../components/Button";
 import HighlightThumbnail from "../components/HighlightThumbnail";
+import Icon from "../components/Icon";
 import Input from "../components/Input";
 import { db } from "../firebase";
 import AppState from "../state/AppState";
@@ -27,6 +29,16 @@ const Board = styled.div`
   padding: 2% 5%;
   box-sizing: border-box;
   gap: 1rem;
+`;
+
+const TopButtons = styled.div`
+  display: flex;
+  gap: 1rem;
+`;
+
+const Header = styled.div`
+  display: flex;
+  justify-content: space-between;
 `;
 
 const CollageBoard = ({
@@ -88,13 +100,9 @@ const CollageBoard = ({
 
     updateDoc(userRef, {
       collages: updatedCollages,
-    })
-      .then(() => {
-        console.log("collages updated successfully");
-      })
-      .catch((error) => {
-        console.error("Error updating soloHighlights:", error);
-      });
+    }).catch((error) => {
+      console.error("Error updating soloHighlights:", error);
+    });
   }
 
   return (
@@ -103,16 +111,27 @@ const CollageBoard = ({
         {(provided) => {
           return (
             <Board {...provided.droppableProps} ref={provided.innerRef}>
-              <Button onClick={handleSave} disabled={disableSave}>
-                SAVE COLLAGE
-              </Button>
-              <Button onClick={() => setBlocView(!blocView)}>
-                Switch view
-              </Button>
-              <Button onClick={() => setDisplayNewCollageModal(true)}>
-                New collage
-              </Button>
-              <h3>{currentCollage.title}</h3>
+              <TopButtons>
+                <Button onClick={() => setBlocView(!blocView)}>
+                  Switch view
+                </Button>
+                <Button onClick={() => setDisplayNewCollageModal(true)}>
+                  New collage
+                </Button>
+              </TopButtons>
+
+              <Header>
+                <h3>{currentCollage.title}</h3>
+                <Icon
+                  onClick={handleSave}
+                  opacity={disableSave ? 0.5 : 1}
+                  backgroundColor="var(--secondary)"
+                  disabled={disableSave}
+                >
+                  <FiSave size="20px" />
+                </Icon>
+              </Header>
+
               {selectedHighlights.map((highlight, index) =>
                 blocView ? (
                   <Draggable

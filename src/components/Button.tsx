@@ -5,20 +5,46 @@ interface ButtonProps {
   type?: "button" | "submit" | "reset" | undefined;
   onClick?: () => void;
   disabled?: boolean;
+  backgroundColor?: string;
+  square?: boolean;
 }
 
-const ButtonContainer = styled.button`
-  padding: 10px 20px;
-  border-radius: 40px;
+const ButtonContainer = styled.button<{
+  backgroundColor: string | undefined;
+  square: boolean | undefined;
+}>`
+  padding: 10px 15px;
+  font-weight: 300;
+  border-radius: ${(props) => (props.square ? "8px" : "40px")};
   border: 1px solid var(--primary-dark);
   background: var(--primary);
-  color: var(--black);
+  color: var(--primary-text);
   cursor: pointer;
+  height: fit-content;
+  font-family: Fredoka One, Helvetica, Arial, sans-serif;
+
+  .disabled {
+    color: var(--black);
+  }
 `;
 
-const Button = ({ children, type, onClick, disabled }: ButtonProps) => {
+const Button = ({
+  children,
+  type,
+  onClick,
+  disabled,
+  backgroundColor,
+  square,
+}: ButtonProps) => {
   return (
-    <ButtonContainer disabled={disabled} type={type} onClick={onClick}>
+    <ButtonContainer
+      className={disabled ? "disabled" : ""}
+      disabled={disabled}
+      type={type}
+      onClick={onClick}
+      backgroundColor={backgroundColor}
+      square={square}
+    >
       {children}
     </ButtonContainer>
   );

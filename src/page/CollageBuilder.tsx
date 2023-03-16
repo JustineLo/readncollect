@@ -35,7 +35,7 @@ const HighlightsContainer = styled.div`
 `;
 
 function CollageBuilder({}: CollageBuilderProps): JSX.Element {
-  const { user, processedArticles } = useContainer(AppState);
+  const { user } = useContainer(AppState);
   const [userAuth, loading, error] = useAuthState(auth);
   const navigate = useNavigate();
   const [displayAllCollages, setDisplayAllCollages] = useState(false);
