@@ -9,11 +9,13 @@ import AppState from "../state/AppState";
 import { Collage, Highlight } from "../types/Article";
 import { StrictModeDroppable } from "../utils/StrictModeDroppable";
 import CollageBoardHeader from "./CollageBoardHeader";
+import NoCollageMessage from "./NoCollageMessage";
 interface CollageBoardProps {
   currentCollage: Collage;
   setCurrentCollage: Dispatch<SetStateAction<Collage>>;
   selectedHighlights: Highlight[];
   setSelectedHighlights: Dispatch<SetStateAction<Highlight[]>>;
+  showCollage: boolean;
 }
 
 const Board = styled.div`
@@ -51,6 +53,7 @@ const CollageBoard = ({
   setCurrentCollage,
   selectedHighlights,
   setSelectedHighlights,
+  showCollage,
 }: CollageBoardProps) => {
   const { user, setUser } = useContainer(AppState);
   const [blocView, setBlocView] = useState(true);
@@ -98,66 +101,71 @@ const CollageBoard = ({
 
   return (
     <>
-      <StrictModeDroppable droppableId="highlights">
-        {(provided) => {
-          return (
-            <DroppableContainer>
-              <CollageBoardHeader
-                blocView={blocView}
-                setBlocView={setBlocView}
-                handleSave={handleSave}
-                disableSave={disableSave}
-                currentCollage={currentCollage}
-                setCurrentCollage={setCurrentCollage}
-                setSelectedHighlights={setSelectedHighlights}
-              />
-              <Board {...provided.droppableProps} ref={provided.innerRef}>
-                <Content
-                  backgroundColor={blocView ? "transparent" : "var(--white)"}
-                  padding={blocView ? "0" : "5% 8%"}
-                  borderRadius={blocView ? "0" : "20px"}
-                >
-                  {selectedHighlights.map((highlight, index) =>
-                    blocView ? (
-                      <Draggable
-                        key={highlight.id}
-                        draggableId={highlight.id}
-                        index={index}
-                      >
-                        {(provided) => {
-                          return (
-                            <div
-                              {...provided.draggableProps}
-                              {...provided.dragHandleProps}
-                              ref={provided.innerRef}
-                            >
-                              <HighlightThumbnail
-                                highlight={highlight}
-                                fullWidth={true}
-                                backgroundColor="var(--secondary-light)"
-                                onDeleteHighlight={() =>
-                                  setSelectedHighlights(
-                                    selectedHighlights.filter(
-                                      (h) => h.id !== highlight.id
+      <DroppableContainer>
+        <CollageBoardHeader
+          blocView={blocView}
+          setBlocView={setBlocView}
+          handleSave={handleSave}
+          disableSave={disableSave}
+          currentCollage={currentCollage}
+          setCurrentCollage={setCurrentCollage}
+          setSelectedHighlights={setSelectedHighlights}
+          showCollage={showCollage}
+        />
+        {showCollage ? (
+          <StrictModeDroppable droppableId="highlights">
+            {(provided) => {
+              return (
+                <Board {...provided.droppableProps} ref={provided.innerRef}>
+                  <Content
+                    backgroundColor={blocView ? "transparent" : "var(--white)"}
+                    padding={blocView ? "0" : "5% 8%"}
+                    borderRadius={blocView ? "0" : "20px"}
+                  >
+                    {selectedHighlights.map((highlight, index) =>
+                      blocView ? (
+                        <Draggable
+                          key={highlight.id}
+                          draggableId={highlight.id}
+                          index={index}
+                        >
+                          {(provided) => {
+                            return (
+                              <div
+                                {...provided.draggableProps}
+                                {...provided.dragHandleProps}
+                                ref={provided.innerRef}
+                              >
+                                <HighlightThumbnail
+                                  highlight={highlight}
+                                  fullWidth={true}
+                                  backgroundColor="var(--secondary-light)"
+                                  onDeleteHighlight={() =>
+                                    setSelectedHighlights(
+                                      selectedHighlights.filter(
+                                        (h) => h.id !== highlight.id
+                                      )
                                     )
-                                  )
-                                }
-                              />
-                            </div>
-                          );
-                        }}
-                      </Draggable>
-                    ) : (
-                      <p key={highlight.id}>{highlight.text}</p>
-                    )
-                  )}
-                  {provided.placeholder}
-                </Content>
-              </Board>
-            </DroppableContainer>
-          );
-        }}
-      </StrictModeDroppable>
+                                  }
+                                />
+                              </div>
+                            );
+                          }}
+                        </Draggable>
+                      ) : (
+                        <p key={highlight.id}>{highlight.text}</p>
+                      )
+                    )}
+                    {provided.placeholder}
+                  </Content>
+                </Board>
+              );
+            }}
+          </StrictModeDroppable>
+        ) : (
+          <NoCollageMessage />
+        )}
+      </DroppableContainer>
     </>
   );
 };

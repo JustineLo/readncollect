@@ -24,9 +24,15 @@ interface CollageBoardHeaderProps {
   currentCollage: Collage;
   setCurrentCollage: Dispatch<SetStateAction<Collage>>;
   setSelectedHighlights: Dispatch<SetStateAction<Highlight[]>>;
+  showCollage: boolean;
 }
 
-const TopButtons = styled.div`
+const Header = styled.div`
+  display: flex;
+  flex-direction: column;
+`;
+
+const TitleRow = styled.div`
   display: flex;
   gap: 1rem;
   align-items: center;
@@ -39,7 +45,7 @@ const TopButtons = styled.div`
   }
 `;
 
-const Header = styled.div`
+const ContentRow = styled.div`
   display: flex;
   justify-content: space-between;
   margin: 2rem 0 1rem 0;
@@ -53,6 +59,7 @@ const CollageBoardHeader = ({
   currentCollage,
   setCurrentCollage,
   setSelectedHighlights,
+  showCollage,
 }: CollageBoardHeaderProps) => {
   const [displayNewCollageModal, setDisplayNewCollageModal] = useState(false);
   const [displayDeleteModal, setDisplayDeleteModal] = useState(false);
@@ -99,63 +106,70 @@ const CollageBoardHeader = ({
 
   return (
     <>
-      <TopButtons>
-        <h1>Collage Factory</h1>
-        <div>
-          <Icon
-            color="var(--primary-dark)"
-            hoverColor="var(--primary-text)"
-            onClick={() => setDisplayNewCollageModal(true)}
-          >
-            <IoMdAddCircle size="30px" />
-          </Icon>
-          <Button
-            onClick={() => setBlocView(!blocView)}
-            square={true}
-            backgroundColor="transparent"
-          >
-            <div
-              style={{
-                display: "flex",
-                gap: "10px",
-                alignItems: "center",
-              }}
-            >
-              {blocView ? "Switch to text" : "Switch to blocs"}
-              {blocView ? <GrTextAlignLeft /> : <AiOutlineBlock size="16px" />}
-            </div>
-          </Button>
-        </div>
-      </TopButtons>
-
       <Header>
-        <h3>{currentCollage.title}</h3>
-        <div style={{ display: "flex", gap: "10px", alignItems: "center" }}>
-          <Icon
-            onClick={handleSave}
-            opacity={disableSave ? 0.5 : 1}
-            backgroundColor="var(--secondary)"
-            hoverColor="var(--secondary-light)"
-            color="var(--primary-text)"
-            disabled={disableSave}
-          >
-            <FiSave size="20px" />
-          </Icon>
-          <Icon
-            color="var(--black)"
-            hoverColor="var(--secondary-dark)"
-            onClick={() => {}}
-          >
-            <TiExport size="20px" />
-          </Icon>
-          <Icon
-            color="var(--black)"
-            hoverColor="var(--secondary-dark)"
-            onClick={() => setDisplayDeleteModal(true)}
-          >
-            <FaRegTrashAlt size="15px" />
-          </Icon>
-        </div>
+        <TitleRow>
+          <h1>Collage Factory</h1>
+          <div>
+            <Icon
+              color="var(--primary-dark)"
+              hoverColor="var(--primary-text)"
+              onClick={() => setDisplayNewCollageModal(true)}
+            >
+              <IoMdAddCircle size="30px" />
+            </Icon>
+            <Button
+              onClick={() => setBlocView(!blocView)}
+              square={true}
+              backgroundColor="transparent"
+            >
+              <div
+                style={{
+                  display: "flex",
+                  gap: "10px",
+                  alignItems: "center",
+                }}
+              >
+                {blocView ? "Switch to text" : "Switch to blocs"}
+                {blocView ? (
+                  <GrTextAlignLeft />
+                ) : (
+                  <AiOutlineBlock size="16px" />
+                )}
+              </div>
+            </Button>
+          </div>
+        </TitleRow>
+        <ContentRow>
+          <h3>{currentCollage.title}</h3>
+          {showCollage && (
+            <div style={{ display: "flex", gap: "10px", alignItems: "center" }}>
+              <Icon
+                onClick={handleSave}
+                opacity={disableSave ? 0.5 : 1}
+                backgroundColor="var(--secondary)"
+                hoverColor="var(--secondary-light)"
+                color="var(--primary-text)"
+                disabled={disableSave}
+              >
+                <FiSave size="20px" />
+              </Icon>
+              <Icon
+                color="var(--black)"
+                hoverColor="var(--secondary-dark)"
+                onClick={() => {}}
+              >
+                <TiExport size="20px" />
+              </Icon>
+              <Icon
+                color="var(--black)"
+                hoverColor="var(--secondary-dark)"
+                onClick={() => setDisplayDeleteModal(true)}
+              >
+                <FaRegTrashAlt size="15px" />
+              </Icon>
+            </div>
+          )}
+        </ContentRow>
       </Header>
       {displayNewCollageModal && (
         <ConfirmationModal setOpen={setDisplayNewCollageModal}>
@@ -167,9 +181,8 @@ const CollageBoardHeader = ({
           />
           <Button
             onClick={createCollage}
-            backgroundColor="var(--primary-dark)"
-            border="var(--primary-dark)"
-            textColor="white"
+            backgroundColor="var(--primary)"
+            textColor="var(--primary-text)"
           >
             {" "}
             Create new collage{" "}
@@ -179,8 +192,17 @@ const CollageBoardHeader = ({
       {displayDeleteModal && (
         <ConfirmationModal setOpen={setDisplayDeleteModal}>
           <p>Are you sure you want to delete this collage ?</p>
-          <Button onClick={onDeleteCollage}> Delete </Button>
-          <Button onClick={() => setDisplayDeleteModal(false)}> Cancel </Button>
+          <div style={{ display: "flex", gap: "10px", alignItems: "center" }}>
+            <Button onClick={onDeleteCollage}> Delete </Button>
+            <Button
+              onClick={() => setDisplayDeleteModal(false)}
+              border="var(--primary-dark)"
+              backgroundColor="transparent"
+            >
+              {" "}
+              Cancel{" "}
+            </Button>
+          </div>
         </ConfirmationModal>
       )}
     </>

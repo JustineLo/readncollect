@@ -86,6 +86,7 @@ function CollageBuilder({}: CollageBuilderProps): JSX.Element {
           setCurrentCollage={setCurrentCollage}
           selectedHighlights={selectedHighlights}
           setSelectedHighlights={setSelectedHighlights}
+          showCollage={showCollage}
         />
 
         <HighlightsContainer>
