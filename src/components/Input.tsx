@@ -5,7 +5,7 @@ interface InputProps {
   value: string;
   onChange: (e: any) => void;
   placeholder?: string;
-  width: string;
+  width?: string;
 }
 
 const InputContainer = styled.input<{ width: string | undefined }>`
