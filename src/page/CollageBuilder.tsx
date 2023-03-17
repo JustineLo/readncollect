@@ -90,16 +90,16 @@ function CollageBuilder({}: CollageBuilderProps): JSX.Element {
         <HighlightsContainer>
           <Tabs>
             <TabLink
-              onClick={() => setDisplayAllCollages(false)}
-              active={!displayAllCollages}
-            >
-              All highlights
-            </TabLink>
-            <TabLink
               onClick={() => setDisplayAllCollages(true)}
               active={displayAllCollages}
             >
               All collages
+            </TabLink>
+            <TabLink
+              onClick={() => setDisplayAllCollages(false)}
+              active={!displayAllCollages}
+            >
+              All highlights
             </TabLink>
           </Tabs>
 

@@ -55,6 +55,7 @@ const CollageBoardHeader = ({
   setSelectedHighlights,
 }: CollageBoardHeaderProps) => {
   const [displayNewCollageModal, setDisplayNewCollageModal] = useState(false);
+  const [displayDeleteModal, setDisplayDeleteModal] = useState(false);
   const [currentTitle, setCurrentTitle] = useState("");
   const { user, setUser } = useContainer(AppState);
 
@@ -88,6 +89,7 @@ const CollageBoardHeader = ({
       createdAt: "",
     });
     setSelectedHighlights([]);
+    setDisplayDeleteModal(false);
     updateDoc(userRef, {
       collages: updatedCollages,
     }).catch((error) => {
@@ -149,7 +151,7 @@ const CollageBoardHeader = ({
           <Icon
             color="var(--black)"
             hoverColor="var(--secondary-dark)"
-            onClick={() => onDeleteCollage()}
+            onClick={() => setDisplayDeleteModal(true)}
           >
             <FaRegTrashAlt size="15px" />
           </Icon>
@@ -164,6 +166,13 @@ const CollageBoardHeader = ({
             onChange={(e) => setCurrentTitle(e.target.value)}
           />
           <Button onClick={createCollage}> Create new collage </Button>
+        </ConfirmationModal>
+      )}
+      {displayDeleteModal && (
+        <ConfirmationModal setOpen={setDisplayDeleteModal}>
+          <p>Are you sure you want to delete this collage ?</p>
+          <Button onClick={onDeleteCollage}> Delete </Button>
+          <Button onClick={() => setDisplayDeleteModal(false)}> Cancel </Button>
         </ConfirmationModal>
       )}
     </>
