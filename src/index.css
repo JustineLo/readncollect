@@ -12,6 +12,7 @@
   -webkit-text-size-adjust: 100%;
 
   --background: #fcf6f1;
+  --background-transparent: rgba(252, 246, 241, 0.8);
   --black: #111111;
   --grey: #45524a;
   --primary: #c7ebb3;

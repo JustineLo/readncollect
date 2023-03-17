@@ -43,6 +43,7 @@ function CollageBuilder({}: CollageBuilderProps): JSX.Element {
   const navigate = useNavigate();
   const [displayAllCollages, setDisplayAllCollages] = useState(false);
   const [selectedHighlights, setSelectedHighlights] = useState<Highlight[]>([]);
+  const [showCollage, setShowCollage] = useState(false);
   const [currentCollage, setCurrentCollage] = useState<Collage>({
     id: "",
     title: "",

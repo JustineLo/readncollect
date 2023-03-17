@@ -159,13 +159,21 @@ const CollageBoardHeader = ({
       </Header>
       {displayNewCollageModal && (
         <ConfirmationModal setOpen={setDisplayNewCollageModal}>
-          <p>Title :</p>
+          <p>Collage title :</p>
           <Input
             type="text"
             value={currentTitle}
             onChange={(e) => setCurrentTitle(e.target.value)}
           />
-          <Button onClick={createCollage}> Create new collage </Button>
+          <Button
+            onClick={createCollage}
+            backgroundColor="var(--primary-dark)"
+            border="var(--primary-dark)"
+            textColor="white"
+          >
+            {" "}
+            Create new collage{" "}
+          </Button>
         </ConfirmationModal>
       )}
       {displayDeleteModal && (

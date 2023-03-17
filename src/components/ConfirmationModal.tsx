@@ -14,7 +14,7 @@ const Overlay = styled.div`
     left: 0;
     width: 100vw;
     height: 100vh;
-    background-color: var(--black-transparent);
+    background-color: var(--background-transparent);
     z-index: 99;
   }
 `;
@@ -27,14 +27,16 @@ const Container = styled.div`
     transform: translate(-50%, -50%);
     z-index: 100;
     width: 30vw;
-    height: 25vh;
-    background-color: var(--purple-dark);
-    color: white;
+    height: auto;
+    padding-bottom: 30px;
+    background-color: var(--secondary);
+    color: var(--black);
     border-radius: 20px;
     display: flex;
     flex-direction: column;
     align-items: center;
     justify-content: space-between;
+    border: 3px solid var(--secondary-dark);
   }
 `;
 
@@ -60,6 +62,9 @@ const Body = styled.div`
 
   p {
     margin: 0;
+    font-size: 1.2rem;
+    font-weight: 500;
+    font-family: Poppins;
   }
 
   span {
