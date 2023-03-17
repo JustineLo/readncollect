@@ -25,6 +25,7 @@ interface CollageBoardHeaderProps {
   setCurrentCollage: Dispatch<SetStateAction<Collage>>;
   setSelectedHighlights: Dispatch<SetStateAction<Highlight[]>>;
   showCollage: boolean;
+  setShowCollage: Dispatch<SetStateAction<boolean>>;
 }
 
 const Header = styled.div`
@@ -45,8 +46,8 @@ const TitleRow = styled.div`
   }
 `;
 
-const ContentRow = styled.div`
-  display: flex;
+const ContentRow = styled.div<{ showCollage: boolean }>`
+  display: ${(props) => (props.showCollage ? "flex" : "none")};
   justify-content: space-between;
   margin: 2rem 0 1rem 0;
 `;
@@ -60,6 +61,7 @@ const CollageBoardHeader = ({
   setCurrentCollage,
   setSelectedHighlights,
   showCollage,
+  setShowCollage,
 }: CollageBoardHeaderProps) => {
   const [displayNewCollageModal, setDisplayNewCollageModal] = useState(false);
   const [displayDeleteModal, setDisplayDeleteModal] = useState(false);
@@ -77,6 +79,7 @@ const CollageBoardHeader = ({
     setCurrentCollage(newCollage);
     setSelectedHighlights([]);
     setDisplayNewCollageModal(false);
+    setShowCollage(true);
   }
 
   function onDeleteCollage(): void {
@@ -84,6 +87,11 @@ const CollageBoardHeader = ({
       (collage) => collage.id !== currentCollage.id
     );
     const userRef = doc(db, `users/${user.docID}`);
+    updateDoc(userRef, {
+      collages: updatedCollages,
+    }).catch((error) => {
+      console.error(error);
+    });
     setUser({
       ...user,
       collages: updatedCollages,
@@ -97,11 +105,7 @@ const CollageBoardHeader = ({
     });
     setSelectedHighlights([]);
     setDisplayDeleteModal(false);
-    updateDoc(userRef, {
-      collages: updatedCollages,
-    }).catch((error) => {
-      console.error(error);
-    });
+    setShowCollage(false);
   }
 
   return (
@@ -139,36 +143,34 @@ const CollageBoardHeader = ({
             </Button>
           </div>
         </TitleRow>
-        <ContentRow>
+        <ContentRow showCollage={showCollage}>
           <h3>{currentCollage.title}</h3>
-          {showCollage && (
-            <div style={{ display: "flex", gap: "10px", alignItems: "center" }}>
-              <Icon
-                onClick={handleSave}
-                opacity={disableSave ? 0.5 : 1}
-                backgroundColor="var(--secondary)"
-                hoverColor="var(--secondary-light)"
-                color="var(--primary-text)"
-                disabled={disableSave}
-              >
-                <FiSave size="20px" />
-              </Icon>
-              <Icon
-                color="var(--black)"
-                hoverColor="var(--secondary-dark)"
-                onClick={() => {}}
-              >
-                <TiExport size="20px" />
-              </Icon>
-              <Icon
-                color="var(--black)"
-                hoverColor="var(--secondary-dark)"
-                onClick={() => setDisplayDeleteModal(true)}
-              >
-                <FaRegTrashAlt size="15px" />
-              </Icon>
-            </div>
-          )}
+          <div style={{ display: "flex", gap: "10px", alignItems: "center" }}>
+            <Icon
+              onClick={handleSave}
+              opacity={disableSave ? 0.5 : 1}
+              backgroundColor="var(--secondary)"
+              hoverColor="var(--secondary-light)"
+              color="var(--primary-text)"
+              disabled={disableSave}
+            >
+              <FiSave size="20px" />
+            </Icon>
+            <Icon
+              color="var(--black)"
+              hoverColor="var(--secondary-dark)"
+              onClick={() => {}}
+            >
+              <TiExport size="20px" />
+            </Icon>
+            <Icon
+              color="var(--black)"
+              hoverColor="var(--secondary-dark)"
+              onClick={() => setDisplayDeleteModal(true)}
+            >
+              <FaRegTrashAlt size="15px" />
+            </Icon>
+          </div>
         </ContentRow>
       </Header>
       {displayNewCollageModal && (

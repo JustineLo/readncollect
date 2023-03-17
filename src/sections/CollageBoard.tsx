@@ -16,6 +16,7 @@ interface CollageBoardProps {
   selectedHighlights: Highlight[];
   setSelectedHighlights: Dispatch<SetStateAction<Highlight[]>>;
   showCollage: boolean;
+  setShowCollage: Dispatch<SetStateAction<boolean>>;
 }
 
 const Board = styled.div`
@@ -54,6 +55,7 @@ const CollageBoard = ({
   selectedHighlights,
   setSelectedHighlights,
   showCollage,
+  setShowCollage,
 }: CollageBoardProps) => {
   const { user, setUser } = useContainer(AppState);
   const [blocView, setBlocView] = useState(true);
@@ -111,6 +113,7 @@ const CollageBoard = ({
           setCurrentCollage={setCurrentCollage}
           setSelectedHighlights={setSelectedHighlights}
           showCollage={showCollage}
+          setShowCollage={setShowCollage}
         />
         {showCollage ? (
           <StrictModeDroppable droppableId="highlights">

@@ -10,6 +10,7 @@ import { getSearchedCollages } from "../utils/searchUtils";
 interface AllCollagesListProps {
   setCurrentCollage: Dispatch<SetStateAction<Collage>>;
   setSelectedHighlights: (highlights: Highlight[]) => void;
+  setShowCollage: Dispatch<SetStateAction<boolean>>;
 }
 
 const Container = styled.div`
@@ -21,6 +22,7 @@ const Container = styled.div`
 const AllCollagesList = ({
   setCurrentCollage,
   setSelectedHighlights,
+  setShowCollage,
 }: AllCollagesListProps) => {
   const { user } = useContainer(AppState);
   const [displayedCollages, setDisplayedCollages] = useState<Collage[]>(
@@ -37,6 +39,7 @@ const AllCollagesList = ({
     if (!collage) return;
     setCurrentCollage(collage);
     setSelectedHighlights(collage.highlights);
+    setShowCollage(true);
   }
 
   function onInputChange(e: any): void {
