@@ -31,7 +31,6 @@ const Board = styled.div`
   width: 50%;
   padding: 2% 5%;
   box-sizing: border-box;
-  gap: 1rem;
 `;
 
 const TopButtons = styled.div`
@@ -43,6 +42,19 @@ const TopButtons = styled.div`
 const Header = styled.div`
   display: flex;
   justify-content: space-between;
+`;
+
+const Content = styled.div<{
+  backgroundColor: string;
+  padding: string;
+  borderRadius: string;
+}>`
+  display: flex;
+  flex-direction: column;
+  background-color: ${(props) => props.backgroundColor};
+  padding: ${(props) => props.padding};
+  border-radius: ${(props) => props.borderRadius};
+  gap: 1rem;
 `;
 
 const CollageBoard = ({
@@ -167,42 +179,47 @@ const CollageBoard = ({
                   </Icon>
                 </div>
               </Header>
-
-              {selectedHighlights.map((highlight, index) =>
-                blocView ? (
-                  <Draggable
-                    key={highlight.id}
-                    draggableId={highlight.id}
-                    index={index}
-                  >
-                    {(provided) => {
-                      return (
-                        <div
-                          {...provided.draggableProps}
-                          {...provided.dragHandleProps}
-                          ref={provided.innerRef}
-                        >
-                          <HighlightThumbnail
-                            highlight={highlight}
-                            fullWidth={true}
-                            backgroundColor="var(--secondary-light)"
-                            onDeleteHighlight={() =>
-                              setSelectedHighlights(
-                                selectedHighlights.filter(
-                                  (h) => h.id !== highlight.id
+              <Content
+                backgroundColor={blocView ? "transparent" : "var(--white)"}
+                padding={blocView ? "0" : "5% 8%"}
+                borderRadius={blocView ? "0" : "20px"}
+              >
+                {selectedHighlights.map((highlight, index) =>
+                  blocView ? (
+                    <Draggable
+                      key={highlight.id}
+                      draggableId={highlight.id}
+                      index={index}
+                    >
+                      {(provided) => {
+                        return (
+                          <div
+                            {...provided.draggableProps}
+                            {...provided.dragHandleProps}
+                            ref={provided.innerRef}
+                          >
+                            <HighlightThumbnail
+                              highlight={highlight}
+                              fullWidth={true}
+                              backgroundColor="var(--secondary-light)"
+                              onDeleteHighlight={() =>
+                                setSelectedHighlights(
+                                  selectedHighlights.filter(
+                                    (h) => h.id !== highlight.id
+                                  )
                                 )
-                              )
-                            }
-                          />
-                        </div>
-                      );
-                    }}
-                  </Draggable>
-                ) : (
-                  <p key={highlight.id}>{highlight.text}</p>
-                )
-              )}
-              {provided.placeholder}
+                              }
+                            />
+                          </div>
+                        );
+                      }}
+                    </Draggable>
+                  ) : (
+                    <p key={highlight.id}>{highlight.text}</p>
+                  )
+                )}
+                {provided.placeholder}
+              </Content>
             </Board>
           );
         }}
