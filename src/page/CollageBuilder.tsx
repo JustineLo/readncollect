@@ -83,6 +83,7 @@ function CollageBuilder({}: CollageBuilderProps): JSX.Element {
           selectedHighlights={selectedHighlights}
           setSelectedHighlights={setSelectedHighlights}
         />
+
         <HighlightsContainer>
           <Tabs>
             <Button onClick={() => setDisplayAllCollages(false)}>

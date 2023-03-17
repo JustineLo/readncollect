@@ -31,17 +31,29 @@ const Board = styled.div`
   width: 50%;
   padding: 2% 5%;
   box-sizing: border-box;
+
+  h1 {
+    color: var(--primary-dark);
+  }
 `;
 
 const TopButtons = styled.div`
   display: flex;
   gap: 1rem;
   align-items: center;
+  justify-content: space-between;
+
+  div {
+    display: flex;
+    gap: 20px;
+    align-items: center;
+  }
 `;
 
 const Header = styled.div`
   display: flex;
   justify-content: space-between;
+  margin: 2rem 0 1rem 0;
 `;
 
 const Content = styled.div<{
@@ -128,33 +140,36 @@ const CollageBoard = ({
           return (
             <Board {...provided.droppableProps} ref={provided.innerRef}>
               <TopButtons>
-                <Button
-                  onClick={() => setBlocView(!blocView)}
-                  square={true}
-                  backgroundColor="transparent"
-                >
-                  <div
-                    style={{
-                      display: "flex",
-                      gap: "10px",
-                      alignItems: "center",
-                    }}
+                <h1>Collage Factory</h1>
+                <div>
+                  <Icon
+                    color="var(--primary-dark)"
+                    hoverColor="var(--primary-text)"
+                    onClick={() => setDisplayNewCollageModal(true)}
                   >
-                    {blocView ? "Switch to text" : "Switch to blocs"}
-                    {blocView ? (
-                      <GrTextAlignLeft />
-                    ) : (
-                      <AiOutlineBlock size="16px" />
-                    )}
-                  </div>
-                </Button>
-                <Icon
-                  color="var(--primary-dark)"
-                  hoverColor="var(--primary-text)"
-                  onClick={() => setDisplayNewCollageModal(true)}
-                >
-                  <IoMdAddCircle size="30px" />
-                </Icon>
+                    <IoMdAddCircle size="30px" />
+                  </Icon>
+                  <Button
+                    onClick={() => setBlocView(!blocView)}
+                    square={true}
+                    backgroundColor="transparent"
+                  >
+                    <div
+                      style={{
+                        display: "flex",
+                        gap: "10px",
+                        alignItems: "center",
+                      }}
+                    >
+                      {blocView ? "Switch to text" : "Switch to blocs"}
+                      {blocView ? (
+                        <GrTextAlignLeft />
+                      ) : (
+                        <AiOutlineBlock size="16px" />
+                      )}
+                    </div>
+                  </Button>
+                </div>
               </TopButtons>
 
               <Header>
