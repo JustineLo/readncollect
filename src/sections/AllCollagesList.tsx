@@ -1,14 +1,22 @@
 import { Dispatch, SetStateAction, useState } from "react";
+import styled from "styled-components";
 import { useContainer } from "unstated-next";
 import CollageThumbnail from "../components/CollageThumbnail";
 import Input from "../components/Input";
 import AppState from "../state/AppState";
 import { Collage, Highlight } from "../types/Article";
 import { getSearchedCollages } from "../utils/searchUtils";
+
 interface AllCollagesListProps {
   setCurrentCollage: Dispatch<SetStateAction<Collage>>;
   setSelectedHighlights: (highlights: Highlight[]) => void;
 }
+
+const Container = styled.div`
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+`;
 
 const AllCollagesList = ({
   setCurrentCollage,
@@ -34,8 +42,15 @@ const AllCollagesList = ({
   }
 
   return (
-    <div>
-      <Input type="text" value={searchQuery} onChange={onInputChange} />
+    <Container>
+      <Input
+        type="text"
+        value={searchQuery}
+        onChange={onInputChange}
+        width="50%"
+        placeholder="Search collages"
+      />
+
       {displayedArticles.map((collage) => (
         <CollageThumbnail
           key={collage.id}
@@ -44,7 +59,7 @@ const AllCollagesList = ({
           selectCollage={() => selectCollage(collage.id)}
         />
       ))}
-    </div>
+    </Container>
   );
 };
 

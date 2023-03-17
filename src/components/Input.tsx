@@ -5,24 +5,28 @@ interface InputProps {
   value: string;
   onChange: (e: any) => void;
   placeholder?: string;
+  width: string;
 }
 
-const InputContainer = styled.input`
+const InputContainer = styled.input<{ width: string | undefined }>`
   padding: 10px 20px;
   border-radius: 5px;
   border: 2px solid var(--secondary);
   background: var(--secondary-light);
   min-width: 300px;
+  width: ${(props) => (props.width ? props.width : "300px")};
+  color: var(--grey);
 `;
 
-const Input = ({ type, value, onChange, placeholder }: InputProps) => {
+const Input = ({ type, value, onChange, placeholder, width }: InputProps) => {
   return (
     <InputContainer
       type={type}
       value={value}
       placeholder={placeholder}
       onChange={onChange}
-    ></InputContainer>
+      width={width}
+    />
   );
 };
 

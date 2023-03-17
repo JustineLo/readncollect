@@ -1,4 +1,5 @@
 import { useState } from "react";
+import styled from "styled-components";
 import { useContainer } from "unstated-next";
 import ArticleHighlights from "../components/ArticleHighlights";
 import Input from "../components/Input";
@@ -9,6 +10,12 @@ import { getSearchedArticles } from "../utils/searchUtils";
 interface AllHighlightsListProps {
   selectHighlight: (highlight: Highlight) => void;
 }
+
+const Container = styled.div`
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+`;
 
 const AllHighlightsList = ({ selectHighlight }: AllHighlightsListProps) => {
   const { user, processedArticles } = useContainer(AppState);
@@ -23,8 +30,14 @@ const AllHighlightsList = ({ selectHighlight }: AllHighlightsListProps) => {
   }
 
   return (
-    <>
-      <Input type="text" value={searchQuery} onChange={onInputChange} />
+    <Container>
+      <Input
+        type="text"
+        value={searchQuery}
+        onChange={onInputChange}
+        width="50%"
+        placeholder="Search highlights"
+      />
       <ArticleHighlights
         title="Unlinked highlights"
         highlights={user.soloHighlights}
@@ -39,7 +52,7 @@ const AllHighlightsList = ({ selectHighlight }: AllHighlightsListProps) => {
             selectHighlight={selectHighlight}
           />
         ))}
-    </>
+    </Container>
   );
 };
 
