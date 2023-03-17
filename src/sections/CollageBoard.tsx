@@ -1,17 +1,13 @@
-import { uuidv4 } from "@firebase/util";
 import { doc, updateDoc } from "firebase/firestore";
 import { Dispatch, SetStateAction, useEffect, useState } from "react";
 import { Draggable } from "react-beautiful-dnd";
 import styled from "styled-components";
 import { useContainer } from "unstated-next";
-import Button from "../components/Button";
 import HighlightThumbnail from "../components/HighlightThumbnail";
-import Input from "../components/Input";
 import { db } from "../firebase";
 import AppState from "../state/AppState";
 import { Collage, Highlight } from "../types/Article";
 import { StrictModeDroppable } from "../utils/StrictModeDroppable";
-import ConfirmationModal from "./../components/ConfirmationModal";
 import CollageBoardHeader from "./CollageBoardHeader";
 interface CollageBoardProps {
   currentCollage: Collage;
@@ -58,26 +54,12 @@ const CollageBoard = ({
 }: CollageBoardProps) => {
   const { user, setUser } = useContainer(AppState);
   const [blocView, setBlocView] = useState(true);
-  const [displayNewCollageModal, setDisplayNewCollageModal] = useState(false);
-  const [currentTitle, setCurrentTitle] = useState("");
+
   const [disableSave, setDisableSave] = useState(true);
 
   useEffect(() => {
     setDisableSave(selectedHighlights === currentCollage.highlights);
   }, [selectedHighlights]);
-
-  function createCollage(): void {
-    const newCollage: Collage = {
-      id: uuidv4(),
-      title: currentTitle,
-      highlights: [],
-      excerpt: "",
-      createdAt: new Date().toISOString().substring(0, 10),
-    };
-    setCurrentCollage(newCollage);
-    setSelectedHighlights([]);
-    setDisplayNewCollageModal(false);
-  }
 
   function handleSave(): void {
     let excerpt = "";
@@ -125,8 +107,9 @@ const CollageBoard = ({
                 setBlocView={setBlocView}
                 handleSave={handleSave}
                 disableSave={disableSave}
-                setDisplayNewCollageModal={setDisplayNewCollageModal}
-                title={currentTitle}
+                currentCollage={currentCollage}
+                setCurrentCollage={setCurrentCollage}
+                setSelectedHighlights={setSelectedHighlights}
               />
               <Board {...provided.droppableProps} ref={provided.innerRef}>
                 <Content
@@ -175,17 +158,6 @@ const CollageBoard = ({
           );
         }}
       </StrictModeDroppable>
-      {displayNewCollageModal && (
-        <ConfirmationModal setOpen={setDisplayNewCollageModal}>
-          <p>Title :</p>
-          <Input
-            type="text"
-            value={currentTitle}
-            onChange={(e) => setCurrentTitle(e.target.value)}
-          />
-          <Button onClick={createCollage}> Create new collage </Button>
-        </ConfirmationModal>
-      )}
     </>
   );
 };

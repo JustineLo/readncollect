@@ -1,4 +1,4 @@
-import { Dispatch, SetStateAction, useState } from "react";
+import { Dispatch, SetStateAction, useEffect, useState } from "react";
 import styled from "styled-components";
 import { useContainer } from "unstated-next";
 import CollageThumbnail from "../components/CollageThumbnail";
@@ -23,10 +23,14 @@ const AllCollagesList = ({
   setSelectedHighlights,
 }: AllCollagesListProps) => {
   const { user } = useContainer(AppState);
-  const [displayedArticles, setDisplayedArticles] = useState<Collage[]>(
+  const [displayedCollages, setDisplayedCollages] = useState<Collage[]>(
     user.collages
   );
   const [searchQuery, setSearchQuery] = useState<string>("");
+
+  useEffect(() => {
+    setDisplayedCollages(user.collages);
+  }, [user.collages]);
 
   function selectCollage(collageID: string): void {
     const collage = user.collages.find((collage) => collage.id === collageID);
@@ -38,7 +42,7 @@ const AllCollagesList = ({
   function onInputChange(e: any): void {
     const input = e.target.value;
     setSearchQuery(input);
-    setDisplayedArticles(getSearchedCollages(user.collages, input));
+    setDisplayedCollages(getSearchedCollages(user.collages, input));
   }
 
   return (
@@ -51,7 +55,7 @@ const AllCollagesList = ({
         placeholder="Search collages"
       />
 
-      {displayedArticles.map((collage) => (
+      {displayedCollages.map((collage) => (
         <CollageThumbnail
           key={collage.id}
           title={collage.title}

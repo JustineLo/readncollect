@@ -1,20 +1,29 @@
-import { Dispatch, SetStateAction } from "react";
+import { uuidv4 } from "@firebase/util";
+import { doc, updateDoc } from "firebase/firestore";
+import { Dispatch, SetStateAction, useState } from "react";
 import { AiOutlineBlock } from "react-icons/ai";
+import { FaRegTrashAlt } from "react-icons/fa";
 import { FiSave } from "react-icons/fi";
 import { GrTextAlignLeft } from "react-icons/gr";
 import { IoMdAddCircle } from "react-icons/io";
 import { TiExport } from "react-icons/ti";
 import styled from "styled-components";
+import { useContainer } from "unstated-next";
 import Button from "../components/Button";
+import ConfirmationModal from "../components/ConfirmationModal";
 import Icon from "../components/Icon";
-
+import Input from "../components/Input";
+import { db } from "../firebase";
+import AppState from "../state/AppState";
+import { Collage, Highlight } from "../types/Article";
 interface CollageBoardHeaderProps {
   blocView: boolean;
   setBlocView: Dispatch<SetStateAction<boolean>>;
   handleSave: () => void;
   disableSave: boolean;
-  setDisplayNewCollageModal: Dispatch<SetStateAction<boolean>>;
-  title: string;
+  currentCollage: Collage;
+  setCurrentCollage: Dispatch<SetStateAction<Collage>>;
+  setSelectedHighlights: Dispatch<SetStateAction<Highlight[]>>;
 }
 
 const TopButtons = styled.div`
@@ -40,10 +49,52 @@ const CollageBoardHeader = ({
   blocView,
   setBlocView,
   handleSave,
-  setDisplayNewCollageModal,
   disableSave,
-  title,
+  currentCollage,
+  setCurrentCollage,
+  setSelectedHighlights,
 }: CollageBoardHeaderProps) => {
+  const [displayNewCollageModal, setDisplayNewCollageModal] = useState(false);
+  const [currentTitle, setCurrentTitle] = useState("");
+  const { user, setUser } = useContainer(AppState);
+
+  function createCollage(): void {
+    const newCollage: Collage = {
+      id: uuidv4(),
+      title: currentTitle,
+      highlights: [],
+      excerpt: "",
+      createdAt: new Date().toISOString().substring(0, 10),
+    };
+    setCurrentCollage(newCollage);
+    setSelectedHighlights([]);
+    setDisplayNewCollageModal(false);
+  }
+
+  function onDeleteCollage(): void {
+    const updatedCollages: Collage[] = user.collages.filter(
+      (collage) => collage.id !== currentCollage.id
+    );
+    const userRef = doc(db, `users/${user.docID}`);
+    setUser({
+      ...user,
+      collages: updatedCollages,
+    });
+    setCurrentCollage({
+      id: "",
+      title: "",
+      highlights: [],
+      excerpt: "",
+      createdAt: "",
+    });
+    setSelectedHighlights([]);
+    updateDoc(userRef, {
+      collages: updatedCollages,
+    }).catch((error) => {
+      console.error(error);
+    });
+  }
+
   return (
     <>
       <TopButtons>
@@ -76,8 +127,8 @@ const CollageBoardHeader = ({
       </TopButtons>
 
       <Header>
-        <h3>{title}</h3>
-        <div style={{ display: "flex", gap: "10px" }}>
+        <h3>{currentCollage.title}</h3>
+        <div style={{ display: "flex", gap: "10px", alignItems: "center" }}>
           <Icon
             onClick={handleSave}
             opacity={disableSave ? 0.5 : 1}
@@ -95,8 +146,26 @@ const CollageBoardHeader = ({
           >
             <TiExport size="20px" />
           </Icon>
+          <Icon
+            color="var(--black)"
+            hoverColor="var(--secondary-dark)"
+            onClick={() => onDeleteCollage()}
+          >
+            <FaRegTrashAlt size="15px" />
+          </Icon>
         </div>
       </Header>
+      {displayNewCollageModal && (
+        <ConfirmationModal setOpen={setDisplayNewCollageModal}>
+          <p>Title :</p>
+          <Input
+            type="text"
+            value={currentTitle}
+            onChange={(e) => setCurrentTitle(e.target.value)}
+          />
+          <Button onClick={createCollage}> Create new collage </Button>
+        </ConfirmationModal>
+      )}
     </>
   );
 };
