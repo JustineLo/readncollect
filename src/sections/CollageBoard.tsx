@@ -119,7 +119,7 @@ const CollageBoard = ({
                 <Button
                   onClick={() => setBlocView(!blocView)}
                   square={true}
-                  backgroundColor="var(--secondary)"
+                  backgroundColor="transparent"
                 >
                   <div
                     style={{
@@ -138,7 +138,7 @@ const CollageBoard = ({
                 </Button>
                 <Icon
                   color="var(--primary-dark)"
-                  hoverColor="var(--secondary-dark)"
+                  hoverColor="var(--primary-text)"
                   onClick={() => setDisplayNewCollageModal(true)}
                 >
                   <IoMdAddCircle size="30px" />
@@ -153,6 +153,7 @@ const CollageBoard = ({
                     opacity={disableSave ? 0.5 : 1}
                     backgroundColor="var(--secondary)"
                     hoverColor="var(--secondary-light)"
+                    color="var(--primary-text)"
                     disabled={disableSave}
                   >
                     <FiSave size="20px" />
