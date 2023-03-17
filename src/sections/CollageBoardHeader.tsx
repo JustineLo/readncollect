@@ -39,6 +39,10 @@ const TitleRow = styled.div`
   align-items: center;
   justify-content: space-between;
 
+  h1 {
+    color: var(--primary-dark);
+  }
+
   div {
     display: flex;
     gap: 20px;
