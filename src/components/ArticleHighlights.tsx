@@ -1,6 +1,7 @@
 import { useState } from "react";
 import styled from "styled-components";
 import { Highlight } from "../types/Article";
+import Chevron from "./Chevron";
 import HighlightThumbnail from "./HighlightThumbnail";
 
 interface ArticleHighlightsProps {
@@ -11,23 +12,40 @@ interface ArticleHighlightsProps {
 
 const Container = styled.div`
    {
-    width: auto;
+    width: 100%;
     border-radius: 10px;
-    padding: 5px 30px;
     color: var(--black);
     display: flex;
     flex-direction: column;
     align-items: center;
     justify-content: space-between;
-    cursor: pointer;
+
     gap: 20px;
+    border: 1px solid var(--primary);
+    overflow: hidden;
+    box-sizing: border-box;
   }
 `;
+
+const Header = styled.div`
+   {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    background-color: var(--primary);
+    width: 100%;
+    padding: 0 20px 0 50px;
+    cursor: pointer;
+    box-sizing: border-box;
+  }
+`;
+
 const List = styled.div`
    {
     display: flex;
     flex-direction: column;
     gap: 1rem;
+    padding: 40px;
   }
 `;
 const ArticleHighlights = ({
@@ -37,8 +55,12 @@ const ArticleHighlights = ({
 }: ArticleHighlightsProps) => {
   const [isOpen, setIsOpen] = useState(true);
   return (
-    <Container onClick={() => setIsOpen(!isOpen)}>
-      <h3>{title}</h3>
+    <Container>
+      <Header onClick={() => setIsOpen(!isOpen)}>
+        <h3>{title}</h3>
+        <Chevron isDown={!isOpen} size="30px" />
+      </Header>
+
       {isOpen && (
         <List>
           {highlights.map((highlight) => (
