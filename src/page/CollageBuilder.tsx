@@ -5,7 +5,7 @@ import { useAuthState } from "react-firebase-hooks/auth";
 import { useNavigate } from "react-router-dom";
 import styled from "styled-components";
 import { useContainer } from "unstated-next";
-import Button from "../components/Button";
+import TabLink from "../components/TabLink";
 import { auth } from "../firebase";
 import AllCollagesList from "../sections/AllCollagesList";
 import AllHighlightsList from "../sections/AllHighlightsLists";
@@ -24,6 +24,9 @@ const GlobalContainer = styled.div`
 const Tabs = styled.div`
   display: flex;
   gap: 1rem;
+  width: 100%;
+  justify-content: center;
+  margin: 2rem 0;
 `;
 
 const HighlightsContainer = styled.div`
@@ -86,12 +89,18 @@ function CollageBuilder({}: CollageBuilderProps): JSX.Element {
 
         <HighlightsContainer>
           <Tabs>
-            <Button onClick={() => setDisplayAllCollages(false)}>
+            <TabLink
+              onClick={() => setDisplayAllCollages(false)}
+              active={!displayAllCollages}
+            >
               All highlights
-            </Button>
-            <Button onClick={() => setDisplayAllCollages(true)}>
+            </TabLink>
+            <TabLink
+              onClick={() => setDisplayAllCollages(true)}
+              active={displayAllCollages}
+            >
               All collages
-            </Button>
+            </TabLink>
           </Tabs>
 
           {displayAllCollages ? (
