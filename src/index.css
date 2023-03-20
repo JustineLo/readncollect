@@ -27,20 +27,6 @@
   --accent-dark: #f9c6f0;
   --accent-light: #fff3ff;
   --white: #ffffff;
-
-  /* --black: #111111;
-  --blue: #88bbaf;
-  --red: #cd6346;
-  --pink: #f9e4dd;
-  --white: #ffffff; */
-
-  /* --black: #0e0a2f;
-  --black-transparent: rgba(00, 00, 00, 0.8);
-  --purple-dark: #1f0249;
-  --purple-medium: #50169c;
-  --purple-medium-transparent: rgb(80, 22, 156, 0.3);
-  --purple-light: #7d23d1;
-  --pink: #d03c90; */
 }
 
 ::-webkit-scrollbar {
@@ -77,4 +63,5 @@ body {
   background: var(--background);
   color: var(--black);
   font-family: Poppins, Helvetica, Arial, sans-serif;
+  height: 100vh;
 }

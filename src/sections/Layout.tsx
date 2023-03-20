@@ -21,6 +21,9 @@ const SidebarContainer = styled.nav`
   gap: 5rem;
   padding: 5rem 0;
   box-sizing: border-box;
+
+  @media (min-width: 768px) {
+  }
 `;
 
 const PageIcons = styled.div`

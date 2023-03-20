@@ -20,6 +20,16 @@ interface CollageBoardProps {
   setDisplayAllCollages: Dispatch<SetStateAction<boolean>>;
 }
 
+const DroppableContainer = styled.div`
+  display: flex;
+  flex-direction: column;
+  width: 50%;
+  padding: 2% 5%;
+  box-sizing: border-box;
+  height: 100vh;
+  overflow-y: scroll;
+`;
+
 const Board = styled.div`
   display: flex;
   flex-direction: column;
@@ -27,14 +37,6 @@ const Board = styled.div`
   h1 {
     color: var(--primary-dark);
   }
-`;
-
-const DroppableContainer = styled.div`
-  display: flex;
-  flex-direction: column;
-  width: 50%;
-  padding: 2% 5%;
-  box-sizing: border-box;
 `;
 
 const Content = styled.div<{

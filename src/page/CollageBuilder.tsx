@@ -34,6 +34,9 @@ const HighlightsContainer = styled.div`
   flex-direction: column;
   padding: 2% 5%;
   background-color: var(--primary-light);
+  height: 100vh;
+  overflow-y: scroll;
+  box-sizing: border-box;
 `;
 
 function CollageBuilder({}: CollageBuilderProps): JSX.Element {
