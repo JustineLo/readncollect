@@ -14,8 +14,10 @@ const LayoutContainer = styled.div`
    {
     display: flex;
     flex-direction: column;
+    width: 100vw;
 
     @media (min-width: 768px) {
+      flex-direction: row;
     }
   }
 `;
@@ -28,7 +30,6 @@ const SidebarContainer = styled.nav`
   padding: 5%;
   box-sizing: border-box;
   height: 60px;
-  width: 100vw;
 
   @media (min-width: 768px) {
     height: 100vh;
@@ -40,10 +41,9 @@ const SidebarContainer = styled.nav`
 
 const PageIcons = styled.div`
   display: flex;
-  gap: 30px;
+  gap: 60px;
   @media (min-width: 768px) {
     flex-direction: column;
-    gap: 10%;
   }
 `;
 
