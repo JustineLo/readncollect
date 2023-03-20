@@ -9,21 +9,28 @@ interface CollageThumbnailProps {
 
 const ThumbnailButton = styled.button`
    {
-    width: auto;
-    border-radius: 20px;
     overflow: hidden;
-    background-color: var(--accent-light);
+    background-color: var(--accent);
     color: var(--black);
     display: flex;
-    flex-direction: column;
-    align-items: start;
     cursor: pointer;
     border: none;
-    padding: 0;
+    border-radius: 10px;
+    height: 50px;
+    padding: 0 20px;
   }
 
   p {
     text-align: left;
+  }
+
+  @media (min-width: 768px) {
+    width: 100%;
+    border-radius: 20px;
+    background-color: var(--accent-light);
+    flex-direction: column;
+    height: 100%;
+    padding: 0;
   }
 `;
 
@@ -31,12 +38,29 @@ const Title = styled.div`
    {
     background-color: var(--accent);
     width: 100%;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+  }
+
+  h3 {
+    margin: 0;
+  }
+
+  @media (min-width: 768px) {
+    align-items: start;
+    padding: 10px 30px;
   }
 `;
 
 const Content = styled.div`
    {
     padding: 10px 30px;
+    display: none;
+    @media (min-width: 768px) {
+      display: block;
+    }
   }
 `;
 

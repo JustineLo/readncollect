@@ -17,7 +17,18 @@ const Container = styled.div`
   display: flex;
   flex-direction: column;
   align-items: center;
-  gap: 30px;
+`;
+
+const Thumbnails = styled.div`
+   {
+    display: flex;
+    padding: 40px 0;
+    gap: 20px;
+    @media (min-width: 768px) {
+      flex-direction: column;
+      gap: 30px;
+    }
+  }
 `;
 
 const AllCollagesList = ({
@@ -58,15 +69,16 @@ const AllCollagesList = ({
         width="50%"
         placeholder="Search collages"
       />
-
-      {displayedCollages.map((collage) => (
-        <CollageThumbnail
-          key={collage.id}
-          title={collage.title}
-          excerpt={collage.excerpt}
-          selectCollage={() => selectCollage(collage.id)}
-        />
-      ))}
+      <Thumbnails>
+        {displayedCollages.map((collage) => (
+          <CollageThumbnail
+            key={collage.id}
+            title={collage.title}
+            excerpt={collage.excerpt}
+            selectCollage={() => selectCollage(collage.id)}
+          />
+        ))}
+      </Thumbnails>
     </Container>
   );
 };
