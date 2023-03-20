@@ -32,7 +32,7 @@ function App() {
         <Routes>
           <Route path="/" element={<Home />} />
           <Route element={<Layout />}>
-            <Route path="/dashboard" element={<Dashboard />} />
+            <Route path="/articles" element={<Dashboard />} />
             <Route path="/collagebuilder" element={<CollageBuilder />} />
           </Route>
           <Route path="/signup" element={<Signup />} />

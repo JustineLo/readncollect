@@ -1,5 +1,5 @@
 import { BiNotepad } from "react-icons/bi";
-import { MdAccountCircle, MdLogout, MdSpaceDashboard } from "react-icons/md";
+import { MdAccountCircle, MdLogout } from "react-icons/md";
 import { RiScissors2Fill } from "react-icons/ri";
 import { Outlet } from "react-router-dom";
 import { Tooltip } from "react-tooltip";
@@ -10,32 +10,47 @@ import SidebarIcon from "../components/SidebarIcon";
 import { logout } from "../firebase";
 import AppState from "../state/AppState";
 
+const LayoutContainer = styled.div`
+   {
+    display: flex;
+    flex-direction: column;
+
+    @media (min-width: 768px) {
+    }
+  }
+`;
+
 const SidebarContainer = styled.nav`
-  height: 100vh;
-  width: 6vw;
   background: var(--primary);
   display: flex;
-  flex-direction: column;
   justify-content: space-between;
   align-items: center;
-  gap: 5rem;
-  padding: 5rem 0;
+  padding: 5%;
   box-sizing: border-box;
+  height: 60px;
+  width: 100vw;
 
   @media (min-width: 768px) {
+    height: 100vh;
+    width: 6vw;
+    flex-direction: column;
+    padding: 5rem 0;
   }
 `;
 
 const PageIcons = styled.div`
   display: flex;
-  flex-direction: column;
-  gap: 5rem;
+  gap: 30px;
+  @media (min-width: 768px) {
+    flex-direction: column;
+    gap: 10%;
+  }
 `;
 
 const Layout = () => {
   const { user } = useContainer(AppState);
   return (
-    <>
+    <LayoutContainer>
       <SidebarContainer>
         <SidebarIcon
           toEndpoint="/"
@@ -44,10 +59,7 @@ const Layout = () => {
           <MdAccountCircle size="32px" />
         </SidebarIcon>
         <PageIcons>
-          <SidebarIcon toEndpoint="/dashboard" tooltipContent="Dashboard">
-            <MdSpaceDashboard size="32px" />
-          </SidebarIcon>
-          <SidebarIcon toEndpoint="/" tooltipContent="Articles">
+          <SidebarIcon toEndpoint="/articles" tooltipContent="Articles">
             <RiScissors2Fill size="32px" />
           </SidebarIcon>
           <SidebarIcon
@@ -67,7 +79,7 @@ const Layout = () => {
       </SidebarContainer>
       <Outlet />
       <Tooltip id="sidebar-tooltip" />
-    </>
+    </LayoutContainer>
   );
 };
 

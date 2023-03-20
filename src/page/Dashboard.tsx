@@ -18,6 +18,8 @@ import { getSearchedArticles } from "../utils/searchUtils";
 const GlobalContainer = styled.div`
   width: 100%;
   display: flex;
+  height: 100vh;
+  overflow-y: scroll;
 `;
 const MainContainer = styled.div`
   width: 100%;
