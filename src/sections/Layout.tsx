@@ -1,6 +1,7 @@
 import { BiNotepad } from "react-icons/bi";
 import { MdAccountCircle, MdLogout, MdSpaceDashboard } from "react-icons/md";
 import { RiScissors2Fill } from "react-icons/ri";
+import { Outlet } from "react-router-dom";
 import { Tooltip } from "react-tooltip";
 import styled from "styled-components";
 import { useContainer } from "unstated-next";
@@ -28,7 +29,7 @@ const PageIcons = styled.div`
   gap: 5rem;
 `;
 
-const Sidebar = () => {
+const Layout = () => {
   const { user } = useContainer(AppState);
   return (
     <>
@@ -61,9 +62,10 @@ const Sidebar = () => {
           <MdLogout size="24px" />
         </Icon>
       </SidebarContainer>
+      <Outlet />
       <Tooltip id="sidebar-tooltip" />
     </>
   );
 };
 
-export default Sidebar;
+export default Layout;

@@ -10,7 +10,6 @@ import { auth } from "../firebase";
 import AllCollagesList from "../sections/AllCollagesList";
 import AllHighlightsList from "../sections/AllHighlightsLists";
 import CollageBoard from "../sections/CollageBoard";
-import Sidebar from "../sections/Sidebar";
 import AppState from "../state/AppState";
 import { Collage, Highlight } from "../types/Article";
 
@@ -80,7 +79,6 @@ function CollageBuilder({}: CollageBuilderProps): JSX.Element {
   return (
     <DragDropContext onDragEnd={handleOnDragEnd}>
       <GlobalContainer>
-        <Sidebar />
         <CollageBoard
           currentCollage={currentCollage}
           setCurrentCollage={setCurrentCollage}
@@ -90,7 +88,6 @@ function CollageBuilder({}: CollageBuilderProps): JSX.Element {
           setShowCollage={setShowCollage}
           setDisplayAllCollages={setDisplayAllCollages}
         />
-
         <HighlightsContainer>
           <Tabs>
             <TabLink
@@ -106,7 +103,6 @@ function CollageBuilder({}: CollageBuilderProps): JSX.Element {
               All highlights
             </TabLink>
           </Tabs>
-
           {displayAllCollages ? (
             <AllCollagesList
               setCurrentCollage={setCurrentCollage}

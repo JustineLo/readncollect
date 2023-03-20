@@ -10,7 +10,6 @@ import Button from "../components/Button";
 import EllipsisLoader from "../components/EllipsisLoader";
 import Input from "../components/Input";
 import { auth, db } from "../firebase";
-import Sidebar from "../sections/Sidebar";
 import AppState from "../state/AppState";
 import { Article } from "../types/Article";
 import { getPicture } from "../utils/articleUtils";
@@ -116,7 +115,6 @@ function Dashboard() {
   }
   return (
     <GlobalContainer>
-      <Sidebar />
       <MainContainer>
         <DashboardContainer>
           <h3>Article's URL :</h3>
