@@ -18,6 +18,10 @@ interface CollageBuilderProps {}
 const GlobalContainer = styled.div`
   width: 100vw;
   display: flex;
+
+  @media (max-width: 768px) {
+    flex-direction: column-reverse;
+  }
 `;
 
 const Tabs = styled.div`
@@ -29,14 +33,18 @@ const Tabs = styled.div`
 `;
 
 const HighlightsContainer = styled.div`
-  width: 50%;
   display: flex;
   flex-direction: column;
-  padding: 2% 5%;
+  width: 100%;
   background-color: var(--primary-light);
-  height: 100vh;
-  overflow-y: scroll;
   box-sizing: border-box;
+
+  @media (min-width: 768px) {
+    width: 50%;
+    padding: 2% 5%;
+    height: 100vh;
+    overflow-y: scroll;
+  }
 `;
 
 function CollageBuilder({}: CollageBuilderProps): JSX.Element {

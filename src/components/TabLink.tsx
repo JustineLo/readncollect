@@ -15,8 +15,12 @@ const ButtonContainer = styled.button<{ active: boolean }>`
   outline: none;
   cursor: pointer;
   font-family: Fredoka One, Helvetica, Arial, sans-serif;
-  font-size: 1.2rem;
+  font-size: 1rem;
   color: var(--primary-text);
+
+  @media (min-width: 768px) {
+    font-size: 1.2rem;
+  }
 `;
 
 const TabLink = ({ children, active, onClick }: TabLinkProps) => {
