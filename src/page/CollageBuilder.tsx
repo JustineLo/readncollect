@@ -41,7 +41,7 @@ function CollageBuilder({}: CollageBuilderProps): JSX.Element {
   const { user } = useContainer(AppState);
   const [userAuth, loading, error] = useAuthState(auth);
   const navigate = useNavigate();
-  const [displayAllCollages, setDisplayAllCollages] = useState(false);
+  const [displayAllCollages, setDisplayAllCollages] = useState(true);
   const [selectedHighlights, setSelectedHighlights] = useState<Highlight[]>([]);
   const [showCollage, setShowCollage] = useState(false);
   const [currentCollage, setCurrentCollage] = useState<Collage>({
@@ -88,6 +88,7 @@ function CollageBuilder({}: CollageBuilderProps): JSX.Element {
           setSelectedHighlights={setSelectedHighlights}
           showCollage={showCollage}
           setShowCollage={setShowCollage}
+          setDisplayAllCollages={setDisplayAllCollages}
         />
 
         <HighlightsContainer>

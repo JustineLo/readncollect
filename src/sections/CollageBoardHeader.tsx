@@ -26,6 +26,7 @@ interface CollageBoardHeaderProps {
   setSelectedHighlights: Dispatch<SetStateAction<Highlight[]>>;
   showCollage: boolean;
   setShowCollage: Dispatch<SetStateAction<boolean>>;
+  setDisplayAllCollages: Dispatch<SetStateAction<boolean>>;
 }
 
 const Header = styled.div`
@@ -66,6 +67,7 @@ const CollageBoardHeader = ({
   setSelectedHighlights,
   showCollage,
   setShowCollage,
+  setDisplayAllCollages,
 }: CollageBoardHeaderProps) => {
   const [displayNewCollageModal, setDisplayNewCollageModal] = useState(false);
   const [displayDeleteModal, setDisplayDeleteModal] = useState(false);
@@ -84,6 +86,7 @@ const CollageBoardHeader = ({
     setSelectedHighlights([]);
     setDisplayNewCollageModal(false);
     setShowCollage(true);
+    setDisplayAllCollages(false);
   }
 
   function onDeleteCollage(): void {
