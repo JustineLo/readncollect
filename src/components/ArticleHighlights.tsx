@@ -12,40 +12,71 @@ interface ArticleHighlightsProps {
 
 const Container = styled.div`
    {
-    width: 100%;
     border-radius: 10px;
     color: var(--black);
     display: flex;
     flex-direction: column;
     align-items: center;
     justify-content: space-between;
+    width: 200px;
 
     gap: 20px;
     border: 1px solid var(--primary);
     overflow: hidden;
     box-sizing: border-box;
+
+    @media (min-width: 768px) {
+      width: 100%;
+    }
   }
 `;
 
 const Header = styled.div`
    {
     display: flex;
-    justify-content: space-between;
+    justify-content: center;
     align-items: center;
     background-color: var(--primary);
-    width: 100%;
-    padding: 0 20px 0 50px;
+    font-size: 0.8rem;
     cursor: pointer;
     box-sizing: border-box;
+    width: 100%;
+    padding: 0 10px;
+
+    h3 {
+      text-align: center;
+    }
+
+    svg {
+      display: none;
+    }
+
+    @media (min-width: 768px) {
+      padding: 0 20px 0 50px;
+      font-size: 1rem;
+      justify-content: space-between;
+
+      h3 {
+        text-align: start;
+      }
+
+      svg {
+        display: flex;
+      }
+    }
   }
 `;
 
 const List = styled.div`
    {
-    display: flex;
-    flex-direction: column;
-    gap: 1rem;
-    padding: 40px;
+    display: none;
+
+    @media (min-width: 768px) {
+      display: flex;
+      flex-direction: column;
+      gap: 1rem;
+      padding: 40px;
+    }
   }
 `;
 const ArticleHighlights = ({
