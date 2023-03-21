@@ -64,7 +64,7 @@ const Signup = () => {
             collages: [],
           });
         }
-        navigate("/dashboard");
+        navigate("/articles");
       })
       .catch((error) => {
         const errorCode = error.code;

@@ -17,7 +17,9 @@ const ThumbnailButton = styled.button`
     border: none;
     border-radius: 10px;
     height: 50px;
-    padding: 0 20px;
+    width: 100px;
+    min-width: 100px;
+    padding: 0 10px;
   }
 
   p {
@@ -46,6 +48,16 @@ const Title = styled.div`
 
   h3 {
     margin: 0;
+    width: 100%;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+    font-size: 0.8rem;
+
+    @media (min-width: 768px) {
+      width: auto;
+      font-size: 1rem;
+    }
   }
 
   @media (min-width: 768px) {

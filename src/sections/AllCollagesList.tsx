@@ -17,17 +17,23 @@ const Container = styled.div`
   display: flex;
   flex-direction: column;
   align-items: center;
+  width: 100%;
 `;
 
 const Thumbnails = styled.div`
-   {
-    display: flex;
-    padding: 40px 0;
-    gap: 20px;
-    @media (min-width: 768px) {
-      flex-direction: column;
-      gap: 30px;
-    }
+  display: flex;
+  padding: 40px 0;
+  gap: 20px;
+  width: 90%;
+  overflow-x: auto;
+  white-space: nowrap;
+  padding: auto 40px;
+  box-sizing: border-box;
+
+  @media (min-width: 768px) {
+    flex-wrap: nowrap;
+    gap: 30px;
+    overflow-x: hidden;
   }
 `;
 

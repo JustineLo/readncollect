@@ -51,7 +51,7 @@ const Login = () => {
     if (loading) {
       return;
     }
-    if (user) navigate("/dashboard");
+    if (user) navigate("/articles");
   }, [user, loading]);
 
   return (
