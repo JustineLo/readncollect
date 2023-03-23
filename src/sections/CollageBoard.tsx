@@ -23,11 +23,15 @@ interface CollageBoardProps {
 const DroppableContainer = styled.div`
   display: flex;
   flex-direction: column;
-  width: 50%;
+  width: 100%;
   padding: 2% 5%;
   box-sizing: border-box;
   height: 100vh;
   overflow-y: scroll;
+
+  @media (min-width: 768px) {
+    width: 50%;
+  }
 `;
 
 const Board = styled.div`
@@ -147,6 +151,7 @@ const CollageBoard = ({
                                 <HighlightThumbnail
                                   highlight={highlight}
                                   fullWidth={true}
+                                  heightAuto={true}
                                   backgroundColor="var(--secondary-light)"
                                   onDeleteHighlight={() =>
                                     setSelectedHighlights(

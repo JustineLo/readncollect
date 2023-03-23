@@ -8,30 +8,33 @@ interface HighlightProps {
   onDeleteHighlight?: () => void;
   onClick?: () => void;
   fullWidth?: boolean;
+  heightAuto?: boolean;
   backgroundColor?: string;
 }
 
 interface ContainerProps {
   fullWidth?: boolean;
+  heightAuto?: boolean;
   backgroundColor?: string;
 }
 
 const Container = styled.div<ContainerProps>`
    {
     border-radius: 10px;
-    width: 100px;
+    width: ${(props) => (props.fullWidth ? "auto" : "100px")};
+    height: ${(props) => (props.heightAuto ? "auto" : "100px")};
     background-color: ${(props) => props.backgroundColor || "var(--secondary)"};
     color: var(--black);
     border: 3px solid var(--secondary-dark);
     display: flex;
+    align-items: center;
 
     cursor: pointer;
     gap: 20px;
-    height: 100px;
     font-size: 0.8rem;
     overflow: hidden;
     text-ellipsis: ellipsis;
-    padding: 2px;
+    padding: ${(props) => (props.heightAuto ? " 0 0 0 10px" : "2px")};
     box-sizing: border-box;
 
     @media (min-width: 768px) {
@@ -52,11 +55,13 @@ const HighlightThumbnail = ({
   onClick,
   fullWidth,
   backgroundColor,
+  heightAuto,
 }: HighlightProps) => {
   return (
     <Container
       onClick={onClick}
       fullWidth={fullWidth}
+      heightAuto={heightAuto}
       backgroundColor={backgroundColor}
     >
       <p>{highlight.text}</p>

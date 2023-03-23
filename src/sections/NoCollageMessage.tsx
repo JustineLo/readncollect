@@ -7,6 +7,11 @@ const Container = styled.div`
   justify-content: center;
   margin-top: 10vh;
   gap: 20px;
+  text-align: center;
+
+  @media (min-width: 768px) {
+    text-align: start;
+  }
 `;
 
 const NoCollageMessage = () => {
