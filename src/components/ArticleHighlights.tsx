@@ -90,6 +90,26 @@ const List = styled.div`
     }
   }
 `;
+
+const MobileArea = styled.div`
+   {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+  }
+`;
+
+const MobileList = styled.div`
+   {
+    height: 100px;
+    width: 90vw;
+    z-index: 90;
+    display: flex;
+    gap: 10px;
+    overflow-x: scroll;
+  }
+`;
+
 const ArticleHighlights = ({
   title,
   highlights,
@@ -97,14 +117,27 @@ const ArticleHighlights = ({
 }: ArticleHighlightsProps) => {
   const [isOpen, setIsOpen] = useState(true);
   return (
-    <Container>
-      <Header onClick={() => setIsOpen(!isOpen)}>
-        <h3>{title}</h3>
-        <Chevron isDown={!isOpen} size="30px" />
-      </Header>
+    <MobileArea>
+      <Container>
+        <Header onClick={() => setIsOpen(!isOpen)}>
+          <h3>{title}</h3>
+          <Chevron isDown={!isOpen} size="30px" />
+        </Header>
 
+        {isOpen && (
+          <List>
+            {highlights.map((highlight) => (
+              <HighlightThumbnail
+                key={highlight.id}
+                highlight={highlight}
+                onClick={() => selectHighlight(highlight)}
+              />
+            ))}
+          </List>
+        )}
+      </Container>
       {isOpen && (
-        <List>
+        <MobileList>
           {highlights.map((highlight) => (
             <HighlightThumbnail
               key={highlight.id}
@@ -112,9 +145,9 @@ const ArticleHighlights = ({
               onClick={() => selectHighlight(highlight)}
             />
           ))}
-        </List>
+        </MobileList>
       )}
-    </Container>
+    </MobileArea>
   );
 };
 
