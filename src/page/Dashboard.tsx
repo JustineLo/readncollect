@@ -16,7 +16,7 @@ import { getPicture } from "../utils/articleUtils";
 import { getSearchedArticles } from "../utils/searchUtils";
 
 const GlobalContainer = styled.div`
-  width: 100%;
+  width: 95vw;
   display: flex;
   height: 100vh;
   overflow-y: scroll;

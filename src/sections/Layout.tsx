@@ -32,7 +32,7 @@ const SidebarContainer = styled.nav`
 
   @media (min-width: 768px) {
     height: 100vh;
-    min-width: 5%;
+    min-width: 5vw;
     flex-direction: column;
     padding: 5rem 0;
   }

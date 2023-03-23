@@ -55,6 +55,7 @@ const Content = styled.div<{
   border-radius: ${(props) => props.borderRadius};
   gap: 1rem;
   font-size: 0.8rem;
+
   @media (min-width: 768px) {
     font-size: 1rem;
   }

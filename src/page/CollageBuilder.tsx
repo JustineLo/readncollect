@@ -16,7 +16,7 @@ import { Collage, Highlight } from "../types/Article";
 interface CollageBuilderProps {}
 
 const GlobalContainer = styled.div`
-  width: 100vw;
+  width: 95vw;
   display: flex;
 
   @media (max-width: 768px) {
