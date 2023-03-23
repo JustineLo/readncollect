@@ -37,6 +37,11 @@ const Container = styled.div<ContainerProps>`
     padding: ${(props) => (props.heightAuto ? " 0 0 0 10px" : "2px")};
     box-sizing: border-box;
 
+    p {
+      overflow: hidden;
+      height: 100%;
+    }
+
     @media (min-width: 768px) {
       padding: 5px 30px;
       align-items: center;
