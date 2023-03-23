@@ -14,7 +14,6 @@ const LayoutContainer = styled.div`
    {
     display: flex;
     flex-direction: column;
-    width: 100vw;
 
     @media (min-width: 768px) {
       flex-direction: row;
@@ -33,7 +32,7 @@ const SidebarContainer = styled.nav`
 
   @media (min-width: 768px) {
     height: 100vh;
-    width: 6vw;
+    min-width: 5%;
     flex-direction: column;
     padding: 5rem 0;
   }

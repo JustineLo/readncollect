@@ -16,6 +16,26 @@ const Container = styled.div`
   flex-direction: column;
   align-items: center;
   gap: 2rem;
+  padding-bottom: 10px;
+
+  @media (min-width: 768px) {
+  }
+`;
+
+const Articles = styled.div`
+  display: flex;
+  gap: 20px;
+  width: 90%;
+  overflow-x: auto;
+  box-sizing: border-box;
+  height: fit-content;
+  padding-bottom: 20px;
+
+  @media (min-width: 768px) {
+    gap: 30px;
+    overflow-x: hidden;
+    flex-direction: column;
+  }
 `;
 
 const AllHighlightsList = ({ selectHighlight }: AllHighlightsListProps) => {
@@ -39,20 +59,22 @@ const AllHighlightsList = ({ selectHighlight }: AllHighlightsListProps) => {
         width="50%"
         placeholder="Search highlights"
       />
-      <ArticleHighlights
-        title="Unlinked highlights"
-        highlights={user.soloHighlights}
-        selectHighlight={selectHighlight}
-      />
-      {displayedArticles.length > 0 &&
-        displayedArticles.map((article: Article) => (
-          <ArticleHighlights
-            key={article.articleDocID}
-            title={article.title}
-            highlights={article.highlights}
-            selectHighlight={selectHighlight}
-          />
-        ))}
+      <Articles>
+        <ArticleHighlights
+          title="Unlinked highlights"
+          highlights={user.soloHighlights}
+          selectHighlight={selectHighlight}
+        />
+        {displayedArticles.length > 0 &&
+          displayedArticles.map((article: Article) => (
+            <ArticleHighlights
+              key={article.articleDocID}
+              title={article.title}
+              highlights={article.highlights}
+              selectHighlight={selectHighlight}
+            />
+          ))}
+      </Articles>
     </Container>
   );
 };

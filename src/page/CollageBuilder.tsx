@@ -41,7 +41,7 @@ const HighlightsContainer = styled.div`
 
   @media (min-width: 768px) {
     width: 50%;
-    padding: 2% 5%;
+    padding: 0 5%;
     height: 100vh;
     overflow-y: scroll;
   }

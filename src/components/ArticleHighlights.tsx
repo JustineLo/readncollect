@@ -18,15 +18,17 @@ const Container = styled.div`
     flex-direction: column;
     align-items: center;
     justify-content: space-between;
-    width: 200px;
-
+    min-width: 100px;
+    height: 50px;
     gap: 20px;
     border: 1px solid var(--primary);
     overflow: hidden;
+    text-ellipsis: ellipsis;
     box-sizing: border-box;
 
     @media (min-width: 768px) {
       width: 100%;
+      height: auto;
     }
   }
 `;
@@ -41,10 +43,16 @@ const Header = styled.div`
     cursor: pointer;
     box-sizing: border-box;
     width: 100%;
+    height: 100%;
     padding: 0 10px;
 
     h3 {
-      text-align: center;
+      margin: 0;
+      width: 100%;
+      overflow: hidden;
+      text-overflow: ellipsis;
+      white-space: nowrap;
+      font-size: 0.8rem;
     }
 
     svg {
@@ -58,6 +66,9 @@ const Header = styled.div`
 
       h3 {
         text-align: start;
+        width: auto;
+        font-size: 1rem;
+        padding: 10px 0;
       }
 
       svg {
@@ -75,7 +86,7 @@ const List = styled.div`
       display: flex;
       flex-direction: column;
       gap: 1rem;
-      padding: 40px;
+      padding: 0px;
     }
   }
 `;

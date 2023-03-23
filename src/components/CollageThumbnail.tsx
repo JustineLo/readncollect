@@ -31,7 +31,7 @@ const ThumbnailButton = styled.button`
     border-radius: 20px;
     background-color: var(--accent-light);
     flex-direction: column;
-    height: 100%;
+    height: auto;
     padding: 0;
   }
 `;
@@ -70,6 +70,9 @@ const Content = styled.div`
    {
     padding: 10px 30px;
     display: none;
+    white-space: normal;
+    word-break: break-word;
+
     @media (min-width: 768px) {
       display: block;
     }
