@@ -86,7 +86,8 @@ const List = styled.div`
       display: flex;
       flex-direction: column;
       gap: 1rem;
-      padding: 0px;
+      padding-bottom: 10px;
+      align-items: center;
     }
   }
 `;
@@ -101,12 +102,16 @@ const MobileArea = styled.div`
 
 const MobileList = styled.div`
    {
-    height: 100px;
+    height: 120px;
     width: 90vw;
     z-index: 90;
     display: flex;
     gap: 10px;
     overflow-x: scroll;
+    padding: 10px 0;
+    @media (min-width: 768px) {
+      display: none;
+    }
   }
 `;
 
@@ -136,17 +141,15 @@ const ArticleHighlights = ({
           </List>
         )}
       </Container>
-      {isOpen && (
-        <MobileList>
-          {highlights.map((highlight) => (
-            <HighlightThumbnail
-              key={highlight.id}
-              highlight={highlight}
-              onClick={() => selectHighlight(highlight)}
-            />
-          ))}
-        </MobileList>
-      )}
+      <MobileList>
+        {highlights.map((highlight) => (
+          <HighlightThumbnail
+            key={highlight.id}
+            highlight={highlight}
+            onClick={() => selectHighlight(highlight)}
+          />
+        ))}
+      </MobileList>
     </MobileArea>
   );
 };
