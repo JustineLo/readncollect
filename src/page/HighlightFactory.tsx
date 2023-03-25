@@ -15,46 +15,90 @@ interface HighlightFactoryProps {
 }
 
 const Container = styled.div`
-  margin: 20px;
   position: absolute;
   top: 0;
   left: 0;
   background-color: var(--primary);
-  border: 3px solid var(--black);
-  border-radius: 30px;
   width: 100%;
   z-index: 100;
   box-sizing: border-box;
+  height: 100vh;
+  overflow: hidden;
+
+  @media (min-width: 768px) {
+    margin: 20px;
+    border-radius: 30px;
+    border: 3px solid var(--black);
+  }
 `;
 
 const Board = styled.div`
   display: flex;
+  flex-direction: column;
+  height: 100%;
+
+  @media (min-width: 768px) {
+    flex-direction: row;
+  }
 `;
 const ArticleContainer = styled.div`
-  width: 60%;
-  padding: 30px;
+  width: 100%;
+  box-sizing: border-box;
+  padding: 10px;
+  height: 80%;
+  overflow-y: scroll;
+
+  @media (min-width: 768px) {
+    width: 60%;
+    padding: 30px;
+  }
 `;
 
 const HighlightsContainer = styled.div`
-  width: 40%;
+  width: 100%;
   display: flex;
   flex-direction: column;
-  padding: 2% 5%;
+  align-items: center;
+  justify-content: center;
+  height: 20%;
+  color: var(--black);
+  overflow-x: scroll;
+  padding: 10px;
+  box-sizing: border-box;
+  overflow-x: hidden;
+
+  @media (min-width: 768px) {
+    width: 40%;
+    color: var(--white);
+    height: 100%;
+    padding: 2% 5%;
+  }
 `;
 
 const Topbar = styled.div`
-  display: flex;
-  justify-content: flex-end;
+  display: none;
+  @media (min-width: 768px) {
+    display: flex;
+    justify-content: flex-end;
+  }
 `;
 
 const HighlightsList = styled.div`
   width: 100%;
-  margin: 60px 0;
-  height: 80vh;
   display: flex;
-  flex-direction: column;
   gap: 25px;
   overflow-y: scroll;
+  padding-bottom: 20px;
+  @media (min-width: 768px) {
+    flex-direction: column;
+    height: 80vh;
+    margin: 60px 0;
+  }
+`;
+
+const ThumbnailContainer = styled.div`
+  width: 220px;
+  height: 100%;
 `;
 
 function HighlightFactory({
@@ -97,6 +141,9 @@ function HighlightFactory({
       <Container>
         <Board>
           <ArticleContainer>
+            <Icon onClick={() => setOpen(false)}>
+              <VscChromeClose size="2rem" color="var(--black)" />
+            </Icon>
             <SelectableArticle
               article={article}
               updateArticleHighlightsBuffer={updateArticleHighlightsBuffer}
@@ -111,11 +158,14 @@ function HighlightFactory({
             <HighlightsList>
               {articleHighlightsBuffer.map((highlight) => {
                 return (
-                  <HighlightThumbnail
-                    key={highlight.id}
-                    highlight={highlight}
-                    onDeleteHighlight={() => onDeleteHighlight(highlight)}
-                  />
+                  <ThumbnailContainer>
+                    <HighlightThumbnail
+                      key={highlight.id}
+                      highlight={highlight}
+                      onDeleteHighlight={() => onDeleteHighlight(highlight)}
+                      fullWidth={true}
+                    />
+                  </ThumbnailContainer>
                 );
               })}
             </HighlightsList>

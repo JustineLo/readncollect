@@ -30,7 +30,7 @@ const Container = styled.div<ContainerProps>`
     align-items: center;
 
     cursor: pointer;
-    gap: 20px;
+
     font-size: 0.8rem;
     overflow: hidden;
     text-ellipsis: ellipsis;
@@ -49,6 +49,7 @@ const Container = styled.div<ContainerProps>`
       font-size: 0.9rem;
       overflow: auto;
       height: auto;
+      gap: 20px;
       width: ${(props) => (props.fullWidth ? "auto" : "90%")};
     }
   }
