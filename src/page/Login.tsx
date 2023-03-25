@@ -1,6 +1,7 @@
 import { signInWithEmailAndPassword } from "firebase/auth";
 import { useEffect, useState } from "react";
 import { useAuthState } from "react-firebase-hooks/auth";
+import { FcGoogle } from "react-icons/fc";
 import { Link, useNavigate } from "react-router-dom";
 import styled from "styled-components";
 import Button from "../components/Button";
@@ -26,6 +27,7 @@ const Form = styled.div`
 
 const Buttons = styled.div`
   display: flex;
+  flex-direction: column;
   gap: 10px;
 `;
 
@@ -77,7 +79,10 @@ const Login = () => {
             >
               Login
             </Button>
-            <Button onClick={signInWithGoogle}>Login with Google</Button>
+            <Button onClick={signInWithGoogle} backgroundColor="transparent">
+              <FcGoogle />
+              Login with Google
+            </Button>
           </Buttons>
         </Form>
         <Links>

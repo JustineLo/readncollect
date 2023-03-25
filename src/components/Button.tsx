@@ -26,6 +26,10 @@ const ButtonContainer = styled.button<{
   cursor: pointer;
   height: fit-content;
   font-family: Fredoka One, Helvetica, Arial, sans-serif;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 10px;
 
   .disabled {
     color: var(--black);
