@@ -156,7 +156,7 @@ function HighlightFactory({
           <ArticleContainer>
             <MobileClose>
               <Icon onClick={() => setOpen(false)}>
-                <VscChromeClose size="2rem" color="var(--black)" />
+                <VscChromeClose size="24px" color="var(--black)" />
               </Icon>
             </MobileClose>
             <SelectableArticle
@@ -167,15 +167,14 @@ function HighlightFactory({
           <HighlightsContainer>
             <Topbar>
               <Icon onClick={() => setOpen(false)}>
-                <VscChromeClose size="2rem" />
+                <VscChromeClose size="30px" />
               </Icon>
             </Topbar>
             <HighlightsList>
               {articleHighlightsBuffer.map((highlight) => {
                 return (
-                  <ThumbnailContainer>
+                  <ThumbnailContainer key={highlight.id}>
                     <HighlightThumbnail
-                      key={highlight.id}
                       highlight={highlight}
                       onDeleteHighlight={() => onDeleteHighlight(highlight)}
                       fullWidth={true}
