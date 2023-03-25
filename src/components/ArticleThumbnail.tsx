@@ -31,7 +31,7 @@ const Image = styled.img`
 const Container = styled.div`
    {
     width: 300px;
-    max-height: 150px;
+    max-height: 100px;
     border-radius: 10px;
     background-color: var(--secondary);
     overflow: hidden;
