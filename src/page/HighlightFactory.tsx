@@ -29,6 +29,8 @@ const Container = styled.div`
     margin: 20px;
     border-radius: 30px;
     border: 3px solid var(--black);
+    width: calc(100% - 40px);
+    height: calc(100% - 40px);
   }
 `;
 
@@ -50,7 +52,14 @@ const ArticleContainer = styled.div`
 
   @media (min-width: 768px) {
     width: 60%;
+    height: 100%;
     padding: 30px;
+  }
+`;
+
+const MobileClose = styled.div`
+  @media (min-width: 768px) {
+    display: none;
   }
 `;
 
@@ -72,6 +81,7 @@ const HighlightsContainer = styled.div`
     color: var(--white);
     height: 100%;
     padding: 2% 5%;
+    align-items: flex-end;
   }
 `;
 
@@ -88,7 +98,7 @@ const HighlightsList = styled.div`
   display: flex;
   gap: 25px;
   overflow-y: scroll;
-  padding-bottom: 20px;
+  padding: 0 30px 20px 0;
   @media (min-width: 768px) {
     flex-direction: column;
     height: 80vh;
@@ -99,6 +109,9 @@ const HighlightsList = styled.div`
 const ThumbnailContainer = styled.div`
   width: 220px;
   height: 100%;
+  @media (min-width: 768px) {
+    width: 100%;
+  }
 `;
 
 function HighlightFactory({
@@ -141,9 +154,11 @@ function HighlightFactory({
       <Container>
         <Board>
           <ArticleContainer>
-            <Icon onClick={() => setOpen(false)}>
-              <VscChromeClose size="2rem" color="var(--black)" />
-            </Icon>
+            <MobileClose>
+              <Icon onClick={() => setOpen(false)}>
+                <VscChromeClose size="2rem" color="var(--black)" />
+              </Icon>
+            </MobileClose>
             <SelectableArticle
               article={article}
               updateArticleHighlightsBuffer={updateArticleHighlightsBuffer}
