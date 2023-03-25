@@ -16,10 +16,14 @@ import { getPicture } from "../utils/articleUtils";
 import { getSearchedArticles } from "../utils/searchUtils";
 
 const GlobalContainer = styled.div`
-  width: 95vw;
+  width: 100vw;
   display: flex;
   height: 100vh;
   overflow-y: scroll;
+
+  @media (min-width: 768px) {
+    width: 100vw;
+  }
 `;
 const MainContainer = styled.div`
   width: 100%;
@@ -30,20 +34,33 @@ const DashboardContainer = styled.div`
   flex-direction: column;
   align-items: center;
   justify-content: center;
-  gap: 10vh;
-  margin-top: 20vh;
+  gap: 30px;
+  @media (min-width: 768px) {
+    margin-top: 80px;
+    gap: 60px;
+  }
 `;
 
 const Form = styled.form`
   display: flex;
   gap: 1rem;
   align-items: center;
+  flex-direction: column;
+
+  @media (min-width: 768px) {
+    flex-direction: row;
+  }
 `;
 
 const ArticlesContainer = styled.div`
   display: grid;
-  grid-template-columns: repeat(3, 1fr);
-  gap: 4rem;
+  grid-template-columns: 1fr;
+  gap: 20px;
+
+  @media (min-width: 768px) {
+    grid-template-columns: repeat(3, 1fr);
+    gap: 4rem;
+  }
 `;
 
 function Dashboard() {
@@ -127,6 +144,7 @@ function Dashboard() {
               type="text"
               value={newUrl}
               onChange={(e) => setNewUrl(e.target.value)}
+              placeholder="https://www.blog.com/article/18"
             />
             <Button type="submit">
               {loadingSpinner ? <EllipsisLoader /> : "Add article"}
@@ -143,7 +161,12 @@ function Dashboard() {
             ))}
           </ArticlesContainer>
           <h3>Processed articles</h3>
-          <Input type="text" value={searchQuery} onChange={onInputChange} />
+          <Input
+            type="text"
+            value={searchQuery}
+            onChange={onInputChange}
+            placeholder="Search processed articles"
+          />
           <ArticlesContainer>
             {searchedArticles.map((article: Article, index: number) => (
               <ArticleThumbnail
