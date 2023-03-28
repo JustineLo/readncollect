@@ -15,6 +15,8 @@ import { Article } from "../types/Article";
 import { getPicture } from "../utils/articleUtils";
 import { getSearchedArticles } from "../utils/searchUtils";
 
+const MAX_ARTICLES_LENGTH = 25;
+
 const GlobalContainer = styled.div`
   width: 100vw;
   display: flex;
@@ -64,6 +66,12 @@ const ArticlesContainer = styled.div`
   }
 `;
 
+const LimitMessage = styled.p`
+  color: red;
+  font-size: 0.8rem;
+  text-align: center;
+`;
+
 function Dashboard() {
   const addArticleApi: string = import.meta.env.VITE_API_ADD_ARTICLE;
   const [userAuth, loading, error] = useAuthState(auth);
@@ -79,6 +87,7 @@ function Dashboard() {
   const [searchedArticles, setSearchedArticles] =
     useState<Article[]>(processedArticles);
   const [searchQuery, setSearchQuery] = useState<string>("");
+  const [limitReached, setLimitReached] = useState<boolean>(false);
 
   const navigate = useNavigate();
 
@@ -92,11 +101,12 @@ function Dashboard() {
     setSearchQuery("");
   }, [processedArticles]);
 
-  const handleSubmitTest = (
+  function handleSubmit(
     event: any,
     setLoadingSpinner: (loading: boolean) => void
-  ) => {
+  ): void {
     event.preventDefault();
+    if (articles.length < MAX_ARTICLES_LENGTH) {
     setLoadingSpinner(true);
     axios
       .post(addArticleApi, {
@@ -114,9 +124,13 @@ function Dashboard() {
         setLoadingSpinner(false);
         setNewUrl("");
       });
+    } else {
+      setLimitReached(true);
+    }
   };
 
   function onDeleteArticle(articleDocID: string): void {
+    if (articles.length === MAX_ARTICLES_LENGTH) setLimitReached(false);
     deleteDoc(doc(db, `users/${user?.docID}/articles/`, articleDocID))
       .then(() => {
         setArticles(
@@ -126,6 +140,7 @@ function Dashboard() {
       .catch((error) => {
         console.error("Error deleting article: ", error);
       });
+      
   }
 
   function onInputChange(e: any): void {
@@ -138,8 +153,9 @@ function Dashboard() {
       <MainContainer>
         <DashboardContainer>
           <h3>Article's URL :</h3>
+          <div>
           <Form
-            onSubmit={(event) => handleSubmitTest(event, setLoadingSpinner)}
+            onSubmit={(event) => handleSubmit(event, setLoadingSpinner)}
           >
             <Input
               type="text"
@@ -151,6 +167,8 @@ function Dashboard() {
               {loadingSpinner ? <EllipsisLoader /> : "Add article"}
             </Button>
           </Form>
+          {limitReached && <LimitMessage>You have reached the maximum number of articles</LimitMessage>}
+          </div>
           {unProcessedArticles.length > 0 && <><h3>Unprocessed articles</h3>
           <ArticlesContainer>
             {unProcessedArticles.map((article: Article, index: number) => (
