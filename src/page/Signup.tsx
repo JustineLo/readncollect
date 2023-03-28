@@ -1,10 +1,13 @@
-import { createUserWithEmailAndPassword } from "firebase/auth";
+import { Auth, createUserWithEmailAndPassword } from "firebase/auth";
 import { addDoc, collection, getDocs, query, where } from "firebase/firestore";
-import { useState } from "react";
+import { useEffect, useState } from "react";
+import { useAuthState } from "react-firebase-hooks/auth";
+import { FcGoogle } from "react-icons/fc";
 import { NavLink, useNavigate } from "react-router-dom";
 import styled from "styled-components";
+import Button from "../components/Button";
 import Input from "../components/Input";
-import { auth, db } from "../firebase";
+import { auth, db, signInWithGoogle } from "../firebase";
 
 const Container = styled.div`
   width: 100%;
@@ -25,7 +28,11 @@ const Form = styled.div`
 
 const Buttons = styled.div`
   display: flex;
+  flex-direction: column;
   gap: 10px;
+  @media (min-width: 768px) {
+    flex-direction: row;
+  }
 `;
 
 const Links = styled.div`
@@ -45,10 +52,17 @@ const Signup = () => {
 
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
+  const [user, loading, error] = useAuthState(auth);
 
-  const onSubmit = async (e: any) => {
-    e.preventDefault();
+  useEffect(() => {
+    if (loading) {
+      return;
+    }
+    if (user) navigate("/articles");
+    console.log(user);
+  }, [user, loading]);
 
+  const onSubmit = async (auth: Auth, email: string, password: string) => {
     await createUserWithEmailAndPassword(auth, email, password)
       .then(async (userCredential) => {
         const user = userCredential.user;
@@ -91,9 +105,13 @@ const Signup = () => {
           placeholder="Password"
         />
         <Buttons>
-          <button type="submit" onClick={onSubmit}>
+          <Button onClick={() => onSubmit(auth, email, password)}>
             Sign up
-          </button>
+          </Button>
+          <Button onClick={signInWithGoogle} backgroundColor="transparent">
+            <FcGoogle />
+            Sign up with Google
+          </Button>
         </Buttons>
       </Form>
 
