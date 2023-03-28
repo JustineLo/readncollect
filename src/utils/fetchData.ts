@@ -1,12 +1,13 @@
 import { collection, getDocs, query, where } from "firebase/firestore";
+import { Dispatch, SetStateAction } from "react";
 import { db } from "../firebase";
 import { Article } from "../types/Article";
 import { User } from "../types/User";
 
 export const fetchData = async (
   userAuth: any,
-  setUser: any,
-  setArticles: any
+  setUser: Dispatch<SetStateAction<User>>,
+  setArticles: Dispatch<SetStateAction<Article[]>>
 ) => {
   try {
     const q = query(collection(db, "users"), where("uid", "==", userAuth?.uid));
@@ -24,7 +25,7 @@ export const fetchData = async (
   }
 };
 
-export const fetchArticles = async (userDocID: string, setArticles: any) => {
+export const fetchArticles = async (userDocID: string, setArticles: Dispatch<SetStateAction<Article[]>>) => {
   try {
     const articlesDocs = await getDocs(
       collection(db, `users/${userDocID}/articles`)
