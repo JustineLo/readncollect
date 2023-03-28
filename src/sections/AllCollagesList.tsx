@@ -1,4 +1,4 @@
-import { Dispatch, SetStateAction, useEffect, useState } from "react";
+import { ChangeEvent, Dispatch, SetStateAction, useEffect, useState } from "react";
 import styled from "styled-components";
 import { useContainer } from "unstated-next";
 import CollageThumbnail from "../components/CollageThumbnail";
@@ -60,7 +60,7 @@ const AllCollagesList = ({
     setShowCollage(true);
   }
 
-  function onInputChange(e: any): void {
+  function onInputChange(e: ChangeEvent<HTMLInputElement>): void {
     const input = e.target.value;
     setSearchQuery(input);
     setDisplayedCollages(getSearchedCollages(user.collages, input));

@@ -1,9 +1,10 @@
+import { ChangeEvent } from "react";
 import styled from "styled-components";
 
 interface InputProps {
   type: string;
   value: string;
-  onChange: (e: any) => void;
+  onChange: (e: ChangeEvent<HTMLInputElement>) => void;
   placeholder?: string;
   width?: string;
 }

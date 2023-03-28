@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { ChangeEvent, useState } from "react";
 import styled from "styled-components";
 import { useContainer } from "unstated-next";
 import ArticleHighlights from "../components/ArticleHighlights";
@@ -44,7 +44,7 @@ const AllHighlightsList = ({ selectHighlight }: AllHighlightsListProps) => {
     useState<Article[]>(processedArticles);
   const [searchQuery, setSearchQuery] = useState<string>("");
 
-  function onInputChange(e: any): void {
+  function onInputChange(e: ChangeEvent<HTMLInputElement>): void {
     const input = e.target.value;
     setSearchQuery(input);
     setDisplayedArticles(getSearchedArticles(processedArticles, input));

@@ -1,6 +1,6 @@
-import axios from "axios";
+import axios, { AxiosError } from "axios";
 import { deleteDoc, doc } from "firebase/firestore";
-import { useEffect, useState } from "react";
+import { ChangeEvent, FormEvent, useEffect, useState } from "react";
 import { useAuthState } from "react-firebase-hooks/auth";
 import { useNavigate } from "react-router-dom";
 import styled from "styled-components";
@@ -102,7 +102,7 @@ function Dashboard() {
   }, [processedArticles]);
 
   function handleSubmit(
-    event: any,
+    event: FormEvent<HTMLFormElement>,
     setLoadingSpinner: (loading: boolean) => void
   ): void {
     event.preventDefault();
@@ -117,7 +117,7 @@ function Dashboard() {
       .then((response) => {
         setArticles([...articles, response.data]);
       })
-      .catch(function (error: any) {
+      .catch(function (error: AxiosError) {
         console.error(error);
       })
       .finally(() => {
@@ -143,7 +143,7 @@ function Dashboard() {
       
   }
 
-  function onInputChange(e: any): void {
+  function onInputChange(e: ChangeEvent<HTMLInputElement>): void {
     const input = e.target.value;
     setSearchQuery(input);
     setSearchedArticles(getSearchedArticles(processedArticles, input, true));
