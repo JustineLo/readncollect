@@ -59,25 +59,30 @@ const Layout = () => {
         </SidebarIcon>
         <PageIcons>
           <SidebarIcon toEndpoint="/articles" tooltipContent="Articles">
+            <Icon hoverColor="var(--primary-dark)">
             <RiScissors2Fill size="32px" />
+            </Icon>
           </SidebarIcon>
           <SidebarIcon
             toEndpoint="/collagebuilder"
             tooltipContent="Collage Builder"
           >
+            <Icon hoverColor="var(--primary-dark)" >
             <BiNotepad size="32px" />
+            </Icon>
           </SidebarIcon>
         </PageIcons>
         <Icon
           onClick={logout}
           tooltipContent="Logout"
           tooltipId="sidebar-tooltip"
+          hoverColor="var(--primary-dark)"
         >
           <MdLogout size="24px" />
         </Icon>
       </SidebarContainer>
       <Outlet />
-      <Tooltip id="sidebar-tooltip" />
+      <Tooltip id="sidebar-tooltip" delayShow={100}/>
     </LayoutContainer>
   );
 };

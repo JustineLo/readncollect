@@ -31,6 +31,12 @@ const ButtonContainer = styled.button<{
   justify-content: center;
   gap: 10px;
 
+  transition: background-color 0.2s ease-in-out; 
+
+  &:hover {
+    background-color: transparent; 
+  }
+
   .disabled {
     color: var(--black);
   }

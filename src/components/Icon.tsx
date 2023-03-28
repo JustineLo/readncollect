@@ -32,13 +32,14 @@ const IconButtonContainer = styled.button<{
 
   svg {
     color: ${(props) => (props.disabled ? "var(--grey)" : props.color)};
+    transition: color 0.2s ease-in-out;
+
+    &:hover {
+      color: ${(props) => (props.disabled ? "var(--grey)" : props.hoverColor)};
+  }
   }
 
-  &:hover {
-    svg {
-      color: ${(props) => (props.disabled ? "var(--grey)" : props.hoverColor)};
-    }
-  }
+  
 `;
 
 const Icon = ({

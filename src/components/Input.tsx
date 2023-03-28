@@ -17,6 +17,11 @@ const InputContainer = styled.input<{ width: string | undefined }>`
   min-width: 300px;
   width: ${(props) => (props.width ? props.width : "300px")};
   color: var(--grey);
+  transition: border-color 0.2s ease-in-out;
+  &:focus {
+    outline: none;
+    border-color: var(--accent-dark); 
+  }
 `;
 
 const Input = ({ type, value, onChange, placeholder, width }: InputProps) => {
