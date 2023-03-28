@@ -28,14 +28,17 @@ const Container = styled.div<ContainerProps>`
     border: 3px solid var(--secondary-dark);
     display: flex;
     align-items: center;
-
     cursor: pointer;
-
     font-size: 0.8rem;
     overflow: hidden;
     text-ellipsis: ellipsis;
     padding: ${(props) => (props.heightAuto ? " 0 0 0 10px" : "2px")};
     box-sizing: border-box;
+    transition: background-color 0.2s ease-in-out;
+
+    &:hover {
+      background-color: var(--secondary-light);
+    }
 
     p {
       overflow: hidden;

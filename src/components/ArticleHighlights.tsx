@@ -10,29 +10,6 @@ interface ArticleHighlightsProps {
   selectHighlight: (highlight: Highlight) => void;
 }
 
-const Container = styled.div`
-   {
-    border-radius: 10px;
-    color: var(--black);
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    justify-content: space-between;
-    min-width: 100px;
-    height: 50px;
-    gap: 20px;
-    border: 1px solid var(--primary);
-    overflow: hidden;
-    text-ellipsis: ellipsis;
-    box-sizing: border-box;
-
-    @media (min-width: 768px) {
-      width: 100%;
-      height: auto;
-    }
-  }
-`;
-
 const Header = styled.div`
    {
     display: flex;
@@ -45,6 +22,7 @@ const Header = styled.div`
     width: 100%;
     height: 100%;
     padding: 0 10px;
+    transition: background-color 0.2s ease-in-out;
 
     h3 {
       margin: 0;
@@ -74,6 +52,38 @@ const Header = styled.div`
       svg {
         display: flex;
       }
+    }
+  }
+`;
+
+const Container = styled.div`
+   {
+    border-radius: 10px;
+    color: var(--black);
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: space-between;
+    min-width: 100px;
+    height: 50px;
+    gap: 20px;
+    border: 2px solid var(--primary);
+    overflow: hidden;
+    text-ellipsis: ellipsis;
+    box-sizing: border-box;
+    transition: border-color 0.2s ease-in-out;
+
+    &:hover{
+      border-color: var(--primary-dark);
+    }
+
+    &:hover ${Header}{
+      background-color: var(--primary-dark);
+    }
+
+    @media (min-width: 768px) {
+      width: 100%;
+      height: auto;
     }
   }
 `;
