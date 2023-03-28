@@ -15,6 +15,7 @@ import img9 from "../assets/defaultimages/9.jpg";
 import { db } from "../firebase";
 import { Article, Highlight } from "../types/Article";
 import { User } from "../types/User";
+import { saveAs } from "file-saver";
 
 export function getUpdatedArticles(
   user: User,
@@ -40,6 +41,12 @@ export function textEllipsis(text: string, length: number) {
     return text.substring(0, length) + "...";
   }
   return text;
+}
+
+export function exportToTxt(highlights: Highlight[]) {
+  const text = highlights.map((highlight) => highlight.text).join("\n\n");
+  const blob = new Blob([text], { type: "text/plain;charset=utf-8" });
+  saveAs(blob, "collage_readNCollect.txt");
 }
 
 export function getPicture(index: number) {

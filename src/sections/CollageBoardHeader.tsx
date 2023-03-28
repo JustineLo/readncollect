@@ -16,6 +16,7 @@ import Input from "../components/Input";
 import { db } from "../firebase";
 import AppState from "../state/AppState";
 import { Collage, Highlight } from "../types/Article";
+import { exportToTxt } from "../utils/articleUtils";
 interface CollageBoardHeaderProps {
   blocView: boolean;
   setBlocView: Dispatch<SetStateAction<boolean>>;
@@ -166,7 +167,7 @@ const CollageBoardHeader = ({
             <Icon
               color="var(--black)"
               hoverColor="var(--secondary-dark)"
-              onClick={() => {}}
+              onClick={() => exportToTxt(currentCollage.highlights)}
             >
               <TiExport size="20px" />
             </Icon>
