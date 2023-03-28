@@ -2,6 +2,7 @@ import { useState } from "react";
 import { VscChromeClose } from "react-icons/vsc";
 import styled from "styled-components";
 import { useContainer } from "unstated-next";
+import Button from "../components/Button";
 import HighlightThumbnail from "../components/HighlightThumbnail";
 import Icon from "../components/Icon";
 import SelectableArticle from "../sections/SelectableArticle";
@@ -125,11 +126,7 @@ function HighlightFactory({
   const { user, articles, setArticles } = useContainer(AppState);
 
   function updateArticleHighlightsBuffer(newHighlight: Highlight): void {
-    const newArray = [...articleHighlightsBuffer, newHighlight];
-    setArticleHighlightsBuffer(newArray);
-    setArticles(
-      getUpdatedArticles(user, articles, article.articleDocID, newArray)
-    );
+    setArticleHighlightsBuffer([...articleHighlightsBuffer, newHighlight]);
   }
 
   function onDeleteHighlight(highlight: Highlight) {
@@ -149,15 +146,20 @@ function HighlightFactory({
     );
   }
 
+  function onSaveHighlights() {
+    setArticles(
+      getUpdatedArticles(user, articles, article.articleDocID, articleHighlightsBuffer)
+    );
+    setOpen(false);
+  }
+
   return (
     <>
       <Container>
         <Board>
           <ArticleContainer>
             <MobileClose>
-              <Icon onClick={() => setOpen(false)}>
-                <VscChromeClose size="24px" color="var(--black)" />
-              </Icon>
+                <Button onClick={onSaveHighlights} textColor="var(--accent-dark)" backgroundColor="var(--accent-light)" square={true}>SAVE AND CLOSE</Button>
             </MobileClose>
             <SelectableArticle
               article={article}
@@ -166,9 +168,7 @@ function HighlightFactory({
           </ArticleContainer>
           <HighlightsContainer>
             <Topbar>
-              <Icon onClick={() => setOpen(false)}>
-                <VscChromeClose size="30px" />
-              </Icon>
+              <Button onClick={onSaveHighlights} textColor="var(--accent-dark)" backgroundColor="var(--accent-light)" square={true}>SAVE AND CLOSE</Button>
             </Topbar>
             <HighlightsList>
               {articleHighlightsBuffer.map((highlight) => {

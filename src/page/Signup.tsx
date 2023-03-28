@@ -1,4 +1,4 @@
-import { Auth, createUserWithEmailAndPassword } from "firebase/auth";
+import { Auth, createUserWithEmailAndPassword, UserCredential } from "firebase/auth";
 import { addDoc, collection, getDocs, query, where } from "firebase/firestore";
 import { useEffect, useState } from "react";
 import { useAuthState } from "react-firebase-hooks/auth";
@@ -64,7 +64,7 @@ const Signup = () => {
 
   const onSubmit = async (auth: Auth, email: string, password: string) => {
     await createUserWithEmailAndPassword(auth, email, password)
-      .then(async (userCredential) => {
+      .then(async (userCredential: UserCredential) => {
         const user = userCredential.user;
         const q = query(collection(db, "users"), where("uid", "==", user.uid));
         const docs = await getDocs(q);

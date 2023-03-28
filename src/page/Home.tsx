@@ -1,5 +1,5 @@
 import { useAuthState } from "react-firebase-hooks/auth";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import styled from "styled-components";
 import { auth } from "../firebase";
 
@@ -42,6 +42,16 @@ function Navbar() {
 
 const Home = () => {
   const [user, loading, error] = useAuthState(auth);
+  const navigate = useNavigate();
+
+
+  if (loading) {
+    return <div>Loading...</div>;
+  }
+
+  if (error) {
+    navigate('/login')
+  }
 
   return (
     <HomeContainer>

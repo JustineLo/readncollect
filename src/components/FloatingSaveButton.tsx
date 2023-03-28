@@ -13,8 +13,9 @@ const FloatingSaveButtonContainer = styled.div<{
     position: absolute;
     top: ${(props) => props.mousePos.y - 35}px;
     left: ${(props) => props.mousePos.x - 65}px;
-    width: 80px;
+    width: 120px;
     height: 40px;
+    font-size: 0.8rem;
 
     button {
       width: 100%;
@@ -23,7 +24,6 @@ const FloatingSaveButtonContainer = styled.div<{
       background: var(--accent);
       color: var(--black);
       border: 2px solid var(--black);
-      font-size: 1rem;
     }
   }
 `;
@@ -34,7 +34,7 @@ const FloatingSaveButton = ({
 }: FloatingSaveButtonProps) => {
   return (
     <FloatingSaveButtonContainer mousePos={mousePos}>
-      <button onClick={handleSave}>SAVE</button>
+      <button onClick={handleSave}>ADD HIGHLIGHT</button>
     </FloatingSaveButtonContainer>
   );
 };

@@ -35,6 +35,7 @@ const DashboardContainer = styled.div`
   align-items: center;
   justify-content: center;
   gap: 30px;
+  padding-bottom: 80px;
   @media (min-width: 768px) {
     margin-top: 80px;
     gap: 60px;
@@ -150,7 +151,7 @@ function Dashboard() {
               {loadingSpinner ? <EllipsisLoader /> : "Add article"}
             </Button>
           </Form>
-          <h3>Unprocessed articles</h3>
+          {unProcessedArticles.length > 0 && <><h3>Unprocessed articles</h3>
           <ArticlesContainer>
             {unProcessedArticles.map((article: Article, index: number) => (
               <ArticleThumbnail
@@ -160,6 +161,7 @@ function Dashboard() {
               />
             ))}
           </ArticlesContainer>
+          </>}
           <h3>Processed articles</h3>
           <Input
             type="text"
