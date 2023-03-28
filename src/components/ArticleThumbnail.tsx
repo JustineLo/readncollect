@@ -123,7 +123,7 @@ const ArticleThumbnail = ({
           {textEllipsis(article.title, 57)}
         </Title>
         <Buttons>
-          <Icon onClick={() => setOpenDeleteModal(true)}>
+          <Icon onClick={() => setOpenDeleteModal(true)} color="var(--grey)" hoverColor="var(--white)">
             <FaRegTrashAlt />
           </Icon>
         </Buttons>

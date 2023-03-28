@@ -7,7 +7,7 @@ interface SidebarIconProps {
   tooltipContent?: string;
 }
 
-const SidebarIconContainer = styled.button`
+const SidebarIconContainer = styled.div`
   padding: 0;
   margin: 0;
   border: none;

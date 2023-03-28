@@ -52,10 +52,10 @@ const Layout = () => {
     <LayoutContainer>
       <SidebarContainer>
         <SidebarIcon
-          toEndpoint="/"
+          toEndpoint="/articles"
           tooltipContent={`Connected as ${user?.email}`}
         >
-          <MdAccountCircle size="32px" />
+          <MdAccountCircle size="32px" color="var(--white)"/>
         </SidebarIcon>
         <PageIcons>
           <SidebarIcon toEndpoint="/articles" tooltipContent="Articles">

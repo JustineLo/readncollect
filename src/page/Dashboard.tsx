@@ -14,6 +14,7 @@ import AppState from "../state/AppState";
 import { Article } from "../types/Article";
 import { getPicture } from "../utils/articleUtils";
 import { getSearchedArticles } from "../utils/searchUtils";
+import {Fade} from 'react-awesome-reveal';
 
 const MAX_ARTICLES_LENGTH = 25;
 
@@ -172,13 +173,16 @@ function Dashboard() {
           {unProcessedArticles.length > 0 && <><h3>Unprocessed articles</h3>
           <ArticlesContainer>
             {unProcessedArticles.map((article: Article, index: number) => (
-              <ArticleThumbnail
-                key={index}
-                article={article}
-                onDeleteArticle={() => onDeleteArticle(article.articleDocID)}
-              />
+              <Fade direction="up" delay={index * 400}>
+                <ArticleThumbnail
+                  key={index}
+                  article={article}
+                  onDeleteArticle={() => onDeleteArticle(article.articleDocID)}
+                />
+              </Fade>
             ))}
           </ArticlesContainer>
+       
           </>}
           <h3>Processed articles</h3>
           <Input
@@ -189,11 +193,14 @@ function Dashboard() {
           />
           <ArticlesContainer>
             {searchedArticles.map((article: Article, index: number) => (
-              <ArticleThumbnail
+              <Fade direction="up" delay={index * 400}>
+                <ArticleThumbnail
                 key={index}
                 article={article}
                 onDeleteArticle={() => onDeleteArticle(article.articleDocID)}
               />
+              </Fade>
+              
             ))}
           </ArticlesContainer>
         </DashboardContainer>
