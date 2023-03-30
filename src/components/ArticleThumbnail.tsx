@@ -1,6 +1,7 @@
 import { doc, updateDoc } from "@firebase/firestore";
 import { Dispatch, SetStateAction, useState } from "react";
 import { FaRegTrashAlt } from "react-icons/fa";
+import { useNavigate } from "react-router-dom";
 import styled from "styled-components";
 import { useContainer } from "unstated-next";
 import { db } from "../firebase";
@@ -86,10 +87,9 @@ const ArticleThumbnail = ({
   article,
   onDeleteArticle,
 }: ArticleThumbnailProps) => {
-  const [openHighlightFactory, setOpenHighlightFactory] =
-    useState<boolean>(false);
   const [openDeleteModal, setOpenDeleteModal] = useState<boolean>(false);
   const { user, setUser } = useContainer(AppState);
+  const navigate = useNavigate();
 
   const onClickDelete = () => {
     setOpenDeleteModal(false);
@@ -117,9 +117,9 @@ const ArticleThumbnail = ({
       <Container>
         <Image
           src={article.image}
-          onClick={() => setOpenHighlightFactory(true)}
+          onClick={() => navigate('/highlightfactory/' + article.articleDocID)}
         />
-        <Title onClick={() => setOpenHighlightFactory(true)}>
+        <Title onClick={() => navigate('/highlightfactory/' + article.articleDocID)}>
           {textEllipsis(article.title, 57)}
         </Title>
         <Buttons>
@@ -128,9 +128,7 @@ const ArticleThumbnail = ({
           </Icon>
         </Buttons>
       </Container>
-      {openHighlightFactory && (
-        <HighlightFactory setOpen={setOpenHighlightFactory} article={article} />
-      )}
+
       {openDeleteModal && (
         <DeleteModal
           setOpenDeleteModal={setOpenDeleteModal}

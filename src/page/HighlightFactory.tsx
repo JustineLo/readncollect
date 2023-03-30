@@ -1,19 +1,13 @@
 import { useState } from "react";
-import { VscChromeClose } from "react-icons/vsc";
+import { useNavigate, useParams } from "react-router-dom";
 import styled from "styled-components";
 import { useContainer } from "unstated-next";
 import Button from "../components/Button";
 import HighlightThumbnail from "../components/HighlightThumbnail";
-import Icon from "../components/Icon";
 import SelectableArticle from "../sections/SelectableArticle";
 import AppState from "../state/AppState";
 import { Article, Highlight } from "../types/Article";
 import { getUpdatedArticles } from "../utils/articleUtils";
-
-interface HighlightFactoryProps {
-  article: Article;
-  setOpen: React.Dispatch<React.SetStateAction<boolean>>;
-}
 
 const Container = styled.div`
   position: absolute;
@@ -115,15 +109,20 @@ const ThumbnailContainer = styled.div`
   }
 `;
 
-function HighlightFactory({
-  article,
-  setOpen,
-}: HighlightFactoryProps): JSX.Element {
+function HighlightFactory(): JSX.Element {
+
+  const { id } = useParams();
+  const { user, articles, setArticles } = useContainer(AppState);
+  const foundId = articles.findIndex((article) => article.articleDocID === id);
+  const navigate = useNavigate();
+  if (foundId === -1) {
+    return <div>Article not found</div>;
+  }
+  const article: Article = articles.filter((article) => article.articleDocID === id)[0];
+
   const [articleHighlightsBuffer, setArticleHighlightsBuffer] = useState<
     Highlight[]
   >(article.highlights);
-
-  const { user, articles, setArticles } = useContainer(AppState);
 
   function updateArticleHighlightsBuffer(newHighlight: Highlight): void {
     setArticleHighlightsBuffer([...articleHighlightsBuffer, newHighlight]);
@@ -150,7 +149,7 @@ function HighlightFactory({
     setArticles(
       getUpdatedArticles(user, articles, article.articleDocID, articleHighlightsBuffer)
     );
-    setOpen(false);
+    navigate('/articles');
   }
 
   return (

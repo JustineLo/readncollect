@@ -7,6 +7,7 @@ import { useContainer } from "unstated-next";
 import { auth } from "./firebase";
 import CollageBuilder from "./page/CollageBuilder";
 import Dashboard from "./page/Dashboard";
+import HighlightFactory from "./page/HighlightFactory";
 import Home from "./page/Home";
 import Login from "./page/Login";
 import Signup from "./page/Signup";
@@ -33,7 +34,8 @@ function App() {
           <Route path="/" element={<Home />} />
           <Route element={<Layout />}>
             <Route path="/articles" element={<Dashboard />} />
-            <Route path="/collagebuilder" element={<CollageBuilder />} />
+            <Route path="/highlightfactory/:id" element={<HighlightFactory />} />
+            <Route path="/collagefactory" element={<CollageBuilder />} />
           </Route>
           <Route path="/signup" element={<Signup />} />
           <Route path="/login" element={<Login />} />

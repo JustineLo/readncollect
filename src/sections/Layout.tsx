@@ -64,7 +64,7 @@ const Layout = () => {
             </Icon>
           </SidebarIcon>
           <SidebarIcon
-            toEndpoint="/collagebuilder"
+            toEndpoint="/collagefactory"
             tooltipContent="Collage Builder"
           >
             <Icon hoverColor="var(--primary-dark)" >
