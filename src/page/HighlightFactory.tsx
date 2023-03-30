@@ -44,6 +44,9 @@ const ArticleContainer = styled.div`
   padding: 10px;
   height: 80%;
   overflow-y: scroll;
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
 
   @media (min-width: 768px) {
     width: 60%;
@@ -89,15 +92,16 @@ const Topbar = styled.div`
 `;
 
 const HighlightsList = styled.div`
-  width: 100%;
+  width: 90%;
   display: flex;
   gap: 25px;
-  overflow-y: scroll;
+  overflow-x: scroll;
   padding: 0 30px 20px 0;
   @media (min-width: 768px) {
     flex-direction: column;
     height: 80vh;
     margin: 60px 0;
+    width: 100%;
   }
 `;
 
