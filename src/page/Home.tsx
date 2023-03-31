@@ -55,15 +55,21 @@ const Header = styled.div`
 `;
 
 const Text = styled.div`{
-  width: 30%;
+  width: 80%;
   font-size: 18px;
   font-family: Fredoka One, Helvetica, Arial, sans-serif;
   display: flex;
   flex-direction: column;
   gap: 5px;
+  text-align: center;
 
   span {
     color: var(--accent-text);
+  }
+
+  @media (min-width: 768px) {
+    width: 30%;
+    text-align: left;
   }
 }`
 

@@ -13,14 +13,27 @@ import Button from "../components/Button";
 import Input from "../components/Input";
 import { auth, db, signInWithGoogle } from "../firebase";
 
-const Container = styled.div`
+const Page = styled.div`
   width: 100%;
   height: 100vh;
   display: flex;
   flex-direction: column;
   align-items: center;
   justify-content: center;
+`;
+
+const Container = styled.div`
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
   gap: 40px;
+  border-radius: 10px;
+  padding: 40px 50px 60px 50px;
+
+  @media (min-width: 768px) {
+    background-color: var(--secondary);
+  }
 `;
 
 const Form = styled.div`
@@ -34,9 +47,6 @@ const Buttons = styled.div`
   display: flex;
   flex-direction: column;
   gap: 10px;
-  @media (min-width: 768px) {
-    flex-direction: row;
-  }
 `;
 
 const Links = styled.div`
@@ -91,8 +101,8 @@ const Signup = () => {
       });
   };
 
-  return (
-    <Container>
+  return (<Page>
+     <Container>
       <h1> Sign up </h1>
       <Form>
         <Input
@@ -123,6 +133,8 @@ const Signup = () => {
         Already have an account? <NavLink to="/login">Sign in</NavLink>
       </Links>
     </Container>
+  </Page>
+   
   );
 };
 
