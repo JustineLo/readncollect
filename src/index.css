@@ -26,7 +26,8 @@
   --accent: #ffd5f8;
   --accent-dark: #da9cce;
   --accent-light: #fff3ff;
-  --white: #ffffff;
+  --accent-text: #ec785b;
+  --white: #f09153;
 }
 
 ::-webkit-scrollbar {
