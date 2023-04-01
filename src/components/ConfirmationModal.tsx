@@ -14,16 +14,14 @@ const Overlay = styled.div`
     height: 100vh;
     background-color: var(--background-transparent);
     z-index: 200;
+    display: flex;
+    justify-content: center;
+    align-items: center;
   }
 `;
 
 const Container = styled.div`
    {
-    position: absolute;
-    top: 25%;
-    left: 25%;
-    transform: translate(-50%, -50%);
-    z-index: 200;
     width: 30vw;
     height: auto;
     padding-bottom: 30px;

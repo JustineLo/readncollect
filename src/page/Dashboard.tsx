@@ -107,10 +107,6 @@ function Dashboard() {
     setSearchQuery("");
   }, [processedArticles]);
 
-  useEffect(() => {
-    console.log(unProcessedArticles);
-  }, [unProcessedArticles]);
-
   function handleSubmit(
     event: FormEvent<HTMLFormElement>,
     setLoadingSpinner: (loading: boolean) => void
@@ -172,9 +168,6 @@ function Dashboard() {
       updateDoc(userRef, {
         soloHighlights: [...user.soloHighlights, ...deletedArticle.highlights],
       })
-        .then(() => {
-          console.log("soloHighlights updated successfully");
-        })
         .catch((error) => {
           console.error("Error updating soloHighlights:", error);
         });

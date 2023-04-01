@@ -73,7 +73,6 @@ const Signup = () => {
       return;
     }
     if (user) navigate("/articles");
-    console.log(user);
   }, [user, loading]);
 
   const onSubmit = async (auth: Auth, email: string, password: string) => {
