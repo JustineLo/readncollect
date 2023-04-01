@@ -118,6 +118,7 @@ const MobileList = styled.div`
     display: flex;
     gap: 10px;
     overflow-x: scroll;
+    white-space: nowrap;
     padding: 10px 0;
     @media (min-width: 768px) {
       display: none;

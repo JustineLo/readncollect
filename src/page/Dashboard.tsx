@@ -34,8 +34,19 @@ const GlobalContainer = styled.div`
   height: 100vh;
   overflow-y: scroll;
 
+  &::-webkit-scrollbar {
+    display: none;
+  }
+
+  -ms-overflow-style: none;  
+  scrollbar-width: none; 
+  
+
   @media (min-width: 768px) {
     width: 100vw;
+    &::-webkit-scrollbar {
+      display: block;
+    }
   }
 `;
 const MainContainer = styled.div`
