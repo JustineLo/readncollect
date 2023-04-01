@@ -6,7 +6,7 @@ import { Link, useNavigate } from "react-router-dom";
 import styled from "styled-components";
 import Button from "../components/Button";
 import Input from "../components/Input";
-import { auth, signInWithGoogle } from "../firebase";
+import { auth, logInWithEmailAndPassword, signInWithGoogle } from "../firebase";
 
 const Page = styled.div`
   width: 100%;
@@ -15,6 +15,7 @@ const Page = styled.div`
   flex-direction: column;
   align-items: center;
   justify-content: center;
+  gap: 40px;
 `;
 
 const Container = styled.div`
@@ -105,6 +106,9 @@ const Login = () => {
           </span>
         </Links>
       </Container>
+      <Button onClick={() => logInWithEmailAndPassword("demo@readncollect.com", "demo@readncollect.com")} square={true} backgroundColor="transparent" border="var(--secondary-text)" textColor="var(--primary-text)">
+        Login with demo account
+      </Button>
     </Page>
   );
 };

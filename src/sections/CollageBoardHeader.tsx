@@ -88,6 +88,7 @@ const CollageBoardHeader = ({
     setDisplayNewCollageModal(false);
     setShowCollage(true);
     setDisplayAllCollages(false);
+    setCurrentTitle("");
   }
 
   function onDeleteCollage(): void {
@@ -193,10 +194,7 @@ const CollageBoardHeader = ({
             onClick={createCollage}
             backgroundColor="var(--primary)"
             textColor="var(--primary-text)"
-          >
-            {" "}
-            Create new collage{" "}
-          </Button>
+          > Create new collage </Button>
         </ConfirmationModal>
       )}
       {displayDeleteModal && (
