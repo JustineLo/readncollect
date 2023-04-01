@@ -1,10 +1,9 @@
 import axios, { AxiosError } from "axios";
 import { deleteDoc, doc, updateDoc } from "firebase/firestore";
 import { ChangeEvent, FormEvent, useEffect, useState } from "react";
-import { Fade } from 'react-awesome-reveal';
 import { useAuthState } from "react-firebase-hooks/auth";
 import { useNavigate } from "react-router-dom";
-import styled from "styled-components";
+import styled, { keyframes } from "styled-components";
 import { useContainer } from "unstated-next";
 import ArticleThumbnail from "../components/ArticleThumbnail";
 import Button from "../components/Button";
@@ -19,6 +18,15 @@ import { fetchArticles } from "../utils/fetchData";
 import { getSearchedArticles } from "../utils/searchUtils";
 
 const MAX_ARTICLES_LENGTH = 25;
+
+const fadeIn = keyframes`
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+`;
 
 const GlobalContainer = styled.div`
   width: 100vw;
@@ -67,6 +75,12 @@ const ArticlesContainer = styled.div`
     grid-template-columns: repeat(3, 1fr);
     gap: 4rem;
   }
+`;
+
+const AnimatedArticle = styled.div<{delay: number}>`
+  opacity: 0;
+  animation: ${fadeIn} 0.5s ease-out forwards;
+  animation-delay: ${props => props.delay || 0}s;
 `;
 
 const LimitMessage = styled.p`
@@ -201,12 +215,12 @@ function Dashboard() {
           {unProcessedArticles.length > 0 && <><h3>Unprocessed articles</h3>
           <ArticlesContainer>
             {unProcessedArticles.map((article: Article, index: number) => (
-              <Fade key={index} direction="up" delay={index * 400}>
-                <ArticleThumbnail
-                  article={article}
-                  onClickArticle={() => onClickArticle(article)}
-                />
-              </Fade>
+                <AnimatedArticle key={index} delay={index * 0.5} >
+                  <ArticleThumbnail
+                    article={article}
+                    onClickArticle={() => onClickArticle(article)}
+                  />
+                </AnimatedArticle>
             ))}
           </ArticlesContainer>
        
@@ -220,12 +234,12 @@ function Dashboard() {
           />
           <ArticlesContainer>
             {searchedArticles.map((article: Article, index: number) => (
-              <Fade  key={index} direction="up" delay={index * 400}>
+              <AnimatedArticle key={index} delay={index * 0.2}>
                 <ArticleThumbnail
                 article={article}
                 onClickArticle={() => onClickArticle(article)}
               />
-              </Fade>
+              </AnimatedArticle>
             ))}
           </ArticlesContainer>
         </DashboardContainer>
