@@ -10,22 +10,20 @@ interface ModalProps {
 const Overlay = styled.div`
    {
     position: fixed;
-    top: 0;
-    left: 0;
     width: 100vw;
     height: 100vh;
     background-color: var(--background-transparent);
-    z-index: 99;
+    z-index: 200;
   }
 `;
 
 const Container = styled.div`
    {
     position: absolute;
-    top: 50%;
-    left: 50%;
+    top: 25%;
+    left: 25%;
     transform: translate(-50%, -50%);
-    z-index: 100;
+    z-index: 200;
     width: 30vw;
     height: auto;
     padding-bottom: 30px;

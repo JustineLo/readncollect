@@ -1,21 +1,13 @@
-import { doc, updateDoc } from "@firebase/firestore";
-import { Dispatch, SetStateAction, useState } from "react";
 import { FaRegTrashAlt } from "react-icons/fa";
 import { useNavigate } from "react-router-dom";
 import styled from "styled-components";
-import { useContainer } from "unstated-next";
-import { db } from "../firebase";
-import HighlightFactory from "../page/HighlightFactory";
-import AppState from "../state/AppState";
 import { Article } from "../types/Article";
 import { textEllipsis } from "../utils/articleUtils";
-import Button from "./Button";
-import ConfirmationModal from "./ConfirmationModal";
 import Icon from "./Icon";
 
 interface ArticleThumbnailProps {
   article: Article;
-  onDeleteArticle: () => void;
+  onClickArticle: () => void;
 }
 
 const Image = styled.img`
@@ -75,42 +67,11 @@ const Buttons = styled.div`
   }
 `;
 
-const ModalButtons = styled.div`
-   {
-    display: flex;
-    justify-content: center;
-    gap: 2rem;
-  }
-`;
-
 const ArticleThumbnail = ({
   article,
-  onDeleteArticle,
+  onClickArticle,
 }: ArticleThumbnailProps) => {
-  const [openDeleteModal, setOpenDeleteModal] = useState<boolean>(false);
-  const { user, setUser } = useContainer(AppState);
   const navigate = useNavigate();
-
-  const onClickDelete = () => {
-    setOpenDeleteModal(false);
-    if (article.highlights.length > 0) {
-      const userRef = doc(db, `users/${user.docID}`);
-      setUser({
-        ...user,
-        soloHighlights: [...user.soloHighlights, ...article.highlights],
-      });
-      updateDoc(userRef, {
-        soloHighlights: [...user.soloHighlights, ...article.highlights],
-      })
-        .then(() => {
-          console.log("soloHighlights updated successfully");
-        })
-        .catch((error) => {
-          console.error("Error updating soloHighlights:", error);
-        });
-    }
-    onDeleteArticle();
-  };
 
   return (
     <>
@@ -123,38 +84,12 @@ const ArticleThumbnail = ({
           {textEllipsis(article.title, 57)}
         </Title>
         <Buttons>
-          <Icon onClick={() => setOpenDeleteModal(true)} color="var(--grey)" hoverColor="var(--white)">
+          <Icon onClick={onClickArticle} color="var(--grey)" hoverColor="var(--white)">
             <FaRegTrashAlt />
           </Icon>
         </Buttons>
       </Container>
-
-      {openDeleteModal && (
-        <DeleteModal
-          setOpenDeleteModal={setOpenDeleteModal}
-          onClickDelete={onClickDelete}
-        />
-      )}
     </>
-  );
-};
-
-const DeleteModal = ({
-  setOpenDeleteModal,
-  onClickDelete,
-}: {
-  setOpenDeleteModal: Dispatch<SetStateAction<boolean>>;
-  onClickDelete: () => void;
-}) => {
-  return (
-    <ConfirmationModal setOpen={setOpenDeleteModal}>
-      <p>Are you sure you want to delete this article?</p>
-      <span>Don't worry, this won't delete your highlights !</span>
-      <ModalButtons>
-        <Button onClick={onClickDelete}>Delete</Button>
-        <Button onClick={() => setOpenDeleteModal(false)}>Cancel</Button>
-      </ModalButtons>
-    </ConfirmationModal>
   );
 };
 

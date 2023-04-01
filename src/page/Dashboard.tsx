@@ -1,20 +1,22 @@
 import axios, { AxiosError } from "axios";
-import { deleteDoc, doc } from "firebase/firestore";
+import { deleteDoc, doc, updateDoc } from "firebase/firestore";
 import { ChangeEvent, FormEvent, useEffect, useState } from "react";
+import { Fade } from 'react-awesome-reveal';
 import { useAuthState } from "react-firebase-hooks/auth";
 import { useNavigate } from "react-router-dom";
 import styled from "styled-components";
 import { useContainer } from "unstated-next";
 import ArticleThumbnail from "../components/ArticleThumbnail";
 import Button from "../components/Button";
+import DeleteModal from "../components/DeleteModal";
 import EllipsisLoader from "../components/EllipsisLoader";
 import Input from "../components/Input";
 import { auth, db } from "../firebase";
 import AppState from "../state/AppState";
 import { Article } from "../types/Article";
 import { getPicture } from "../utils/articleUtils";
+import { fetchArticles } from "../utils/fetchData";
 import { getSearchedArticles } from "../utils/searchUtils";
-import {Fade} from 'react-awesome-reveal';
 
 const MAX_ARTICLES_LENGTH = 25;
 
@@ -78,6 +80,7 @@ function Dashboard() {
   const [userAuth, loading, error] = useAuthState(auth);
   const {
     user,
+    setUser,
     articles,
     setArticles,
     processedArticles,
@@ -89,6 +92,8 @@ function Dashboard() {
     useState<Article[]>(processedArticles);
   const [searchQuery, setSearchQuery] = useState<string>("");
   const [limitReached, setLimitReached] = useState<boolean>(false);
+  const [deletedArticle, setDeletedArticle] = useState<Article | null>(null);
+  const [deleteModalOpen, setDeleteModalOpen] = useState<boolean>(false);
 
   const navigate = useNavigate();
 
@@ -101,6 +106,10 @@ function Dashboard() {
     setSearchedArticles(processedArticles);
     setSearchQuery("");
   }, [processedArticles]);
+
+  useEffect(() => {
+    console.log(unProcessedArticles);
+  }, [unProcessedArticles]);
 
   function handleSubmit(
     event: FormEvent<HTMLFormElement>,
@@ -115,8 +124,8 @@ function Dashboard() {
         url: newUrl,
         image: getPicture(articles.length % 12),
       })
-      .then((response) => {
-        setArticles([...articles, response.data]);
+      .then(() => {
+        fetchArticles(user?.docID, setArticles);
       })
       .catch(function (error: AxiosError) {
         console.error(error);
@@ -130,18 +139,9 @@ function Dashboard() {
     }
   };
 
-  function onDeleteArticle(articleDocID: string): void {
-    if (articles.length === MAX_ARTICLES_LENGTH) setLimitReached(false);
-    deleteDoc(doc(db, `users/${user?.docID}/articles/`, articleDocID))
-      .then(() => {
-        setArticles(
-          articles.filter((article) => article.articleDocID !== articleDocID)
-        );
-      })
-      .catch((error) => {
-        console.error("Error deleting article: ", error);
-      });
-      
+  function onClickArticle(deletedArticle: Article): void {
+    setDeleteModalOpen(true);
+    setDeletedArticle(deletedArticle);
   }
 
   function onInputChange(e: ChangeEvent<HTMLInputElement>): void {
@@ -149,6 +149,41 @@ function Dashboard() {
     setSearchQuery(input);
     setSearchedArticles(getSearchedArticles(processedArticles, input, true));
   }
+
+  const onConfirmedDelete = () => {
+    if (articles.length === MAX_ARTICLES_LENGTH) setLimitReached(false);
+    if (deletedArticle === null) return;
+    deleteDoc(doc(db, `users/${user?.docID}/articles/`, deletedArticle.articleDocID))
+      .then(() => {
+        setArticles(
+          articles.filter((article) => article.articleDocID !== deletedArticle.articleDocID)
+        );
+      })
+      .catch((error) => {
+        console.error("Error deleting article: ", error);
+      });
+
+    if (deletedArticle.highlights.length > 0) {
+      const userRef = doc(db, `users/${user.docID}`);
+      setUser({
+        ...user,
+        soloHighlights: [...user.soloHighlights, ...deletedArticle.highlights],
+      });
+      updateDoc(userRef, {
+        soloHighlights: [...user.soloHighlights, ...deletedArticle.highlights],
+      })
+        .then(() => {
+          console.log("soloHighlights updated successfully");
+        })
+        .catch((error) => {
+          console.error("Error updating soloHighlights:", error);
+        });
+    }
+    setDeleteModalOpen(false);
+    setDeletedArticle(null);
+  };
+
+
   return (
     <GlobalContainer>
       <MainContainer>
@@ -173,11 +208,10 @@ function Dashboard() {
           {unProcessedArticles.length > 0 && <><h3>Unprocessed articles</h3>
           <ArticlesContainer>
             {unProcessedArticles.map((article: Article, index: number) => (
-              <Fade direction="up" delay={index * 400}>
+              <Fade key={index} direction="up" delay={index * 400}>
                 <ArticleThumbnail
-                  key={index}
                   article={article}
-                  onDeleteArticle={() => onDeleteArticle(article.articleDocID)}
+                  onClickArticle={() => onClickArticle(article)}
                 />
               </Fade>
             ))}
@@ -193,18 +227,22 @@ function Dashboard() {
           />
           <ArticlesContainer>
             {searchedArticles.map((article: Article, index: number) => (
-              <Fade direction="up" delay={index * 400}>
+              <Fade  key={index} direction="up" delay={index * 400}>
                 <ArticleThumbnail
-                key={index}
                 article={article}
-                onDeleteArticle={() => onDeleteArticle(article.articleDocID)}
+                onClickArticle={() => onClickArticle(article)}
               />
               </Fade>
-              
             ))}
           </ArticlesContainer>
         </DashboardContainer>
       </MainContainer>
+      {deleteModalOpen && (
+        <DeleteModal
+        onConfirmedDelete={onConfirmedDelete}
+        setDeleteModalOpen={setDeleteModalOpen}
+        />
+      )}
     </GlobalContainer>
   );
 }
