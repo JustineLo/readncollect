@@ -24,7 +24,7 @@ const DroppableContainer = styled.div`
   display: flex;
   flex-direction: column;
   width: 100%;
-  padding: 2% 5%;
+  padding: 40px;
   box-sizing: border-box;
   height: 100vh;
   overflow-y: scroll;

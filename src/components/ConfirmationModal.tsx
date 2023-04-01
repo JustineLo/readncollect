@@ -5,9 +5,10 @@ import Icon from "./Icon";
 interface ModalProps {
   children: React.ReactNode;
   setOpen: React.Dispatch<React.SetStateAction<boolean>>;
+  margin?: string
 }
 
-const Overlay = styled.div`
+const Overlay = styled.div<{margin?: string}>`
    {
     position: fixed;
     width: 100vw;
@@ -16,7 +17,7 @@ const Overlay = styled.div`
     z-index: 200;
     display: flex;
     justify-content: center;
-    margin-top: 50px;
+    margin: ${props => props.margin};
   }
 `;
 
@@ -33,6 +34,7 @@ const Container = styled.div`
     align-items: center;
     justify-content: space-between;
     border: 3px solid var(--secondary-dark);
+    margin-top: 50px;
 
     @media (min-width: 768px) {
       width: 30vw;
@@ -59,6 +61,7 @@ const Body = styled.div`
     flex-direction: column;
     gap: 10%;
     align-items: center;
+    justify-content: center;
   }
 
   p {
@@ -75,9 +78,9 @@ const Body = styled.div`
   }
 `;
 
-const ConfirmationModal = ({ children, setOpen }: ModalProps) => {
+const ConfirmationModal = ({ children, setOpen, margin }: ModalProps) => {
   return (
-    <Overlay>
+    <Overlay margin={margin}>
       <Container>
         <Topbar>
           <Icon onClick={() => setOpen(false)}>

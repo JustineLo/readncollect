@@ -182,7 +182,7 @@ const CollageBoardHeader = ({
         </ContentRow>
       </Header>
       {displayNewCollageModal && (
-        <ConfirmationModal setOpen={setDisplayNewCollageModal}>
+        <ConfirmationModal setOpen={setDisplayNewCollageModal} margin="-40px 0 0 -40px">
           <p>Collage title :</p>
           <Input
             type="text"
@@ -200,7 +200,7 @@ const CollageBoardHeader = ({
         </ConfirmationModal>
       )}
       {displayDeleteModal && (
-        <ConfirmationModal setOpen={setDisplayDeleteModal}>
+        <ConfirmationModal setOpen={setDisplayDeleteModal} >
           <p>Are you sure you want to delete this collage ?</p>
           <div style={{ display: "flex", gap: "10px", alignItems: "center" }}>
             <Button onClick={onDeleteCollage}> Delete </Button>
@@ -208,10 +208,7 @@ const CollageBoardHeader = ({
               onClick={() => setDisplayDeleteModal(false)}
               border="var(--primary-dark)"
               backgroundColor="transparent"
-            >
-              {" "}
-              Cancel{" "}
-            </Button>
+            > Cancel </Button>
           </div>
         </ConfirmationModal>
       )}
