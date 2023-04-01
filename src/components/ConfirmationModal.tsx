@@ -16,14 +16,14 @@ const Overlay = styled.div`
     z-index: 200;
     display: flex;
     justify-content: center;
-    align-items: center;
+    margin-top: 50px;
   }
 `;
 
 const Container = styled.div`
    {
-    width: 30vw;
-    height: auto;
+    width: 90vw;
+    height: 240px;
     padding-bottom: 30px;
     background-color: var(--secondary);
     color: var(--black);
@@ -33,6 +33,11 @@ const Container = styled.div`
     align-items: center;
     justify-content: space-between;
     border: 3px solid var(--secondary-dark);
+
+    @media (min-width: 768px) {
+      width: 30vw;
+      margin-top: 15vh;
+    }
   }
 `;
 
