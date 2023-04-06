@@ -119,12 +119,17 @@ function Dashboard() {
   const [limitReached, setLimitReached] = useState<boolean>(false);
   const [deletedArticle, setDeletedArticle] = useState<Article | null>(null);
   const [deleteModalOpen, setDeleteModalOpen] = useState<boolean>(false);
+  const [isDemoUser, setIsDemoUser] = useState<boolean>(false);
 
   const navigate = useNavigate();
 
   useEffect(() => {
     if (loading) return;
     if (!userAuth) return navigate("/login");
+    if (userAuth.email === "demo@readncollect.com") {
+      setIsDemoUser(true);
+      return;
+    } 
   }, [userAuth, loading]);
 
   useEffect(() => {
@@ -208,7 +213,7 @@ function Dashboard() {
         <DashboardContainer>
           <h3>Article's URL :</h3>
           <div>
-          <Form
+            {!isDemoUser && <Form
             onSubmit={(event) => handleSubmit(event, setLoadingSpinner)}
           >
             <Input
@@ -220,7 +225,8 @@ function Dashboard() {
             <Button type="submit">
               {loadingSpinner ? <EllipsisLoader /> : "Add article"}
             </Button>
-          </Form>
+          </Form>}
+          {isDemoUser && <LimitMessage>You can't add articles as a demo user. Please create an account.</LimitMessage>}
           {limitReached && <LimitMessage>You have reached the maximum number of articles</LimitMessage>}
           </div>
           {unProcessedArticles.length > 0 && <><h3>Unprocessed articles</h3>
